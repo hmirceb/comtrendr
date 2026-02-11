@@ -1,0 +1,170 @@
+# Auxiliary functions
+
+#' Check order of observations
+#'
+#' @param x 
+#' @param time_col 
+#' @param term 
+#'
+#' @returns
+#'
+#' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
+#' 
+check_time <- function(x, time_col = "time", term = NULL) {
+  if( is.null(time_col) ) {
+    time_col <- "time"
+  }
+  # Check if a time column was specified for detrending methods
+  if ( !time_col %in% colnames(x) & 
+       term %in% c("two", "three") ) {
+    warning("Missing time column. Rows are assumed to be in order for detrending.",
+            call. = FALSE)
+  } 
+  
+  # Add time column if missing
+  if ( !time_col %in% colnames(x) ) {
+    x <- as.data.frame( cbind(time = 1:nrow(x), x) )
+    colnames(x)[1] <- time_col
+  }
+  
+  # Reorder if not
+  if ( time_col %in% colnames(x) ) { 
+    # Order by year if time column provided
+    x <- x[with(x, order(x[, time_col])),]
+  }
+  return(x)
+}
+
+#' Remove empty columns
+#'
+#' @param x 
+#' @param time_col 
+#'
+#' @returns
+#'
+#' @examples
+remove_empty_sps <- function(x, time_col = "time") {
+  # Set NAs as 0
+  x[is.na(x)] <- 0
+  
+  # Remove species with 0 abundance
+  id_cols <- colnames(x) %in% time_col
+  sps_to_remove <- colSums(x[, !id_cols]) == 0
+  sps_to_remove <- names(sps_to_remove)[sps_to_remove]
+  x <- x[, !colnames(x) %in% c(time_col, sps_to_remove)]
+  return(x)
+}
+
+#' Jennings–Fischer formula estimates a combined value of plant cover assuming overlap between plants in the stratum.
+#'
+#' @param x Numeric. A vector of cover values.
+#' @param perc Boolean. If the cover values are expressed as percentages or proportions. Default FALSE.
+#'
+#' @returns 
+#'
+#' @references
+#' \itemize{
+#'    \item Jennings, M. D., Faber-Langendoen, D., Loucks, O. L., Peet, R. K., & Roberts, D. (2009). Standards for associations and alliances of the US National Vegetation Classification. Ecological Monographs, 79(2), 173-199.
+#'    \item Fischer, H. S. (2015). On the combination of species cover values from different vegetation layers. Applied Vegetation Science, 18(1), 169-170.
+#' }
+#'
+#' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
+#'
+jenfish <- function(x, 
+                    perc = FALSE) {
+  # Check if cover is percentage
+  if( isTRUE(perc) ) {
+    x <- x/100
+    c = (1 - prod(1 - x) )*100
+  }
+  c = (1 - prod(1 - x) )
+  return(c)
+}
+
+#' Get dominant species
+#'
+#' @param x 
+#' @param q 
+#' @param plot 
+#'
+#' @returns
+#' @export
+#'
+#' @examples
+get_dominants <- function(x, q = 0.9, plot = F) {
+  # Sort species by their mean abundance across years
+  sps_sorted <- sort(apply(x, 2,
+                           function(y) mean(y[y > 0])), decreasing = T)
+  
+  # Get specified quantile
+  qu = quantile(sps_sorted, probs = q)[1]
+  # Make DF and specify dominant species
+  df = data.frame(taxon = names(sps_sorted),
+                  abund = sps_sorted, 
+                  dominant = as.factor(ifelse(sps_sorted >= qu, "yes", "no")))
+  # Plot
+  if( isTRUE(plot) ){
+    # Points
+    plot(df$abund, cex = 1.3, pch = 21, bg = df$dominant)
+    # Labels
+    text(sps_sorted, names(sps_sorted), cex=0.6, pos=1, col="red")
+    # Threshold line 
+    abline(h = qu, lty = "dashed")
+  }
+  return(df)
+}
+
+#' Check if dominant species have missing data
+#'
+#' @param x 
+#' @param q 
+#'
+#' @returns
+#' @export
+#'
+#' @examples
+check_dominants <- function(x, q = 0.9) {
+  # Get dominant species
+  doms <- get_dominants(x = x, q = q, plot = FALSE)
+  doms <- doms[doms$dominant == "yes",]$taxon
+  # Check if they have missing data
+  if( length(doms) == 1) {
+    with_missing <- any( x[,colnames(x) %in% doms] == 0 )
+    names(with_missing) <- doms
+  } else {
+    with_missing <- apply(x[,colnames(x) %in% doms], 2, 
+                          function(y) any(y == 0))
+  }
+  
+  # Get names of species
+  missing_names <- names(with_missing[with_missing])
+  if( length(missing_names) == 0) {
+    message("No dominant species with missing values.")
+  } else {
+    message("The following dominant species have missing values.")
+    return(missing_names)
+  }
+}
+
+is_even <- function(x) {
+  return( x %% 2 == 0 )
+}
+
+#' Plot a community time series
+#'
+#' @param x 
+#'
+#' @returns
+#' @export
+#'
+plot_com <- function(x) {
+  plot(y = x[,1],
+       x = 1:nrow(x),
+       col = 1,
+       ylim = c(min(x), max(x)))
+  for (i in 2:ncol(x)) {
+    points(y = x[,i],
+           x = 1:nrow(x),
+           col = i)
+  }
+}
