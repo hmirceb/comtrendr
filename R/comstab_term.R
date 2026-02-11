@@ -40,52 +40,38 @@ comstab_term = function(x,
                         term = "var",
                         community_col = "comm",
                         time_col = "time") {
-  # Match argument for variance function to use
-  # Table of options
-  options <- data.frame(term = c("var", "two", "three", "linear"),
-                        var = c("var", "var_t2", "var_t3", "var_linear"))
   
-  # Get choice
-  opt <- options[options$term == term,]
-  
-  # Match functions
-  var_func <- match.fun(opt$var) # variance
+  # Match variance function
+  var_func <- switch(
+    term,
+    var = var,
+    two = var_t2,
+    three = var_t3
+  )
   
   # Errors if data is not properly formated
-  # if ( !is.matrix(x) | !is.data.frame(x)) {
-  #   stop("Error: x is not a matrix")
-  # }
+  if ( !is.data.frame(x) ) {
+    stop("Error: x is not a data.frame")
+  }
   # if ( !is.numeric(x) ) {
   #   stop("Error: non-numerical values in x")
   # } 
-  # if ( any(x < 0) ) {
-  #   stop("Error: negative values in x")
-  # } 
+  if ( any(x < 0) ) {
+    stop("Error: negative values in x")
+  }
   if ( nrow(x) == 1 ) {
     stop("Only one year provided.")
   }
   
-  # Check if a time column was specified for detrending methods
-  if ( !time_col %in% colnames(x) ) {
-    x <- cbind(time = seq_len(nrow(x)), x)
-    colnames(x)[1] <- time_col
-  } 
-  if ( !time_col %in% colnames(x) & 
-       term %in% c("two", "three") ) {
-    warning("Missing time column. Rows are assumed to be in order for detrending.")
-  }
-  # Order by year if time column provided
-  x <- x[with(x, order(x[, time_col])),]
+  # Check if a time column was specified for detrending methods and order rows
+  x <- check_time(x, time_col = time_col, term = term)
   
   # Remove time column once df is ordered
   id_cols <- colnames(x) %in% c(community_col, time_col)
   x <- x[,!id_cols]
   
-  # Replace NAs with 0
-  x[is.na(x)] <- 0
-  
-  # Remove columns (species) with 0 abundance across all years 
-  x <- x[, colSums(x) > 0, drop = FALSE]
+  # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
+  x <- remove_empty_sps(x = x, time_col = time_col)
   
   # Remove columns (species) with constant abundance (min abundance == max abundance)
   x <- x[, apply(X = x, MARGIN = 2, FUN = min) != 
@@ -127,8 +113,8 @@ comstab_term = function(x,
     }
     
   CV0 <- which(CVi > 0) # Use only species with CV != 0
-  TPL <- stats::coef(stats::lm(log10(CVi[CV0]) ~ log10(meani[CV0]))) # LM of CVs and means on log scale
-  CVe <- 10^TPL[1] * (mean(x)^TPL[2]) # Predict CVe from mean abundance and LM (backtransformed from log scale)
+  TPL <- get_tpl(x = CVi[CV0],  y = meani[CV0]) # LM of CVs and means on log scale
+  CVe <- 10^TPL["alpha"] * (mean(x)^TPL["beta"]) # Predict CVe from mean abundance and LM (backtransformed from log scale)
     
   # Test correlation between individual CVs and mean abundances (if there are more than 5 species with variation)
   if (sum(CV0) > 5) {

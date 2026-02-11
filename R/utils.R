@@ -10,7 +10,7 @@
 #'
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
-check_time <- function(x, time_col = "time", term = NULL) {
+check_time <- function(x, time_col = NULL, term = NULL) {
   if( is.null(time_col) ) {
     time_col <- "time"
   }
@@ -27,11 +27,9 @@ check_time <- function(x, time_col = "time", term = NULL) {
     colnames(x)[1] <- time_col
   }
   
-  # Reorder if not
-  if ( time_col %in% colnames(x) ) { 
-    # Order by year if time column provided
-    x <- x[with(x, order(x[, time_col])),]
-  }
+  # Reorder according to time
+  x <- x[with(x, order(x[, time_col])),]
+  
   return(x)
 }
 
@@ -55,7 +53,7 @@ remove_empty_sps <- function(x, time_col = "time") {
   return(x)
 }
 
-#' Jennings–Fischer formula estimates a combined value of plant cover assuming overlap between plants in the stratum.
+#' Jennings–Fischer formula estimates a combined value of plant cover assuming overlap between plants.
 #'
 #' @param x Numeric. A vector of cover values.
 #' @param perc Boolean. If the cover values are expressed as percentages or proportions. Default FALSE.
@@ -167,4 +165,18 @@ plot_com <- function(x) {
            x = 1:nrow(x),
            col = i)
   }
+}
+
+#' Estimate of Taylor's Power Law
+#'
+#' @param x Numeric. A vector of variances.
+#' @param y Numeric. A vector of means.
+#'
+#' @returns A named vector with coefficients alpha and beta for the relation between variance and mean according to Taylor's Power Law.
+#' @export
+#'
+get_tpl <- function(x, y) {
+  coefs <- stats::coef(stats::lm(log10(x) ~ log10(y)))
+  names(coefs) <- c("alpha", "beta")
+  return(coefs)
 }
