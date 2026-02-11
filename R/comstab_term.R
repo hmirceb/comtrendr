@@ -187,8 +187,14 @@ print.comstab <- function(x, ...){
       paste0("\n% Averaging = ", round(x$Relative["omega_cont"], 2)))
 }
 
+#' as.data.frame method for comstab objects
+#'
+#' @export
 as.data.frame.comstab <- function(x, ...) {
-  data.frame(CVc = x$CVs, 
+  d <- data.frame(CVc = x$CVs[4], 
+             CVe = x$CVs[1],
+             CVtilde = x$CVs[2],
+             CVa = x$CVs[3],
              tau = x$Stabilization["tau"],
              delta = x$Stabilization["Delta"],
              psi = x$Stabilization["Psi"],
@@ -196,4 +202,6 @@ as.data.frame.comstab <- function(x, ...) {
              delta_rel = x$Relative["Delta_cont"],
              psi_rel = x$Relative["Psi_cont"],
              omega_rel = x$Relative["omega_cont"])
+  rownames(d) <- NULL
+  return(d)
 }

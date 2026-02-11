@@ -2,7 +2,7 @@
 % Please edit documentation in R/synchrony.R
 \name{psi_segrestin}
 \alias{psi_segrestin}
-\title{Psi}
+\title{Psi synchrony index}
 \usage{
 psi_segrestin(x, term = "var", ...)
 }
@@ -17,16 +17,14 @@ psi_segrestin(x, term = "var", ...)
 A single numeric value
 }
 \description{
-Estimate Psi
+Estimate \eqn{\psi},
 }
 \details{
-\eqn{\psi} is estimated as follows:
+\eqn{\psi} is estimated as:
 
 \deqn{\psi = \sqrt{ \phi } ^ \alpha = \left( \dfrac{ \sigma_{x_{T}} }{ \sum_{i=1}^{S}{\sigma_{x_{i}}} } \right) ^ \alpha }
 
-\deqn{\phi = \dfrac{ \sigma_{x_{T}}^2 }{ (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 }}
-
-Where \eqn{\alpha} is a scaling factor calculated as:
+Where \eqn{\alpha} is a scaling factor estimated as:
 
 \deqn{\alpha = \dfrac{ log(1 / 2) }{ log( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 ) } }
 

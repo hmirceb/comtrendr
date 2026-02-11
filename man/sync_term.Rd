@@ -4,13 +4,13 @@
 \alias{sync_term}
 \title{Compute community synchrony}
 \usage{
-sync_term(x, index = c("phi", "eta", "logvar"), term = "var", 
+sync_term(x, index = c("psi", "phi", "eta", "logvar"), term = "var", 
 time_col = "time", weighted = FALSE)
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundance with years as rows and species as columns.}
 
-\item{index}{Character. Synchrony index to calculate. One of "phi" (Loreau & Mazancourt 2008), "eta" (Gross \emph{et al.} 2014) or "logvar" (Leps \emph{et al.} 2018).}
+\item{index}{Character. Synchrony index to calculate. One of "psi", (Segrestin \emph{et al.} 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross \emph{et al.} 2014) or "logvar" (Leps \emph{et al.} 2018).}
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 
@@ -27,6 +27,9 @@ A named vector of length equal to the number of indices calculated.
 \details{
 There are four synchrony indices available:
 \itemize{
+\item Segrestin \emph{et al.}'s (2024) \eqn{\psi}:
+\deqn{\psi = \sqrt{ \phi } ^ \alpha = \left( \dfrac{ \sigma_{x_{T}} }{ \sum_{i=1}^{S}{\sigma_{x_{i}}} } \right) ^ \alpha }
+\deqn{\alpha = \dfrac{ log(1 / 2) }{ log( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 ) } }
 \item Loreau & Mazancourt's (2008) \eqn{\phi}:
 \deqn{\phi = \dfrac{ \sigma_{x_{T}}^2 }{ (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 }}
 \item Gross \emph{et al.}'s (2014) \eqn{\eta}:
@@ -41,6 +44,7 @@ Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{
 }
 \references{
 \itemize{
+\item Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.
 \item Loreau, M., & de Mazancourt, C. (2008). Species synchrony and its drivers: neutral and nonneutral community dynamics in fluctuating environments. The American Naturalist, 172(2), E48-E66.
 \item Gross, K., Cardinale, B. J., Fox, J. W., Gonzalez, A., Loreau, M., Wayne Polley, H., ... & van Ruijven, J. (2014). Species richness and the temporal stability of biomass production: a new analysis of recent biodiversity experiments. The American Naturalist, 183(1), 1-12.
 \item Blüthgen, N., Simons, N. K., Jung, K., Prati, D., Renner, S. C., Boch, S., ... & Gossner, M. M. (2016). Land use imperils plant and animal community stability through changes in asynchrony rather than diversity. Nature Communications, 7(1), 10697.

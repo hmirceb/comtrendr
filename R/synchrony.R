@@ -209,17 +209,21 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' 
 #' `sync_term()` estimates one or several community synchrony indices (see Details) using standard estimates of variance as well as its detrended versions using Hill's two and three term local quadratic variance estimates.
 #'
-#' @usage sync_term(x, index = c("phi", "eta", "logvar"), term = "var", 
+#' @usage sync_term(x, index = c("psi", "phi", "eta", "logvar"), term = "var", 
 #' time_col = "time", weighted = FALSE)
 #'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
-#' @param index Character. Synchrony index to calculate. One of "phi" (Loreau & Mazancourt 2008), "eta" (Gross *et al.* 2014) or "logvar" (Leps *et al.* 2018). 
+#' @param index Character. Synchrony index to calculate. One of "psi", (Segrestin *et al.* 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross *et al.* 2014) or "logvar" (Leps *et al.* 2018). 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, if not provided the function assumes that rows are in order  by default.
 #' @param weighted Boolean. Weight the contribution of each species to Gross *et al.*'s \eqn{\eta} index by its average abundance in the community following Blüthgen *et al.* (2016). Default FALSE.
 #'
 #' @details
 #' There are four synchrony indices available:
+#'
+#' - Segrestin *et al.*'s (2024) \eqn{\psi}: 
+#' \deqn{\psi = \sqrt{ \phi } ^ \alpha = \left( \dfrac{ \sigma_{x_{T}} }{ \sum_{i=1}^{S}{\sigma_{x_{i}}} } \right) ^ \alpha } 
+#' \deqn{\alpha = \dfrac{ log(1 / 2) }{ log( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 ) } } 
 #' 
 #' - Loreau & Mazancourt's (2008) \eqn{\phi}:
 #' \deqn{\phi = \dfrac{ \sigma_{x_{T}}^2 }{ (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 }}
@@ -238,21 +242,22 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' @returns A named vector of length equal to the number of indices calculated.
 #'
 #' @references
+#' - Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.
 #' - Loreau, M., & de Mazancourt, C. (2008). Species synchrony and its drivers: neutral and nonneutral community dynamics in fluctuating environments. The American Naturalist, 172(2), E48-E66.
 #' - Gross, K., Cardinale, B. J., Fox, J. W., Gonzalez, A., Loreau, M., Wayne Polley, H., ... & van Ruijven, J. (2014). Species richness and the temporal stability of biomass production: a new analysis of recent biodiversity experiments. The American Naturalist, 183(1), 1-12.
 #' - Blüthgen, N., Simons, N. K., Jung, K., Prati, D., Renner, S. C., Boch, S., ... & Gossner, M. M. (2016). Land use imperils plant and animal community stability through changes in asynchrony rather than diversity. Nature Communications, 7(1), 10697.
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
 #' 
 #' @export
-sync_term <- function(x, index = c("phi", "eta", "logvar"),  term = "var", time_col = "time", weighted = FALSE) {
+sync_term <- function(x, index = c("psi", "phi", "eta", "logvar"),  term = "var", time_col = "time", weighted = FALSE) {
   
   # Check if proper indices were selected
-  if(sum(index %in% c("phi", "eta", "logvar")) == 0) {
+  if(sum(index %in% c("psi", "phi", "eta", "logvar")) == 0) {
     stop("Please choose an appropriate synchrony index")
   }
   # Match arguments with multiple synchrony functions
-  options <- data.frame(index = c("phi", "eta", "logvar"),
-                        fun = c("phi_loreau", "eta_gross", "logvar_ratio"))
+  options <- data.frame(index = c("psi", "phi", "eta", "logvar"),
+                        fun = c("psi_segrestin", "phi_loreau", "eta_gross", "logvar_ratio"))
   index_func <- options[options$index %in% index,]$fun
   
   # Match variance function
