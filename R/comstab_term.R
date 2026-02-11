@@ -113,9 +113,11 @@ comstab_term = function(x,
     }
     
   CV0 <- which(CVi > 0) # Use only species with CV != 0
-  TPL <- get_tpl(x = CVi[CV0],  y = meani[CV0]) # LM of CVs and means on log scale
-  CVe <- 10^TPL["alpha"] * (mean(x)^TPL["beta"]) # Predict CVe from mean abundance and LM (backtransformed from log scale)
-    
+  # Calculate TPL between CVs and means. 
+  # This is equivalent to estimating TPL for variances and means, estimating the variance of the average species using TPL and average mean and then estimating CVe with that variance
+  TPL <- tpl(x = CVi[CV0],  y = meani[CV0]) # LM of CVs and means on log scale
+  CVe <- 10^TPL["alpha"] * (mean(x)^TPL["beta"]) # Predict CVe from mean abundance and TPL coefficients (backtransformed from log scale)
+
   # Test correlation between individual CVs and mean abundances (if there are more than 5 species with variation)
   if (sum(CV0) > 5) {
     testcor <- stats::cor.test(log10(CVi[CV0]), log10(meani[CV0]))$p.value > 0.05

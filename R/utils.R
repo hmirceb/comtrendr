@@ -175,7 +175,7 @@ plot_com <- function(x) {
 #' @returns A named vector with coefficients alpha and beta for the relation between variance and mean according to Taylor's Power Law.
 #' @export
 #'
-get_tpl <- function(x, y) {
+tpl <- function(x, y) {
   coefs <- stats::coef(stats::lm(log10(x) ~ log10(y)))
   names(coefs) <- c("alpha", "beta")
   return(coefs)
