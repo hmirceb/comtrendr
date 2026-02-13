@@ -34,6 +34,8 @@ dd_wide = reshape(dd_long,
                   idvar = "id",
                   v.names = "abundance")
 dd_wide = dd_wide[!names(dd_wide) %in% c("id")]
+dd_wide[,5] <- 0
+
 dd_long <- dd_long[, !names(dd_long) == "id"]
 
 devtools::load_all()

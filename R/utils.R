@@ -10,10 +10,8 @@
 #'
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
-check_time <- function(x, time_col = NULL, term = NULL) {
-  if( is.null(time_col) ) {
-    time_col <- "time"
-  }
+check_time <- function(x, time_col = "time", term = NULL) {
+  
   # Check if a time column was specified for detrending methods
   if ( !time_col %in% colnames(x) & 
        term %in% c("two", "three") ) {
@@ -41,15 +39,17 @@ check_time <- function(x, time_col = NULL, term = NULL) {
 #' @returns
 #'
 #' @examples
-remove_empty_sps <- function(x, time_col = "time") {
+remove_empty_sps <- function(x, time_col = "time", community_col = "comm") {
   # Set NAs as 0
   x[is.na(x)] <- 0
-  
-  # Remove species with 0 abundance
-  id_cols <- colnames(x) %in% time_col
+  # Get index of time column
+  id_cols <- colnames(x) %in% c(community_col, time_col)
+  # Sum abundances of species and check which ones are 0
   sps_to_remove <- colSums(x[, !id_cols]) == 0
+  # Get names of species to remove
   sps_to_remove <- names(sps_to_remove)[sps_to_remove]
-  x <- x[, !colnames(x) %in% c(time_col, sps_to_remove)]
+  # Remove species and time column from table
+  x <- x[, !colnames(x) %in% sps_to_remove]
   return(x)
 }
 

@@ -249,7 +249,11 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
 #' 
 #' @export
-sync_term <- function(x, index = c("psi", "phi", "eta", "logvar"),  term = "var", time_col = "time", weighted = FALSE) {
+sync_term <- function(x,
+                      index = c("psi", "phi", "eta", "logvar"),  
+                      term = "var", 
+                      time_col = "time", 
+                      weighted = FALSE) {
   
   # Check if proper indices were selected
   if(sum(index %in% c("psi", "phi", "eta", "logvar")) == 0) {

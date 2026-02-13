@@ -7,16 +7,18 @@
 #' @export
 #'
 cv_term <- function(x, term = "var") {
-  # Match argument for variance function to use
-  options <- data.frame(term = c("var", "two", "three"),
-                        var = c("var", "var_t2", "var_t3"))
-  # Get choice
-  var_func <- match.fun(options[options$term == term,]$var)
+  # Match variance function
+  var_func <- switch(
+    term,
+    var = var,
+    two = var_t2,
+    three = var_t3
+  )
   
   # Remove NAs
   x <- x[!is.na(x)]
   
-  vari <- var_func(x) # Compute variance
+  vari <- var_func(x) # Compute variance with desired function
   sdi <- sqrt(vari) # Transform to SD
   cvi <- sdi/mean(x) # Calculate CV
   
@@ -33,13 +35,13 @@ cv_term <- function(x, term = "var") {
 #' @returns
 #' @export
 #'
-cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time", community_col = "comm") {
+cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time") {
   
   # Check if a time column was specified for detrending methods and order rows
   x <- check_time(x, time_col = time_col, term = term)
   
   # Remove time column once df is ordered
-  id_cols <- colnames(x) %in% c(community_col, time_col)
+  id_cols <- colnames(x) %in% time_col
   x <- x[,!id_cols]
   
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
@@ -51,25 +53,34 @@ cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_co
   }
   
   if( isTRUE(total) ) {
-    com_t <- rowSums(x, na.rm = T) # Sum of species abundance per year
+    # Sum of species abundance per year
+    com_t <- rowSums(x, na.rm = T) 
     cvc <- cv_term(com_t, term = term)
     names(cvc) <- paste0("CVt_", term) 
+    
   } else {
+    # CVs of each species
+    cv_sps <- apply(x, 2, cv_term, term = term)
+    
     # Calculate weighted CV
     if( isTRUE(weighted) ) {
-      ps <- colMeans(x/rowSums(x, na.rm = T), na.rm = T) # Calculate weigths (average relative abundance per species across years)
-      cvc <- sum( # Weighted mean
-        apply(x, 2, cv_term, term = term) * # CVs of each species
-          ps # Multiply by weight
-      ) # Sum
-      names(cvc) <- paste0("CVw_", term) 
+      # Calculate weigths (average relative abundance per species across years)
+      ps <- colMeans(x/rowSums(x, na.rm = T), na.rm = T)
+      cv_p <- sum( # Weighted mean
+        cv_sps * ps # Multiply by weight
+      )
+      names(cv_p) <- paste0("CV_popw_", term) 
+      
     } else {
       # Calculate unweighted mean CV
-      cvc <- mean(
-        apply(x, 2, cv_term, term = term)
+      cv_p <- mean(
+        cv_sps
       )
-      names(cvc) <- paste0("CVm_", term)
+      names(cv_p) <- paste0("CV_pop_", term)
     }
+    cvc <- list(cv_p, cv_sps)
+    names(cvc) <- c("CV", "CV_species")
   }
+  
   return(cvc)
 }
