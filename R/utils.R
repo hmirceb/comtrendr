@@ -10,7 +10,7 @@
 #'
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
-check_time <- function(x, time_col = "time", term = NULL) {
+check_time <- function(x, time_col = "time", term = NULL, rm = TRUE) {
   
   # Check if a time column was specified for detrending methods
   if ( !time_col %in% colnames(x) & 
@@ -27,6 +27,12 @@ check_time <- function(x, time_col = "time", term = NULL) {
   
   # Reorder according to time
   x <- x[with(x, order(x[, time_col])),]
+  
+  if ( isTRUE(rm) ) {
+    # Remove time column once df is ordered
+    id_cols <- colnames(x) %in% c(time_col)
+    x <- x[,!id_cols]
+  }
   
   return(x)
 }

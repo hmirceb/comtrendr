@@ -38,11 +38,7 @@ cv_term <- function(x, term = "var") {
 cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time") {
   
   # Check if a time column was specified for detrending methods and order rows
-  x <- check_time(x, time_col = time_col, term = term)
-  
-  # Remove time column once df is ordered
-  id_cols <- colnames(x) %in% time_col
-  x <- x[,!id_cols]
+  x <- check_time(x, time_col = time_col, term = term, rm = TRUE)
   
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
   x <- remove_empty_sps(x = x, time_col = time_col)

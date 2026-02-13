@@ -41,7 +41,7 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
   )
   
   # Check if a time column was specified for detrending methods
-  x <- check_time(x = x, time_col = time_col, term = term)
+  x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
   x <- remove_empty_sps(x = x, time_col = time_col)
@@ -87,7 +87,7 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
   )
   
   # Check if a time column was specified for detrending methods
-  x <- check_time(x = x, time_col = time_col, term = term)
+  x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
   x <- remove_empty_sps(x = x, time_col = time_col)
@@ -128,7 +128,7 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
   )
   
   # Check if a time column was specified for detrending methods
-  x <- check_time(x = x, time_col = time_col, term = term)
+  x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
   x <- remove_empty_sps(x = x, time_col = time_col)
@@ -178,7 +178,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
   )
   
   # Check if a time column was specified for detrending methods
-  x <- check_time(x = x, time_col = time_col, term = term)
+  x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
   x <- remove_empty_sps(x = x, time_col = time_col)
@@ -264,23 +264,15 @@ sync_term <- function(x,
                         fun = c("psi_segrestin", "phi_loreau", "eta_gross", "logvar_ratio"))
   index_func <- options[options$index %in% index,]$fun
   
-  # Match variance function
-  var_func <- switch(
-    term,
-    var = var,
-    two = var_t2,
-    three = var_t3
-  )
-  
   # Check if a time column was specified for detrending methods
   x <- tryCatch(
     # Run check_time
-    check_time(x = x, time_col = time_col, term = term),
+    check_time(x = x, time_col = time_col, term = term, rm = TRUE),
     # If it returns a warning, add time column to result
     # This way we avoid multiple warnings when running synchrony functions later
     warning = function(w) return(
       cbind(time = seq_len(nrow(x)),
-            check_time(x = x, time_col = time_col, term = term))))
+            check_time(x = x, time_col = time_col, term = term, rm = TRUE))))
   
   sync <- sapply(index_func, function(f){
     syn_func <- match.fun(f) # match function
