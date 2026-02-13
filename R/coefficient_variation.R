@@ -33,10 +33,21 @@ cv_term <- function(x, term = "var") {
 #' @returns
 #' @export
 #'
-cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var") {
+cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time", community_col = "comm") {
+  
+  # Check if a time column was specified for detrending methods and order rows
+  x <- check_time(x, time_col = time_col, term = term)
+  
+  # Remove time column once df is ordered
+  id_cols <- colnames(x) %in% c(community_col, time_col)
+  x <- x[,!id_cols]
+  
+  # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
+  x <- remove_empty_sps(x = x, time_col = time_col)
+  
   # Check valid data for weighted option
   if( isTRUE(weighted) & ncol(as.matrix(x)) == 1 ) {
-    stop("Weights can only be applied to communities")
+    stop("Weights cannot be applied to a single species")
   }
   
   if( isTRUE(total) ) {
@@ -48,7 +59,7 @@ cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var") {
     if( isTRUE(weighted) ) {
       ps <- colMeans(x/rowSums(x, na.rm = T), na.rm = T) # Calculate weigths (average relative abundance per species across years)
       cvc <- sum( # Weighted mean
-        apply(x, 2, cv_term, term = term) * # CVs if each species
+        apply(x, 2, cv_term, term = term) * # CVs of each species
           ps # Multiply by weight
       ) # Sum
       names(cvc) <- paste0("CVw_", term) 
