@@ -46,5 +46,7 @@ where \eqn{CV_{com}} is the community coefficient of variation (reciprocal of co
 \author{
 Jules Segrestin, \email{jsegrestin@gmail.com}
 
+Jan Lepš, \email{suspa@prf.jcu.cz}
+
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
 }

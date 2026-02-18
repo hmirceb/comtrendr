@@ -2,7 +2,21 @@
 % Please edit documentation in R/beta_stability.R
 \name{cv_mv}
 \alias{cv_mv}
-\title{Multivariate coefficient of variation}
+\title{#' Multivariate three term local quadratic variance of community composition
+#'
+#' @param x A community abundance matrix.
+#' @param d Character. Distance metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.
+#'
+#' @returns
+#'
+#' @author Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
+#'
+#' @export
+#'
+var_t3mv <- function(x, method = c("euclidean", "chord")){
+if( !d \%in\% c("euclidean", "chord") ){
+stop("Unsuitable distance metric. Please choose one of 'euclidean' or 'chord'")
+}}
 \usage{
 cv_mv(x, d = "euclidean", term = "var")
 }
@@ -11,8 +25,50 @@ cv_mv(x, d = "euclidean", term = "var")
 
 \item{d}{Character. Distance metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
 
-\item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance) "two" for Hills' two term local quadrat variance and covariance. Default "var".}
+\item{term}{Character. Term to estimate the variance. One of "var" (for standard variance) "two" for Hill's two term local quadrat variance. Default "var".}
+}
+\value{
+A numeric value. The multivariate coefficient of variation of the community estimated using the variance function of choice.
 }
 \description{
-Multivariate coefficient of variation
+#' Multivariate three term local quadratic variance of community composition
+#'
+#' @param x A community abundance matrix.
+#' @param d Character. Distance metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.
+#'
+#' @returns
+#'
+#' @author Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
+#'
+#' @export
+#'
+var_t3mv <- function(x, method = c("euclidean", "chord")){
+if( !d \%in\% c("euclidean", "chord") ){
+stop("Unsuitable distance metric. Please choose one of 'euclidean' or 'chord'")
+}
+}
+\details{
+
+}
+\section{Apply chord transformation if necessary}{
+if( method == "chord" ) {
+x <- chord_transform(x)
+}
+}
+
+\section{Compute distances}{
+dis <- as.matrix(dist(x))
+}
+
+\section{Get superdiagonal (distance between consecutive years)}{
+dis <- dis\link{row(dis) == col(dis) + 1}
+mv_var <- var_t3(dis)
+}
+
+\author{
+Jan Lepš, \email{suspa@prf.jcu.cz}
+
+Aleš Lisner, \email{lisnea00@jcu.cz}
+
+Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
 }

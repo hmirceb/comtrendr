@@ -11,15 +11,20 @@ var_t2mv(x, d = c("euclidean", "chord"))
 
 \item{d}{Character. Distance metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
 }
+\value{
+A numeric value. The multivariate two term quadratic variance of the community.
+}
 \description{
 Multivariate two term local quadratic variance of community composition (TTLQV_2)
 }
 \details{
 The multivariate two term local quadratic variance (\eqn{TTLQV_{mv2}}) of community composition is the detrended version of multivariate variance (\eqn{var_{mv}}):
-\deqn{TTLQV_{mv2} = \dfrac{ \sum_{i=1}^{t-1}{ED(X_{i} - X_{i+1})^2} }{2(t-1)}}
-Where \eqn{X_{i}} is the composition of the community at time \eqn{i}.
+\deqn{TTLQV_{mv2} = \dfrac{ \sum_{i=1}^{t-1}{ED(X_{i}, X_{i+1})^2} }{2(t-1)}}
+Where \eqn{X_{i}} is the composition of the community at time \eqn{i} and \eqn{ED(X_{i}, X_{i+1})} the Euclidean distance between succesive time points.
 }
 \author{
+Jan Lepš, \email{suspa@prf.jcu.cz}
+
 Aleš Lisner, \email{lisnea00@jcu.cz}
 
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}

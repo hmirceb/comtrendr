@@ -4,7 +4,7 @@
 \alias{remove_empty_sps}
 \title{Remove empty columns}
 \usage{
-remove_empty_sps(x, time_col = "time")
+remove_empty_sps(x, time_col = "time", community_col = "comm")
 }
 \arguments{
 \item{x}{}

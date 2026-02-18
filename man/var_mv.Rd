@@ -11,16 +11,18 @@ var_mv(x, d = c("euclidean", "chord"))
 
 \item{d}{Character. Distance metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
 }
+\value{
+A numeric value. The multivariate variance of the community.
+}
 \description{
 Multivariate variance of community composition
 }
 \details{
-The multivariate variance of community composition is defined as the average square Euclidean distance between annual observations and the average community composition following:
-\deqn{var_{mv} = \dfrac{ \sum_{i=1}^{t}{ED(X_{i}, X_{mean})^2} }{t-1}}
-Where \eqn{ED(X_{i}, X_{mean})} is the Euclidean distance between the composition of the community (\eqn{X_{i}}) at time \eqn{i}.
+The multivariate variance of community composition is defined as the average square Euclidean distance between annual observations (\eqn{X_{i}}) and the average community composition (\eqn{\overline{X}}) following:
+\deqn{var_{mv} = \dfrac{ \sum_{i=1}^{t}{ED(X_{i}, \overline{X})^2} }{t-1}}
 }
 \author{
-Jan Lepš, \email{}
+Jan Lepš, \email{suspa@prf.jcu.cz}
 
 Aleš Lisner, \email{lisnea00@jcu.cz}
 

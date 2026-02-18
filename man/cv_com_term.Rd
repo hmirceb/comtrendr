@@ -4,7 +4,7 @@
 \alias{cv_com_term}
 \title{CV of a community}
 \usage{
-cv_com_term(x, total = TRUE, weighted = FALSE, term = "var")
+cv_com_term(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time")
 }
 \arguments{
 \item{x}{A data.frame. Community matrix with time in rows and taxa in columns.}

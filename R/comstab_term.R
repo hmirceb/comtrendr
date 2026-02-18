@@ -33,6 +33,7 @@
 #' @examples
 #' 
 #' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
+#' @author Jan Lepš, \email{suspa@@prf.jcu.cz} 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @export
