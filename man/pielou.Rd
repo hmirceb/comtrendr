@@ -7,7 +7,10 @@
 pielou(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{Numeric. A vector of abundances.}
+}
+\value{
+A numeric value.
 }
 \description{
 Pielou's evenness index

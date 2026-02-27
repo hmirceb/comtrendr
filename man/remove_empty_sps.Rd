@@ -11,6 +11,9 @@ remove_empty_sps(x, time_col = "time", community_col = "comm")
 
 \item{time_col}{}
 }
+\value{
+A data.frame with species with 0 abundance removed.
+}
 \description{
 Remove empty columns
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_exploration.R
 \name{comm_expl}
 \alias{comm_expl}
-\title{Title}
+\title{Explore community data}
 \usage{
 comm_expl(
   x,
@@ -23,6 +23,9 @@ comm_expl(
 
 \item{time_col}{Character. Name of column with time variable.}
 }
+\value{
+A data.frame.
+}
 \description{
-Title
+Explore community data
 }

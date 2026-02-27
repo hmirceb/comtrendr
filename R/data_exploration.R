@@ -1,23 +1,21 @@
 #' Species richness
 #'
-#' @param x A vector of abundances
+#' @param x Numeric. A vector of abundances.
 #'
-#' @returns
+#' @returns A numeric value.
 #' @export
 #'
-#' @examples
 richness <- function(x){
   sum(x > 0)
 }
 
 #' Shannon-Wiener index
 #'
-#' @param x A vector of abundances
+#' @param x Numeric. A vector of abundances.
 #'
-#' @returns
+#' @returns A numeric value.
 #' @export
 #'
-#' @examples
 shannon <- function(x, data_type = "biomass") {
   a <- x[x != 0]
   if ( data_type == "biomass") {
@@ -31,12 +29,11 @@ shannon <- function(x, data_type = "biomass") {
 
 #' Shannon-Wiener index
 #'
-#' @param x A vector of abundances
+#' @param x Numeric. A vector of abundances.
 #'
-#' @returns
+#' @returns A numeric value.
 #' @export
 #'
-#' @examples
 simpson <- function(x, data_type = "biomass") {
   a <- x[x != 0]
   if ( data_type == "biomass" ) {
@@ -50,18 +47,17 @@ simpson <- function(x, data_type = "biomass") {
 
 #' Pielou's evenness index
 #'
-#' @param x 
+#' @param x Numeric. A vector of abundances.
 #'
-#' @returns
+#' @returns A numeric value.
 #' @export
 #'
-#' @examples
 pielou <- function(x) {
   J <- shannon(x)/log(richness(x))
   return(J)
 }
 
-#' Title
+#' Explore community data
 #'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns.
 #' @param by_timestep Boolean. Get community information at each time step. Default FALSE.
@@ -69,10 +65,9 @@ pielou <- function(x) {
 #' @param community_col Character. Name of column with the community identifier.
 #' @param time_col Character. Name of column with time variable.
 #'
-#' @returns
+#' @returns A data.frame.
 #' @export
 #'
-#' @examples
 comm_expl <- function(x,
                      by_timestep = FALSE,
                      total = c("average", "overall"),

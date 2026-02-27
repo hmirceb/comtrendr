@@ -11,6 +11,9 @@ cv_term(x, term = "var")
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 }
+\value{
+A numeric value.
+}
 \description{
 Calculate the coefficient of variation (CV) of a variable
 }

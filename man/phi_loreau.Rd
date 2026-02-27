@@ -14,7 +14,7 @@ phi_loreau(x, term = "var", ...)
 \item{time_col}{Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.}
 }
 \value{
-A single
+A numeric value.
 }
 \description{
 This function estimates Loreau & Mazancourts 2008 Phi synchrony index using standard and detrended versions of variances based on Hill's 2 and 3 terms local quadratic variance.

@@ -2,13 +2,16 @@
 % Please edit documentation in R/var_covar.R
 \name{var_linear}
 \alias{var_linear}
-\title{Title}
+\title{Detrended variance using linear regression}
 \usage{
 var_linear(x)
 }
 \arguments{
-\item{x}{Numeric. A vector of values to estimate the detrended varciance using a linear regression approach.}
+\item{x}{Numeric. A vector of values to estimate the detrended variance using a linear regression approach.}
+}
+\value{
+Numeric. The detrened variance using linear regression.
 }
 \description{
-Title
+Detrended variance using linear regression
 }

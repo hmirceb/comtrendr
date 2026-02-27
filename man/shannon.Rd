@@ -7,7 +7,10 @@
 shannon(x, data_type = "biomass")
 }
 \arguments{
-\item{x}{A vector of abundances}
+\item{x}{Numeric. A vector of abundances.}
+}
+\value{
+A numeric value.
 }
 \description{
 Shannon-Wiener index

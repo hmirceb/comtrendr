@@ -5,7 +5,7 @@
 #' @param x,y A pair of numeric vectors.
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariane), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #'
-#' @returns
+#' @returns A numeric value.
 #' 
 #' @export
 cor_term <- function(x, y, term = "var") {

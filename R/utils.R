@@ -1,12 +1,14 @@
 # Auxiliary functions
 
 #' Check order of observations
+#' 
+#' This is an auxiliary function that checks if the observations (rows) in a community matrix are in chronological order.
 #'
-#' @param x 
-#' @param time_col 
-#' @param term 
+#' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
+#' @param time_col Character. Name of the column with time variable. Optional with default "time".
+#' @param term Character. Term used to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #'
-#' @returns
+#' @returns A data.frame of community data.
 #'
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
@@ -43,9 +45,8 @@ check_time <- function(x, time_col = "time", term = NULL, rm = TRUE) {
 #' @param x 
 #' @param time_col 
 #'
-#' @returns
+#' @returns A data.frame with species with 0 abundance removed.
 #'
-#' @examples
 remove_empty_sps <- function(x, time_col = "time", community_col = "comm") {
   # Set NAs as 0
   x[is.na(x)] <- 0
@@ -63,15 +64,13 @@ remove_empty_sps <- function(x, time_col = "time", community_col = "comm") {
 #' Jennings–Fischer formula estimates a combined value of plant cover assuming overlap between plants.
 #'
 #' @param x Numeric. A vector of cover values.
-#' @param perc Boolean. If the cover values are expressed as percentages or proportions. Default FALSE.
+#' @param perc Boolean. If the cover values are expressed as percentages (0-100) or proportions (0-1). Default FALSE.
 #'
-#' @returns 
+#' @returns Numeric. 
 #'
 #' @references
-#' \itemize{
-#'    \item Jennings, M. D., Faber-Langendoen, D., Loucks, O. L., Peet, R. K., & Roberts, D. (2009). Standards for associations and alliances of the US National Vegetation Classification. Ecological Monographs, 79(2), 173-199.
-#'    \item Fischer, H. S. (2015). On the combination of species cover values from different vegetation layers. Applied Vegetation Science, 18(1), 169-170.
-#' }
+#' - Jennings, M. D., Faber-Langendoen, D., Loucks, O. L., Peet, R. K., & Roberts, D. (2009). Standards for associations and alliances of the US National Vegetation Classification. Ecological Monographs, 79(2), 173-199.
+#' - Fischer, H. S. (2015). On the combination of species cover values from different vegetation layers. Applied Vegetation Science, 18(1), 169-170.
 #'
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #'
@@ -88,14 +87,13 @@ jenfish <- function(x,
 
 #' Get dominant species
 #'
-#' @param x 
-#' @param q 
-#' @param plot 
+#' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
+#' @param q Numeric. Threshold of relative abundance to consider a species dominant.
+#' @param plot Boolean. Plot the species-abundance curve of the community.
 #'
-#' @returns
+#' @returns A data.frame with each species in the community, its mean abundance and if it is dominant or not.
 #' @export
 #'
-#' @examples
 get_dominants <- function(x, q = 0.9, plot = F) {
   # Sort species by their mean abundance across years
   sps_sorted <- sort(apply(x, 2,
@@ -121,13 +119,12 @@ get_dominants <- function(x, q = 0.9, plot = F) {
 
 #' Check if dominant species have missing data
 #'
-#' @param x 
-#' @param q 
+#' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
+#' @param q Numeric. Threshold of relative abundance to consider a species dominant.
 #'
-#' @returns
+#' @returns A character vector. Names of the dominant species with missing values.
 #' @export
 #'
-#' @examples
 check_dominants <- function(x, q = 0.9) {
   # Get dominant species
   doms <- get_dominants(x = x, q = q, plot = FALSE)
@@ -157,9 +154,9 @@ is_even <- function(x) {
 
 #' Plot a community time series
 #'
-#' @param x 
+#' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
 #'
-#' @returns
+#' @returns A plot.
 #' @export
 #'
 plot_com <- function(x) {
@@ -176,14 +173,20 @@ plot_com <- function(x) {
 
 #' Estimate of Taylor's Power Law
 #'
-#' @param x Numeric. A vector of variances.
-#' @param y Numeric. A vector of means.
+#' @param vari Numeric. A vector of variances.
+#' @param meani Numeric. A vector of means.
 #'
-#' @returns A named vector with coefficients alpha and beta for the relation between variance and mean according to Taylor's Power Law.
+#' @returns A named vector with coefficients a and b for the relation between variance and mean according to Taylor's Power Law.
 #' @export
 #'
-tpl <- function(x, y) {
-  coefs <- stats::coef(stats::lm(log10(x) ~ log10(y)))
+tpl <- function(vari, meani) {
+  # Check species with variance 0 because their log cannot be computed
+  inds <- which(vari == 0)
+  # Remove them
+  y <- vari[-inds]
+  x <- meani[-inds]
+  # Estimate TPL
+  coefs <- stats::coef(stats::lm(log10(y) ~ log10(x)))
   names(coefs) <- c("alpha", "beta")
   return(coefs)
 }

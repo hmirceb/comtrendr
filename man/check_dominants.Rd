@@ -7,9 +7,12 @@
 check_dominants(x, q = 0.9)
 }
 \arguments{
-\item{x}{}
+\item{x}{A data.frame. A community matrix of abundances with time in rows and taxa in columns.}
 
-\item{q}{}
+\item{q}{Numeric. Threshold of relative abundance to consider a species dominant.}
+}
+\value{
+A character vector. Names of the dominant species with missing values.
 }
 \description{
 Check if dominant species have missing data

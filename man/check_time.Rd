@@ -7,14 +7,17 @@
 check_time(x, time_col = "time", term = NULL, rm = TRUE)
 }
 \arguments{
-\item{x}{}
+\item{x}{A data.frame. A community matrix of abundances with time in rows and taxa in columns.}
 
-\item{time_col}{}
+\item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 
-\item{term}{}
+\item{term}{Character. Term used to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
+}
+\value{
+A data.frame of community data.
 }
 \description{
-Check order of observations
+This is an auxiliary function that checks if the observations (rows) in a community matrix are in chronological order.
 }
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}

@@ -7,7 +7,10 @@
 plot_com(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{A data.frame. A community matrix of abundances with time in rows and taxa in columns.}
+}
+\value{
+A plot.
 }
 \description{
 Plot a community time series

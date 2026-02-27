@@ -11,6 +11,9 @@ cov_term(x, y, term = "var")
 
 \item{term}{One of "var", "two" or "three" for variance (default), Hill's quadratic variance of terms 2 or 3.}
 }
+\value{
+Numeric. The covariance between variables x and y.
+}
 \description{
 Covariance between two variables using variance or Hill's 2 and 3 term variance
 }

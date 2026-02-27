@@ -4,15 +4,15 @@
 \alias{tpl}
 \title{Estimate of Taylor's Power Law}
 \usage{
-tpl(x, y)
+tpl(vari, meani)
 }
 \arguments{
-\item{x}{Numeric. A vector of variances.}
+\item{vari}{Numeric. A vector of variances.}
 
-\item{y}{Numeric. A vector of means.}
+\item{meani}{Numeric. A vector of means.}
 }
 \value{
-A named vector with coefficients alpha and beta for the relation between variance and mean according to Taylor's Power Law.
+A named vector with coefficients a and b for the relation between variance and mean according to Taylor's Power Law.
 }
 \description{
 Estimate of Taylor's Power Law

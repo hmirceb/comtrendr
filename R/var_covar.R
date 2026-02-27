@@ -59,11 +59,11 @@ var_t3 <- function(x) {
   return(v)
 }
 
-#' Title
+#' Detrended variance using linear regression 
 #'
-#' @param x Numeric. A vector of values to estimate the detrended varciance using a linear regression approach.
+#' @param x Numeric. A vector of values to estimate the detrended variance using a linear regression approach.
 #'
-#' @returns
+#' @returns Numeric. The detrened variance using linear regression.
 #' @export
 var_linear <- function(x) {
   y <- 1:length(x)
@@ -77,7 +77,7 @@ var_linear <- function(x) {
 #' @param x,y Numeric. A pair of vectors.
 #' @param term One of "var", "two" or "three" for variance (default), Hill's quadratic variance of terms 2 or 3.
 #'
-#' @returns 
+#' @returns Numeric. The covariance between variables x and y.
 #' 
 #' @export
 cov_term <- function(x, y, term = "var") {

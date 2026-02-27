@@ -13,6 +13,9 @@ logvar_ratio(x, term = "var", ...)
 
 \item{time_col}{Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.}
 }
+\value{
+A numeric value.
+}
 \description{
 This function lets you estimate the synchrony index using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
 }

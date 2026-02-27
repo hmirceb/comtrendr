@@ -17,10 +17,9 @@
 #' @returns An object of class `cv.dec`, a list of named vectors.
 #' 
 #' @references
-#' \itemize{
-#'    \item Segrestin, J., & Lepš, J. (2022). Towards a better ecological understanding of metacommunity stability: A multiscale framework to disentangle population variability and synchrony effects. Journal of Ecology, 110(7), 1632-1645.
-#'    \item Hammond, M., Loreau, M., De Mazancourt, C., & Kolasa, J. (2020). Disentangling local, metapopulation, and cross‐community sources of stabilization and asynchrony in metacommunities. Ecosphere, 11(4), e03078.
-#' }
+#' - Segrestin, J., & Lepš, J. (2022). Towards a better ecological understanding of metacommunity stability: A multiscale framework to disentangle population variability and synchrony effects. Journal of Ecology, 110(7), 1632-1645.
+#' - Hammond, M., Loreau, M., De Mazancourt, C., & Kolasa, J. (2020). Disentangling local, metapopulation, and cross‐community sources of stabilization and asynchrony in metacommunities. Ecosphere, 11(4), e03078.
+#'
 #'
 #' @examples
 #' 
@@ -249,13 +248,9 @@ print.cv.dec <- function (x, ...) {
 #' @returns A data.frame with one row per metacommunity and one column per stability component.
 #'
 #' @references
-#' \itemize{
-#'    \item Segrestin, J., & Lepš, J. (2022). Towards a better ecological understanding of metacommunity stability: A multiscale framework to disentangle population variability and synchrony effects. Journal of Ecology, 110(7), 1632-1645.
-#'    \item Hammond, M., Loreau, M., De Mazancourt, C., & Kolasa, J. (2020). Disentangling local, metapopulation, and cross‐community sources of stabilization and asynchrony in metacommunities. Ecosphere, 11(4), e03078.
-#' }
-#' 
-#' @examples
-#' 
+#' - Segrestin, J., & Lepš, J. (2022). Towards a better ecological understanding of metacommunity stability: A multiscale framework to disentangle population variability and synchrony effects. Journal of Ecology, 110(7), 1632-1645.
+#' - Hammond, M., Loreau, M., De Mazancourt, C., & Kolasa, J. (2020). Disentangling local, metapopulation, and cross‐community sources of stabilization and asynchrony in metacommunities. Ecosphere, 11(4), e03078.
+#'
 #' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 

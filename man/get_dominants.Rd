@@ -7,11 +7,14 @@
 get_dominants(x, q = 0.9, plot = F)
 }
 \arguments{
-\item{x}{}
+\item{x}{A data.frame. A community matrix of abundances with time in rows and taxa in columns.}
 
-\item{q}{}
+\item{q}{Numeric. Threshold of relative abundance to consider a species dominant.}
 
-\item{plot}{}
+\item{plot}{Boolean. Plot the species-abundance curve of the community.}
+}
+\value{
+A data.frame with each species in the community, its mean abundance and if it is dominant or not.
 }
 \description{
 Get dominant species

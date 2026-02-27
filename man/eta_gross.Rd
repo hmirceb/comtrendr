@@ -15,6 +15,9 @@ eta_gross(x, term = "var", ...)
 
 \item{weighted}{Boolean. Weight the contribution of each species by its average abundance in the community. Default FALSE.}
 }
+\value{
+A numeric value.
+}
 \description{
 This function estimates Gross et al. 2014 synchrony index Eta and its weighted version by Blüthgen et al. 2016 using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
 }

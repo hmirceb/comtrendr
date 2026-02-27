@@ -30,8 +30,6 @@
 #' @references
 #' - Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.
 #' 
-#' @examples
-#' 
 #' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
 #' @author Jan Lepš, \email{suspa@@prf.jcu.cz} 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
@@ -112,7 +110,7 @@ comstab_term = function(x,
   CV0 <- which(CVi > 0) # Use only species with CV != 0
   # Calculate TPL between CVs and means. 
   # This is equivalent to estimating TPL for variances and means, estimating the variance of the average species using TPL and average mean and then estimating CVe with that variance
-  TPL <- tpl(x = CVi[CV0],  y = meani[CV0]) # LM of CVs and means on log scale
+  TPL <- tpl(vari = CVi[CV0],  meani = meani[CV0]) # LM of CVs and means on log scale
   CVe <- 10^TPL["alpha"] * (mean(x)^TPL["beta"]) # Predict CVe from mean abundance and TPL coefficients (backtransformed from log scale)
 
   # Test correlation between individual CVs and mean abundances (if there are more than 5 species with variation)

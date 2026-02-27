@@ -14,7 +14,7 @@ psi_segrestin(x, term = "var", ...)
 \item{time_col}{Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.}
 }
 \value{
-A single numeric value
+A numeric value.
 }
 \description{
 Estimate \eqn{\psi},

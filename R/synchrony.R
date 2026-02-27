@@ -22,7 +22,7 @@
 #' 
 #' Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step.
 #' 
-#' @returns A single numeric value
+#' @returns A numeric value.
 #' 
 #' @references
 #' - Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.
@@ -70,7 +70,8 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
 #' @param x A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
-#' @returns A single
+#' 
+#' @returns A numeric value.
 #'
 #' @references
 #' - Loreau, M., & de Mazancourt, C. (2008). Species synchrony and its drivers: neutral and nonneutral community dynamics in fluctuating environments. The American Naturalist, 172(2), E48-E66.
@@ -110,7 +111,7 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
 #' @param weighted Boolean. Weight the contribution of each species by its average abundance in the community. Default FALSE.
 #' 
-#' @returns
+#' @returns A numeric value.
 #'
 #' @references
 #' - Gross, K., Cardinale, B. J., Fox, J. W., Gonzalez, A., Loreau, M., Wayne Polley, H., ... & van Ruijven, J. (2014). Species richness and the temporal stability of biomass production: a new analysis of recent biodiversity experiments. The American Naturalist, 183(1), 1-12.
@@ -170,6 +171,8 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
+#' 
+#' @returns A numeric value.
 #' 
 #' @references
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.

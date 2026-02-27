@@ -11,6 +11,9 @@ cor_term(x, y, term = "var")
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariane), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 }
+\value{
+A numeric value.
+}
 \description{
 Pearson's correlation index between two variables based on variance or Hill's 2 and 3 term variance
 }

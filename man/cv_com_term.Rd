@@ -13,6 +13,9 @@ cv_com_term(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time")
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 }
+\value{
+If total = TRUE, a numeric value with the CV of the sum of annual abundances. If total = FALSE, a named list with the average CV across the populations in the community and the CVs of each population.
+}
 \description{
 CV of a community
 }

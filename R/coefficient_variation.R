@@ -3,7 +3,7 @@
 #' @param x A numeric vector
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #'
-#' @returns
+#' @returns A numeric value.
 #' @export
 #'
 cv_term <- function(x, term = "var") {
@@ -32,7 +32,7 @@ cv_term <- function(x, term = "var") {
 #' @param weighted Boolean. Weight the CV of each population by its average relative abundance per species across years.
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #'
-#' @returns
+#' @returns If total = TRUE, a numeric value with the CV of the sum of annual abundances. If total = FALSE, a named list with the average CV across the populations in the community and the CVs of each population.
 #' @export
 #'
 cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time") {
