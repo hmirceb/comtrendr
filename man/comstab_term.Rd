@@ -4,7 +4,7 @@
 \alias{comstab_term}
 \title{Decompose community stability}
 \usage{
-comstab_term(x, term = "var", ...)
+comstab_term(x, term = "var", time_col = "time")
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns.}

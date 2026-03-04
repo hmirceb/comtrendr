@@ -4,10 +4,12 @@
 \alias{simpson}
 \title{Shannon-Wiener index}
 \usage{
-simpson(x, data_type = "biomass")
+simpson(x, relative = FALSE)
 }
 \arguments{
 \item{x}{Numeric. A vector of abundances.}
+
+\item{relative}{Boolean. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.}
 }
 \value{
 A numeric value.

@@ -4,7 +4,7 @@
 \alias{logvar_ratio}
 \title{Log variance ratio synchrony index}
 \usage{
-logvar_ratio(x, term = "var", ...)
+logvar_ratio(x, term = "var", time_col = "time", log = TRUE)
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundance with years as rows and species as columns.}
@@ -12,6 +12,8 @@ logvar_ratio(x, term = "var", ...)
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 
 \item{time_col}{Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.}
+
+\item{log}{Boolean. Apply the natural logarithm to the variance ratio. Default TRUE.}
 }
 \value{
 A numeric value.

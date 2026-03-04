@@ -4,8 +4,13 @@
 \alias{sync_term}
 \title{Compute community synchrony}
 \usage{
-sync_term(x, index = c("psi", "phi", "eta", "logvar"), term = "var", 
-time_col = "time", weighted = FALSE)
+sync_term(
+  x,
+  index = c("psi", "phi", "eta", "logvar"),
+  term = "var",
+  time_col = "time",
+  weighted = FALSE
+)
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundance with years as rows and species as columns.}

@@ -4,9 +4,9 @@
 #' @param community_col Character. Name of column with the community identifier. Default "comm".
 #' @param time_col Character. Name of column with time variable. Default "time".
 #' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.
-#' @param filter Boolean. Filter data. Default TRUE.
+#' @param filter_transient Boolean. Filter transient species Default TRUE.
 #' @param empty_years Boolean. Remove empty years. Default FALSE.
-#' @param threshold Numeric. Minimum proportion (between 0 and 1) of time points with valid data to keep a species. Default 0.3.
+#' @param threshold Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.
 #'
 #' @returns A data.frame with the community data in wide format.
 #' 
@@ -71,7 +71,7 @@ clean_community_wide <- function(x,
       }
       
       # Reshape to long format to facilitate joining later
-      filtered_comm_long <- reshape(data = filtered_comm,
+      filtered_comm_long <- stats::reshape(data = filtered_comm,
                      direction = "long",
                      varying = which(!names(filtered_comm) %in% c(community_col, time_col)),
                      v.names = "abundance",
@@ -91,7 +91,7 @@ clean_community_wide <- function(x,
     data$species <- unlist(lapply(strsplit(rownames(data), "\\."), \(x) x[length(x)]))
     
     # Pivot data to years by species matrix
-    d_wide <- reshape(data,
+    d_wide <- stats::reshape(data,
                       direction = "wide",
                       timevar = "species",
                       idvar = "id_comm",
@@ -194,7 +194,7 @@ clean_community_long <- function(x,
   }
   
   # Pivot data to years by species matrix
-  data_wide <- reshape(x,
+  data_wide <- stats::reshape(x,
                        direction = "wide",
                        idvar = "id_comm",
                        timevar = taxa_col,
@@ -219,9 +219,9 @@ clean_community_long <- function(x,
 #' @param taxa_col Character. Name of column with taxa names. Default "species".
 #' @param abundance_col Character. Name of column with abundance values. Default "abundance".
 #' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.
-#' @param filter Boolean. Filter data. Default TRUE.
+#' @param filter_transient Boolean. Filter transient species Default TRUE.
 #' @param empty_years Boolean. Remove empty years. Default FALSE.
-#' @param threshold Numeric. Minimum proportion (between 0 and 1) of time points with valid data to keep a species. Default 0.3.
+#' @param threshold Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.
 #'
 #' @returns A data.frame with the community data ready to use in other functions.
 #' 
@@ -296,7 +296,7 @@ metacoms_data = function(x,
   ids <- colnames(x) %in% c(community_col, time_col)
   
   # Pivot to long format
-  data_long <- reshape(
+  data_long <- stats::reshape(
     data = x,
     direction = "long",
     varying = colnames(x[,!ids]),
@@ -307,7 +307,7 @@ metacoms_data = function(x,
   )
   
   # Pivot to wide format
-  data_wide <- reshape(
+  data_wide <- stats::reshape(
     data = data_long,
     direction = "wide",
     idvar = c(community_col, taxa_col),

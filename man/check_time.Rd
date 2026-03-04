@@ -12,6 +12,8 @@ check_time(x, time_col = "time", term = NULL, rm = TRUE)
 \item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 
 \item{term}{Character. Term used to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
+
+\item{rm}{Boolean. If TRUE, removes the time column from the returned data.frame.}
 }
 \value{
 A data.frame of community data.

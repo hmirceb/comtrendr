@@ -4,8 +4,6 @@
 #' 
 #' Estimate \eqn{\psi}, 
 #' 
-#' @usage psi_segrestin(x, term = "var", ...)
-#'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
@@ -35,7 +33,7 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
   # Match variance function
   var_func <- switch(
     term,
-    var = var,
+    var = stats::var,
     two = var_t2,
     three = var_t3
   )
@@ -65,8 +63,6 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
 #' 
 #' This function estimates Loreau & Mazancourts 2008 Phi synchrony index using standard and detrended versions of variances based on Hill's 2 and 3 terms local quadratic variance. 
 #' 
-#' @usage phi_loreau(x, term = "var", ...)
-#' 
 #' @param x A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
@@ -82,7 +78,7 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
   # Match variance function
   var_func <- switch(
     term,
-    var = var,
+    var = stats::var,
     two = var_t2,
     three = var_t3
   )
@@ -103,13 +99,10 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
 #'
 #' This function estimates Gross et al. 2014 synchrony index Eta and its weighted version by Blüthgen et al. 2016 using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
 #'
-#' @usage eta_gross(x, term = "var", ...)
-#'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
-#' @param weighted Boolean. Weight index by species relative abundances. Default FALSE.
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
-#' @param weighted Boolean. Weight the contribution of each species by its average abundance in the community. Default FALSE.
+#' @param weighted Boolean. Weight index by average species relative abundances. Default FALSE.
 #' 
 #' @returns A numeric value.
 #'
@@ -123,7 +116,7 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
   # Match variance function
   var_func <- switch(
     term,
-    var = var,
+    var = stats::var,
     two = var_t2,
     three = var_t3
   )
@@ -166,12 +159,10 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 #' 
 #' This function lets you estimate the synchrony index using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance. 
 #' 
-#' @usage logvar_ratio(x, term = "var", ...)
-#' 
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
-#' 
+#' @param log Boolean. Apply the natural logarithm to the variance ratio. Default TRUE.
 #' @returns A numeric value.
 #' 
 #' @references
@@ -183,7 +174,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
   # Match variance function
   var_func <- switch(
     term,
-    var = var,
+    var = stats::var,
     two = var_t2,
     three = var_t3
   )
@@ -219,9 +210,6 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' Compute community synchrony
 #' 
 #' `sync_term()` estimates one or several community synchrony indices (see Details) using standard estimates of variance as well as its detrended versions using Hill's two and three term local quadratic variance estimates.
-#'
-#' @usage sync_term(x, index = c("psi", "phi", "eta", "logvar"), term = "var", 
-#' time_col = "time", weighted = FALSE)
 #'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param index Character. Synchrony index to calculate. One of "psi", (Segrestin *et al.* 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross *et al.* 2014) or "logvar" (Leps *et al.* 2018). 

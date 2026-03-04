@@ -4,7 +4,7 @@
 \alias{phi_loreau}
 \title{Phi synchrony index}
 \usage{
-phi_loreau(x, term = "var", ...)
+phi_loreau(x, term = "var", time_col = "time")
 }
 \arguments{
 \item{x}{A community matrix of species abundance with years as rows and species as columns.}

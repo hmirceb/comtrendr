@@ -4,7 +4,7 @@
 \alias{eta_gross}
 \title{Eta synchrony index}
 \usage{
-eta_gross(x, term = "var", ...)
+eta_gross(x, term = "var", time_col = "time", weighted = FALSE)
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundance with years as rows and species as columns.}
@@ -13,7 +13,7 @@ eta_gross(x, term = "var", ...)
 
 \item{time_col}{Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.}
 
-\item{weighted}{Boolean. Weight the contribution of each species by its average abundance in the community. Default FALSE.}
+\item{weighted}{Boolean. Weight index by average species relative abundances. Default FALSE.}
 }
 \value{
 A numeric value.

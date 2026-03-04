@@ -4,8 +4,14 @@
 \alias{cv2_decomp_term}
 \title{Partitioning of metacommunity stability in its components}
 \usage{
-cv2_decomp(x, community_col = "comm", 
-time_col = "time", taxa_col = "species", term = "var", nrand = NA)
+cv2_decomp_term(
+  x,
+  community_col = "comm",
+  time_col = "time",
+  taxa_col = "species",
+  term = "var",
+  nrand = NA
+)
 }
 \arguments{
 \item{x}{A data.frame. Metacommunity matrix with time in rows, taxa in columns and a column identifying each community.}

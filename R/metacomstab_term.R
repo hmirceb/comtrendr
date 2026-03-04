@@ -4,9 +4,6 @@
 #' 
 #' This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond *et al.* (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates. Ideally input data should be processed with `clean_community()` before use. 
 #'
-#' @usage cv2_decomp(x, community_col = "comm", 
-#' time_col = "time", taxa_col = "species", term = "var", nrand = NA)
-#'
 #' @param x A data.frame. Metacommunity matrix with time in rows, taxa in columns and a column identifying each community.
 #' @param community_col Character. Name of column with the community identifier.
 #' @param time_col Character. Name of column with time variable.
@@ -183,11 +180,7 @@ cv2_decomp_term <- function(x,
   return(res)                    
 }
 
-#' Print method for cv2_decomp_term()
-#'
-#' @param x Result from cv2_decomp_term()
-#' @param ... 
-#' 
+
 #' @export
 print.cv.dec <- function (x, ...) {
   cat("\nDecomposition of the metacommunity squared coefficient of variation")
@@ -195,7 +188,7 @@ print.cv.dec <- function (x, ...) {
   cat("\n")
   pop_sync <- x$Pop_sync_intra[1] + x$Pop_sync_direct[1] + x$Pop_sync_indirect[1] + x$Pop_sync_no[1]
   if ("rand" %in% names(x)) {
-    pop_sync_rand <- quantile(rowSums(x$rand), probs = c(0.025, 0.975))
+    pop_sync_rand <- stats::quantile(rowSums(x$rand), probs = c(0.025, 0.975))
     pop_sync_rand <- paste0("[", round(pop_sync_rand[1], 4), "; ", round(pop_sync_rand[2], 4), "]")
     cat(paste0("\nCV2 = ", round(x$CV2, 4), ", Pop.var = ", round(x$pop_var, 4), ", Pop.sync = ", round(pop_sync, 4), " ", pop_sync_rand))
   } else {
@@ -209,7 +202,7 @@ print.cv.dec <- function (x, ...) {
   pop_sync_hamm <- round(unlist(lapply(x[3:6], "[", 3)), 4)
   
   if ("rand" %in% names(x)){
-    pop_sync_ind <- apply(x$rand, MARGIN = 2, quantile, probs = c(0.025, 0.975))
+    pop_sync_ind <- apply(x$rand, MARGIN = 2, stats::quantile, probs = c(0.025, 0.975))
     pop_sync_ind <- apply(pop_sync_ind, MARGIN = 2, 
                           function(x) paste0("[", round(x[1], 4), "; ", round(x[2], 4), "]"))
     df <- data.frame(paste0(names_pop_sync, " = ", pop_sync_val),
@@ -272,8 +265,8 @@ metacomstab_term <- function(x,
     }
     
     # Get lower and upper CIs
-    lower <- apply(res$rand, 2, quantile, (1-conf)/2)
-    upper <- apply(res$rand, 2, quantile, conf + (1-conf)/2)
+    lower <- apply(res$rand, 2, stats::quantile, (1-conf)/2)
+    upper <- apply(res$rand, 2, stats::quantile, conf + (1-conf)/2)
     
     # Create DF with results
     res_df <- data.frame(CV2 = res$CV2,

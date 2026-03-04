@@ -10,22 +10,22 @@
 #' @param trend Boolean. Apply a trend to the data. Default FALSE.
 #' @param trend_mean Numeric. Mean of the trend.
 #' @param trend_sd Numeric. Standard deviation of the trend.
-#' @param bimodal_trend 
+#' @param bimodal_trend Boolean. If TRUE half of the species have negative trends and half positive.
 #'
 #' @returns A named list containing a data.frame with the simulated data, the true mean trends of each simulated species and the parameters used to simulate the data.
 #' 
 #' @export
 sim_mvcomm <- function(n_sp = 10,
-                    years = 25,
-                    tot_abu = 200 * n_sp,
-                    power = 1.6,
-                    bound_pos = TRUE,
-                    corr = 0.5,
-                    p = 0.8,
-                    switch_trend = FALSE,
-                    trend_mean = 1,
-                    trend_sd = 0.01,
-                    bimodal_trend = FALSE){
+                       years = 25,
+                       tot_abu = 200 * n_sp,
+                       power = 1.6,
+                       bound_pos = TRUE,
+                       corr = 0.5,
+                       p = 0.8,
+                       switch_trend = FALSE,
+                       trend_mean = 1,
+                       trend_sd = 0.01,
+                       bimodal_trend = FALSE){
   
   # Vector of mean abundances. First get a vector of relative abundances 
   # that add up to 1 using the dirchlet distribtion. Parameter alpha (p)
@@ -52,7 +52,7 @@ sim_mvcomm <- function(n_sp = 10,
   k <- n_sp-1
   # This makes positive definitive matrix (necessary for MVN) 
   # with correlation between species
-  Lambda <- matrix(rnorm(n_sp * k, sd = 1), n_sp, k)
+  Lambda <- matrix(stats::rnorm(n_sp * k, sd = 1), n_sp, k)
   Psi <- diag(sd_abu^2 * (1 - corr)) 
   ss <- Lambda %*% t(Lambda) + Psi
   
@@ -169,13 +169,13 @@ syngenr <- function(years = 100,
   sd_abu <- sqrt(mean_abu ** power)
   env <- sample(seq(-0.5, 0.5, length.out = 3), years, replace = T)
   env_resp <- response(
-      state = switch_env,
-      n_sp = n_sp,
-      mean = mean_env_resp,
-      sd = sd_env_resp,
-      bimodal = bimodal_env,
-      comp = comp
-    )
+    state = switch_env,
+    n_sp = n_sp,
+    mean = mean_env_resp,
+    sd = sd_env_resp,
+    bimodal = bimodal_env,
+    comp = comp
+  )
   trend = seq(-1, 1, length.out = years)
   trend_resp <- response(state = switch_trend,
                          n_sp = n_sp,
@@ -183,7 +183,7 @@ syngenr <- function(years = 100,
                          sd = sd_trend_resp,
                          bimodal = bimodal_trend,
                          comp = FALSE
-                         )
+  )
   
   simcom <- matrix(0, years, n_sp)
   er <- env_resp
@@ -192,7 +192,7 @@ syngenr <- function(years = 100,
     abi <- vector("numeric", years)
     for (j in 1:years) {
       abi[j] <-
-        rnorm(1, mean_abu[i] * (1 + env[j] * er[i]) * (1 + trend[j] * tr[i]),
+        stats::rnorm(1, mean_abu[i] * (1 + env[j] * er[i]) * (1 + trend[j] * tr[i]),
               sd_abu[i])
       if (bound_pos)
         abi[abi < 0] <- 0
@@ -289,8 +289,8 @@ response <- function(state = TRUE,
       # species split into negative and positive responders
       n_half <- ceiling(n_sp / 2)
       n_otherhalf <- n_sp - n_half
-      resp_pos <- rnorm(n_half, abs(mean), sd)
-      resp_neg <- rnorm(n_otherhalf,-abs(mean), sd)
+      resp_pos <- stats::rnorm(n_half, abs(mean), sd)
+      resp_neg <- stats::rnorm(n_otherhalf,-abs(mean), sd)
       
       if (comp) {
         # model compensatory dynamics
@@ -305,7 +305,7 @@ response <- function(state = TRUE,
       }
     } else{
       # majority of species respond either positive or negative
-      resp <- rnorm(n_sp, mean, sd)
+      resp <- stats::rnorm(n_sp, mean, sd)
     }
   }
   return(resp)

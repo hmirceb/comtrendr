@@ -7,7 +7,8 @@
 #' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #' @param term Character. Term used to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
-#'
+#' @param rm Boolean. If TRUE, removes the time column from the returned data.frame.
+#' 
 #' @returns A data.frame of community data.
 #'
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
@@ -42,8 +43,9 @@ check_time <- function(x, time_col = "time", term = NULL, rm = TRUE) {
 
 #' Remove empty columns
 #'
-#' @param x 
-#' @param time_col 
+#' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
+#' @param time_col Character. Name of the column with time variable. Optional with default "time".
+#' @param community_col Character. Name of the column with community variable. Optional with default "comm".
 #'
 #' @returns A data.frame with species with 0 abundance removed.
 #'
@@ -100,7 +102,7 @@ get_dominants <- function(x, q = 0.9, plot = F) {
                            function(y) mean(y[y > 0])), decreasing = T)
   
   # Get specified quantile
-  qu = quantile(sps_sorted, probs = q)[1]
+  qu = stats::quantile(sps_sorted, probs = q)[1]
   # Make DF and specify dominant species
   df = data.frame(taxon = names(sps_sorted),
                   abund = sps_sorted, 
@@ -110,9 +112,9 @@ get_dominants <- function(x, q = 0.9, plot = F) {
     # Points
     plot(df$abund, cex = 1.3, pch = 21, bg = df$dominant)
     # Labels
-    text(sps_sorted, names(sps_sorted), cex=0.6, pos=1, col="red")
+    graphics::text(sps_sorted, names(sps_sorted), cex=0.6, pos=1, col="red")
     # Threshold line 
-    abline(h = qu, lty = "dashed")
+    graphics::abline(h = qu, lty = "dashed")
   }
   return(df)
 }
@@ -167,7 +169,7 @@ plot_com <- function(x) {
        xlab = "time",
        ylab = "abundance")
   for (i in 2:ncol(x)) {
-    points(y = x[,i],
+    graphics::points(y = x[,i],
            x = 1:nrow(x),
            col = i)
   }

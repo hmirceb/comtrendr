@@ -7,9 +7,9 @@
 remove_empty_sps(x, time_col = "time", community_col = "comm")
 }
 \arguments{
-\item{x}{}
+\item{x}{A data.frame. A community matrix of abundances with time in rows and taxa in columns.}
 
-\item{time_col}{}
+\item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 }
 \value{
 A data.frame with species with 0 abundance removed.

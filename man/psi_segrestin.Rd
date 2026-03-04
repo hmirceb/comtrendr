@@ -4,7 +4,7 @@
 \alias{psi_segrestin}
 \title{Psi synchrony index}
 \usage{
-psi_segrestin(x, term = "var", ...)
+psi_segrestin(x, term = "var", time_col = "time")
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundance with years as rows and species as columns.}

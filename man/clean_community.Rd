@@ -32,11 +32,11 @@ clean_community(
 
 \item{na_zero}{Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.}
 
+\item{filter_transient}{Boolean. Filter transient species Default TRUE.}
+
 \item{empty_years}{Boolean. Remove empty years. Default FALSE.}
 
-\item{threshold}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to keep a species. Default 0.3.}
-
-\item{filter}{Boolean. Filter data. Default TRUE.}
+\item{threshold}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.}
 }
 \value{
 A data.frame with the community data ready to use in other functions.

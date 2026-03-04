@@ -37,7 +37,7 @@ sim_mvcomm(
 
 \item{trend_sd}{Numeric. Standard deviation of the trend.}
 
-\item{bimodal_trend}{}
+\item{bimodal_trend}{Boolean. If TRUE half of the species have negative trends and half positive.}
 
 \item{trend}{Boolean. Apply a trend to the data. Default FALSE.}
 }

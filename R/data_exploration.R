@@ -12,13 +12,14 @@ richness <- function(x){
 #' Shannon-Wiener index
 #'
 #' @param x Numeric. A vector of abundances.
-#'
+#' @param relative Boolean. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
+#' 
 #' @returns A numeric value.
 #' @export
 #'
-shannon <- function(x, data_type = "biomass") {
+shannon <- function(x, relative = FALSE) {
   a <- x[x != 0]
-  if ( data_type == "biomass") {
+  if ( isFALSE(relative)) {
     b <- a/sum(a)
   } else {
     b <- a 
@@ -30,13 +31,14 @@ shannon <- function(x, data_type = "biomass") {
 #' Shannon-Wiener index
 #'
 #' @param x Numeric. A vector of abundances.
-#'
+#' @param relative Boolean. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
+#' 
 #' @returns A numeric value.
 #' @export
 #'
-simpson <- function(x, data_type = "biomass") {
+simpson <- function(x, relative = FALSE) {
   a <- x[x != 0]
-  if ( data_type == "biomass" ) {
+  if ( isFALSE(relative) ) {
     b <- a/sum(a)
   } else {
     b <- a 
@@ -64,6 +66,7 @@ pielou <- function(x) {
 #' @param total Character. Wether to compute diversity indices from the average relative abundance of species across years (overall) or the average of annula diversity indices.  
 #' @param community_col Character. Name of column with the community identifier.
 #' @param time_col Character. Name of column with time variable.
+#' @param trend Character. Method to check for trends in species abundance
 #'
 #' @returns A data.frame.
 #' @export
@@ -73,7 +76,7 @@ comm_expl <- function(x,
                      total = c("average", "overall"),
                      community_col = "comm",
                      time_col = "time",
-                     trend = FALSE){
+                     trend = c("none", "dennis", "loglinear")){
   
   # Split data by timestep
   if( isFALSE(by_timestep) ){

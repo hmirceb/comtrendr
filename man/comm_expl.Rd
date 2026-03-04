@@ -10,7 +10,7 @@ comm_expl(
   total = c("average", "overall"),
   community_col = "comm",
   time_col = "time",
-  trend = FALSE
+  trend = c("none", "dennis", "loglinear")
 )
 }
 \arguments{
@@ -23,6 +23,8 @@ comm_expl(
 \item{community_col}{Character. Name of column with the community identifier.}
 
 \item{time_col}{Character. Name of column with time variable.}
+
+\item{trend}{Character. Method to check for trends in species abundance}
 }
 \value{
 A data.frame.
