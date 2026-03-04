@@ -6,9 +6,8 @@
 #' 
 #' @usage comstab_term(x, term = "var", ...)
 #' 
-#' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
+#' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
-#' @param community_col Character. Name of the column with the community identifier. Optional with default "comm".
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #' 
 #' @details The analytic framework is described in details in Segrestin *et al.* (2024).
@@ -37,7 +36,6 @@
 #' @export
 comstab_term = function(x, 
                         term = "var",
-                        community_col = "comm",
                         time_col = "time") {
   
   # Match variance function

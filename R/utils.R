@@ -163,7 +163,9 @@ plot_com <- function(x) {
   plot(y = x[,1],
        x = 1:nrow(x),
        col = 1,
-       ylim = c(min(x), max(x)))
+       ylim = c(min(x), max(x)),
+       xlab = "time",
+       ylab = "abundance")
   for (i in 2:ncol(x)) {
     points(y = x[,i],
            x = 1:nrow(x),
@@ -181,10 +183,10 @@ plot_com <- function(x) {
 #'
 tpl <- function(vari, meani) {
   # Check species with variance 0 because their log cannot be computed
-  inds <- which(vari == 0)
+  inds <- vari != 0
   # Remove them
-  y <- vari[-inds]
-  x <- meani[-inds]
+  y <- vari[inds]
+  x <- meani[inds]
   # Estimate TPL
   coefs <- stats::coef(stats::lm(log10(y) ~ log10(x)))
   names(coefs) <- c("alpha", "beta")
