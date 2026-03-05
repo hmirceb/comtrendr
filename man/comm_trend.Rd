@@ -12,6 +12,8 @@ comm_trend(x, time_col = "time", method = "dennis", plot = FALSE)
 \item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 
 \item{method}{Character. Method to estimate the trends, one of "dennis" or "loglinear". Default "dennis".}
+
+\item{plot}{Boolean. Plot species abundances and their estimated trends. Default FALSE.}
 }
 \value{
 A data.frame with one row per species in the community.

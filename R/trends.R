@@ -77,7 +77,8 @@ trend_loglinear  <- function(x, time = NULL){
 #'
 #' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
-#' @param method Character. Method to estimate the trends, one of "dennis" or "loglinear". Default "dennis". 
+#' @param method Character. Method to estimate the trends, one of "dennis" or "loglinear". Default "dennis".
+#' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
 #'
 #' @returns A data.frame with one row per species in the community.
 #' 
@@ -110,13 +111,8 @@ comm_trend <- function(x, time_col = "time", method = "dennis", plot = FALSE){
   
   # Plot abundances
   if (plot) {
-    par(mfrow = c(1,2))
+    graphics::par(mfrow = c(1,2))
     plot_com(x)
-    # for (i in seq_len(nrow(trends))) {
-    #   graphics::abline(a = mean(log(x[,i])), 
-    #                    b = trends$trend[i],
-    #                    col = i)
-    # }
     
     plot(x = trends[1,]$trend, y = seq_along(trends$taxa)[1],
          xlim = c(min(trends$l95), max(trends$u95)),
@@ -126,7 +122,7 @@ comm_trend <- function(x, time_col = "time", method = "dennis", plot = FALSE){
          xlab = "trend (log)",
          ylab = "taxa", 
          yaxt = "n")
-    arrows(x0 = trends$l95, x1 = trends$u95, y0 = seq_along(trends$taxa),
+    graphics::arrows(x0 = trends$l95, x1 = trends$u95, y0 = seq_along(trends$taxa),
            code = 3, length = 0.05, angle = 90)
     for (i in 2:nrow(trends)) {
       graphics::points(x = trends[i,]$trend, y = seq_along(trends$taxa)[i], 
@@ -134,10 +130,10 @@ comm_trend <- function(x, time_col = "time", method = "dennis", plot = FALSE){
                        col = i)
     }
     
-    axis(2, at = seq_along(trends$taxa), labels = trends$taxa, las = 2)
-    abline(v = 0, lty = "dashed")
+    graphics::axis(2, at = seq_along(trends$taxa), labels = trends$taxa, las = 2)
+    graphics::abline(v = 0, lty = "dashed")
     
-    par(mfrow = c(1,1), 
+    graphics::par(mfrow = c(1,1), 
         xpd=FALSE, 
         mar=c(5.1, 4.1, 4.1, 2.1))
   }

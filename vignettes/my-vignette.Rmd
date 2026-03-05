@@ -17,15 +17,13 @@ knitr::opts_chunk$set(
 The **detrending** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamis, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spureous patterns of synchrony or variance.
 
 ```{r load}
+#library("detrending")
 devtools::load_all()
 ```
 ## Cleaning and formatting data
 Most functions in `detrending` work with a data.frame of species data in columns and time steps in rows. The package includes the function `clean_community` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
 
 ```{r formatting_wide, fig.height=4, fig.width=7}
-# Load example data
-data("example_data")
-
 # Show first rows of the data
 head(example_data_long)
 
@@ -51,7 +49,6 @@ comm_expl(x = clean_example, total = "average")
 ### Data simulation
 We can easily simulate a time series of species abundance for a community of a desired number of species, time steps, relation between mean and variance according to a Taylor's Power Law (TPL), evenness of the community, and average correlation between species.
 ```{r simulation, fig.height=4, fig.width=7}
-devtools::load_all()
 sim_df <- sim_mvcomm(p = 5)
 sim_df2 <- sim_mvcomm(p = 0.8)
 

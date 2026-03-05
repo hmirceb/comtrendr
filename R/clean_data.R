@@ -85,10 +85,10 @@ clean_community_wide <- function(x,
     data <- do.call("rbind", filtered_comms_list)
     # Add ID (comm by year) col
     data$id_comm <- paste(sep = "_",
-                    unlist(lapply(strsplit(rownames(data), "\\."), \(x) x[1])),
-                    unlist(lapply(strsplit(rownames(data), "\\."), \(x) x[2])))
+                    unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[1])),
+                    unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[2])))
     # Add species col
-    data$species <- unlist(lapply(strsplit(rownames(data), "\\."), \(x) x[length(x)]))
+    data$species <- unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[length(x)]))
     
     # Pivot data to years by species matrix
     d_wide <- stats::reshape(data,

@@ -18,10 +18,14 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports:
   MASS,
-  gtools
+  gtools,
+  graphics
 URL: https://github.com/hmirceb/detrending
 BugReports: https://github.com/hmirceb/detrending/issues
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Depends: 
+    R (>= 3.5)
+LazyData: true
