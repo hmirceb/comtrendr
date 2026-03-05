@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulations.R
 \name{response}
 \alias{response}
-\title{Function to simulate response of species abundances to environmental cues}
+\title{Helper function to simulate response of species abundances to environmental cues}
 \usage{
 response(state = TRUE, bimodal = FALSE, mean = 1, sd = 1, n_sp, comp = FALSE)
 }
@@ -33,9 +33,8 @@ context of the simulation, either an environmental signal or a longterm
 monotonic abundance trend).
 }
 \description{
-\code{response} simulates the strength and direction with which the change in
+\code{response()} simulates the strength and direction with which the change in
 species abundance across time responds to a stochastic environmental cue, or,
 a general directional trend in abundance. This is only a helper function that
-is used internally in the main function to simulate temporal communities,
-syngenr.
+is used internally in \code{sim_mvcomm()} and \code{syngenr()}.
 }
