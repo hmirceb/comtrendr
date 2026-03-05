@@ -35,7 +35,7 @@ sim_mvcomm(
 
 \item{switch_trend}{Boolean. Apply a trend to the data. Default FALSE.}
 
-\item{trend_mean}{Numeric. Mean of the trend.}
+\item{trend_mean}{Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline.}
 
 \item{trend_sd}{Numeric. Standard deviation of the trend.}
 
