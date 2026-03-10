@@ -15,3 +15,9 @@ Numeric. The detrened variance using linear regression.
 \description{
 Detrended variance using linear regression
 }
+\examples{
+require(detrending)
+
+var_linear(rnorm(100)) # ~1
+
+}

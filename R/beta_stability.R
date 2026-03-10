@@ -60,7 +60,7 @@ var_mv <- function(x, d = c("euclidean", "chord")){
   return(mv_var)
 }
 
-#' Multivariate two term local quadratic variance of community composition (TTLQV_2)
+#' Multivariate two term local quadratic variance of community composition
 #'
 #' @param x A community abundance matrix.
 #' @param d Character. Distance metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.

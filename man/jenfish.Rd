@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{jenfish}
 \alias{jenfish}
-\title{Jennings–Fischer formula estimates a combined value of plant cover assuming overlap between plants.}
+\title{Calculate total plant cover using Jennings–Fischer formula}
 \usage{
 jenfish(x, perc = FALSE)
 }
@@ -15,7 +15,7 @@ jenfish(x, perc = FALSE)
 Numeric.
 }
 \description{
-Jennings–Fischer formula estimates a combined value of plant cover assuming overlap between plants.
+Calculate total plant cover using Jennings–Fischer formula
 }
 \references{
 \itemize{

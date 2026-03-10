@@ -12,6 +12,14 @@
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' data(example_data_wide) # Load sample data
+#' clean_community_wide(x = example_data_wide,
+#'                      community_col = "comm",
+#'                      time_col = "time")
+#' 
 #' @export
 clean_community_wide <- function(x, 
          community_col = "comm",
@@ -136,6 +144,18 @@ clean_community_wide <- function(x,
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' data(example_data_long) # Load sample data
+#' dim(example_data_long) # 300 4
+#' data_wide <- clean_community_long(x = example_data_long,
+#'                      community_col = "comm",
+#'                      time_col = "time",
+#'                      taxa_col = "species",
+#'                      abundance_col = "abundance")
+#' dim(data_wide) # 30 12
+#' 
 #' @export
 clean_community_long <- function(x, 
                                  community_col = "comm",
@@ -223,9 +243,28 @@ clean_community_long <- function(x,
 #' @param empty_years Boolean. Remove empty years. Default FALSE.
 #' @param threshold Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.
 #'
-#' @returns A data.frame with the community data ready to use in other functions.
+#' @returns A data.frame with community data ready to use in other functions.
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
+#' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Clean data in long format
+#' data(example_data_long)
+#' clean_community(x = example_data_long, 
+#'                 input_format = "long",
+#'                 community_col = "comm",
+#'                 time_col = "time",
+#'                 taxa_col = "species",
+#'                 abundance_col = "abundance")
+#' 
+#' # Clean data in wide format
+#' data(example_data_wide)
+#' clean_community(x = example_data_wide, 
+#'                 input_format = "wide",
+#'                 community_col = "comm",
+#'                 time_col = "time")
 #' 
 #' @export
 clean_community <- function(x, 
@@ -273,53 +312,4 @@ clean_community <- function(x,
   }
   
   return(clean_data)
-}
-
-#' Prepare metacommunity data 
-#'
-#' @param x A data.frame. Community matrix with time in rows and taxa in columns.
-#' @param community_col Character. Name of column with the community identifier. Default "comm".
-#' @param time_col Character. Name of column with time variable. Default "time".
-#' @param taxa_col Character. Name of column with taxa names. Default "species".
-#'
-#' @returns A data.frame with the community data ready to use by the `metacomstab_term()` function.
-#' 
-#' @author @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
-#' 
-#' @export
-metacoms_data = function(x, 
-                         community_col = "comm",
-                         time_col = "time",
-                         taxa_col = "species"
-                         ) {
-  # Get community and time columns
-  ids <- colnames(x) %in% c(community_col, time_col)
-  
-  # Pivot to long format
-  data_long <- stats::reshape(
-    data = x,
-    direction = "long",
-    varying = colnames(x[,!ids]),
-    v.names = "value",
-    timevar = taxa_col,
-    times = colnames(x[,!ids]),
-    idvar = c(community_col, time_col)
-  )
-  
-  # Pivot to wide format
-  data_wide <- stats::reshape(
-    data = data_long,
-    direction = "wide",
-    idvar = c(community_col, taxa_col),
-    timevar = time_col
-  )
-  
-  # Clean column and row names
-  colnames(data_wide) = gsub("value.", "t", colnames(data_wide))
-  rownames(data_wide) = NULL
-  
-  # Set NAs to 0
-  data_wide[is.na(data_wide)] <- 0
-  
-  return(data_wide)
 }

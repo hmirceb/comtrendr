@@ -2,7 +2,7 @@
 % Please edit documentation in R/beta_stability.R
 \name{var_t2mv}
 \alias{var_t2mv}
-\title{Multivariate two term local quadratic variance of community composition (TTLQV_2)}
+\title{Multivariate two term local quadratic variance of community composition}
 \usage{
 var_t2mv(x, d = c("euclidean", "chord"))
 }
@@ -15,7 +15,7 @@ var_t2mv(x, d = c("euclidean", "chord"))
 A numeric value. The multivariate two term quadratic variance of the community.
 }
 \description{
-Multivariate two term local quadratic variance of community composition (TTLQV_2)
+Multivariate two term local quadratic variance of community composition
 }
 \details{
 The multivariate two term local quadratic variance (\eqn{TTLQV_{mv2}}) of community composition is the detrended version of multivariate variance (\eqn{var_{mv}}):

@@ -17,3 +17,11 @@ Numeric. The covariance between variables x and y.
 \description{
 Covariance between two variables using variance or Hill's 2 and 3 term variance
 }
+\examples{
+require(detrending)
+
+cov_term(x = rnorm(10), y = rnorm(10), term = "var")
+cov_term(x = rnorm(10), y = rnorm(10), term = "two")
+cov_term(x = rnorm(10), y = rnorm(10), term = "three")
+
+}

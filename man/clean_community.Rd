@@ -44,6 +44,26 @@ A data.frame with the community data ready to use in other functions.
 \description{
 Clean community data to use in other functions
 }
+\examples{
+require(detrending)
+
+# Clean data in long format
+data(example_data_long)
+clean_community(x = example_data_long, 
+                input_format = "long",
+                community_col = "comm",
+                time_col = "time",
+                taxa_col = "species",
+                abundance_col = "abundance")
+
+# Clean data in wide format
+data(example_data_wide)
+clean_community(x = example_data_wide, 
+                input_format = "wide",
+                community_col = "comm",
+                time_col = "time")
+
+}
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
 }

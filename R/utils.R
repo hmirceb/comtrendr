@@ -63,7 +63,7 @@ remove_empty_sps <- function(x, time_col = "time", community_col = "comm") {
   return(x)
 }
 
-#' Jennings–Fischer formula estimates a combined value of plant cover assuming overlap between plants.
+#' Calculate total plant cover using Jennings–Fischer formula
 #'
 #' @param x Numeric. A vector of cover values.
 #' @param perc Boolean. If the cover values are expressed as percentages (0-100) or proportions (0-1). Default FALSE.

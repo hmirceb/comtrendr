@@ -17,6 +17,11 @@
 #' @references
 #' - Hill, M. O. (1973). The intensity of spatial pattern in plant communities. The Journal of Ecology, 225-235.
 #' 
+#' @examples
+#' require(detrending)
+#'
+#' var_t2(rnorm(100)) # ~1
+#' 
 #' @export
 var_t2 <- function(x){
   # Compute the 2 term local variance between consecutive observations
@@ -45,6 +50,11 @@ var_t2 <- function(x){
 #' - Hill, M. O. (1973). The intensity of spatial pattern in plant communities. The Journal of Ecology, 225-235.
 #' - Lepš, J., Götzenberger, L., Valencia, E., & de Bello, F. (2019). Accounting for long‐term directional trends on year‐to‐year synchrony in species fluctuations. Ecography, 42(10), 1728-1741.
 #' 
+#' @examples
+#' require(detrending)
+#'
+#' var_t3(rnorm(100)) # ~1
+#' 
 #' @export
 var_t3 <- function(x) {
   n <- length(x) # sample size
@@ -64,6 +74,12 @@ var_t3 <- function(x) {
 #' @param x Numeric. A vector of values to estimate the detrended variance using a linear regression approach.
 #'
 #' @returns Numeric. The detrened variance using linear regression.
+#'
+#' @examples
+#' require(detrending)
+#'
+#' var_linear(rnorm(100)) # ~1
+#'
 #' @export
 var_linear <- function(x) {
   y <- 1:length(x)
@@ -79,6 +95,13 @@ var_linear <- function(x) {
 #'
 #' @returns Numeric. The covariance between variables x and y.
 #' 
+#' @examples
+#' require(detrending)
+#'
+#' cov_term(x = rnorm(10), y = rnorm(10), term = "var")
+#' cov_term(x = rnorm(10), y = rnorm(10), term = "two")
+#' cov_term(x = rnorm(10), y = rnorm(10), term = "three")
+#'
 #' @export
 cov_term <- function(x, y, term = "var") {
   # Match argument for variance function to use
@@ -98,6 +121,13 @@ cov_term <- function(x, y, term = "var") {
 #'
 #' @returns A matrix variance/covariance
 #' 
+#' @examples
+#' require(detrending)
+#' data(example_data_wide) # Load sample data
+#' example_data_wide[is.na(example_data_wide)] <- 0 # Change NAs to 0
+#'
+#' vcov_term(x = example_data_wide[,-c(1:2)], term = "var")
+#'
 #' @export
 vcov_term <- function(x, term = "var") {
   

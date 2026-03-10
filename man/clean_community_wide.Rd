@@ -35,6 +35,15 @@ A data.frame with the community data in wide format.
 \description{
 Clean community data in wide format
 }
+\examples{
+require(detrending)
+
+data(example_data_wide) # Load sample data
+clean_community_wide(x = example_data_wide,
+                     community_col = "comm",
+                     time_col = "time")
+
+}
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
 }

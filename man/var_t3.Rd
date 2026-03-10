@@ -21,6 +21,12 @@ The three term local variance is calculated using the following expression:
 
 Where \eqn{x_{i}} is the abundance of species \eqn{i} along time \eqn{t}.
 }
+\examples{
+require(detrending)
+
+var_t3(rnorm(100)) # ~1
+
+}
 \references{
 \itemize{
 \item Hill, M. O. (1973). The intensity of spatial pattern in plant communities. The Journal of Ecology, 225-235.

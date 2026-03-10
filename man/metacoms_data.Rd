@@ -26,6 +26,18 @@ A data.frame with the community data ready to use by the \code{metacomstab_term(
 \description{
 Prepare metacommunity data
 }
+\examples{
+require(detrending)
+
+# Clean data in wide format
+data(example_data_wide)
+metacoms_data(x = example_data_wide, 
+                input_format = "wide",
+                community_col = "comm",
+                time_col = "time",
+                taxa_col = "species")
+
+}
 \author{
-@author Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
+Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
 }
