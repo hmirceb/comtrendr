@@ -20,7 +20,7 @@
 #' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
-#' @export
+#' @noRd
 cv2_decomp_term <- function(x, 
                             community_col = "comm",
                             time_col = "time",
@@ -222,7 +222,7 @@ print.cv.dec <- function (x, ...) {
 
 #' Decompose metacommunity stability in its components
 #' 
-#' This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond *et al.* (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates. Ideally input data should be processed with `clean_community()` before use. A wrapper for `cv2_decomp_term()` that returns a data.frame instead.
+#' This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond *et al.* (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates.
 #'
 #' @param x A data.frame. Community matrix with time in rows and taxa in columns.
 #' @param community_col Character. Name of column with the community identifier.
@@ -232,7 +232,19 @@ print.cv.dec <- function (x, ...) {
 #' @param nrand Numeric. Number of randomizations to estimate confidence intervals. Default NA.
 #' @param conf Numeric. Confidence level to estimate confidence intervals. Default 0.95.
 #'
-#' @returns A data.frame with one row per metacommunity and one column per stability component.
+#' @returns A data.frame with one column per stability component:
+#' 
+#'  - `CV2`:
+#'  - `Pop.var`:
+#'  - `Pop.sync`:
+#'  - `direct`:
+#'  - `intra`:
+#'  - `indirect`:
+#'  - `no`:
+#'  - `delta`:
+#'  - `MP`:
+#'  - `CCi`:
+#'  - `CCno`:
 #'
 #' @references
 #' - Segrestin, J., & Lepš, J. (2022). Towards a better ecological understanding of metacommunity stability: A multiscale framework to disentangle population variability and synchrony effects. Journal of Ecology, 110(7), 1632-1645.
@@ -240,6 +252,19 @@ print.cv.dec <- function (x, ...) {
 #'
 #' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
+#' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Load and clean data
+#' data(example_data_wide)
+#' metacomm_df <- clean_community(x = example_data_wide, 
+#'                 input_format = "wide",
+#'                 community_col = "comm",
+#'                 time_col = "time")
+#'                 
+#' # Partition metacommunity stability       
+#' metacomstab_term(x = metacomm_df)
 #' 
 #' @export
 metacomstab_term <- function(x, 

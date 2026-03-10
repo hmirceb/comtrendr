@@ -30,10 +30,37 @@ metacomstab_term(
 \item{conf}{Numeric. Confidence level to estimate confidence intervals. Default 0.95.}
 }
 \value{
-A data.frame with one row per metacommunity and one column per stability component.
+A data.frame with one column per stability component:
+\itemize{
+\item \code{CV2}:
+\item \code{Pop.var}:
+\item \code{Pop.sync}:
+\item \code{direct}:
+\item \code{intra}:
+\item \code{indirect}:
+\item \code{no}:
+\item \code{delta}:
+\item \code{MP}:
+\item \code{CCi}:
+\item \code{CCno}:
+}
 }
 \description{
-This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond \emph{et al.} (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates. Ideally input data should be processed with \code{clean_community()} before use. A wrapper for \code{cv2_decomp_term()} that returns a data.frame instead.
+This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond \emph{et al.} (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates.
+}
+\examples{
+require(detrending)
+
+# Load and clean data
+data(example_data_wide)
+metacomm_df <- clean_community(x = example_data_wide, 
+                input_format = "wide",
+                community_col = "comm",
+                time_col = "time")
+                
+# Partition metacommunity stability       
+metacomstab_term(x = metacomm_df)
+
 }
 \references{
 \itemize{

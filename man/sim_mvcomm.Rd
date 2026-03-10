@@ -8,7 +8,7 @@ sim_mvcomm(
   n_sp = 10,
   years = 25,
   tot_abu = 200 * n_sp,
-  power = 1.6,
+  power = 1.8,
   bound_pos = TRUE,
   corr = 0.5,
   p = 0.8,
