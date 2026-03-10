@@ -15,14 +15,14 @@
 #' \eqn{ \Delta} is the dominance effect, \eqn{ \Psi} is the asynchrony effect, and \eqn{ \omega} is the averaging effect.
 #' 
 #' @returns An object of class `comstab`, a list of named vectors containing the following components:
-#'  * `CVs`: a named vector of calculated coefficient of variations. `CVe` is the CV of an average species,
+#'  - `CVs`: a named vector of calculated coefficient of variations. `CVe` is the CV of an average species,
 #'  `CVtilde` is the mean of species CVs weighted by their relative abundances, `CVa` is the expected community CV if 
 #'   the community was stabilized by species asynchrony only, and `CVc` is the observed community CV.
 #'   
-#'  * `Stabilization`: a named vector of the stabilizing effects. `tau` is the total stabilization, `Delta` is
+#'  - `Stabilization`: a named vector of the stabilizing effects. `tau` is the total stabilization, `Delta` is
 #'  the dominance effect, `Psi` is the asynchrony effect, and `omega` is the averaging effect.
 #'  
-#'  * `Relative`: a named vector of the relative contributions of each stabilizing effect to the total stabilization.
+#'  - `Relative`: a named vector of the relative contributions of each stabilizing effect to the total stabilization.
 #'  `Delta_cont`, `Psi_cont`, and `omega_cont` are the relative contribution of respectively, the dominance, asynchrony, and averaging effects to the total stabilization.
 #'  Returns a vector of NAs if any Stabilizing effect is higher than 1.
 #'  
@@ -33,8 +33,19 @@
 #' @author Jan Lepš, \email{suspa@@prf.jcu.cz} 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Load and clean data
+#' data(example_data_wide)
+#' metacomm_df <- clean_community_wide(x = example_data_wide)
+#' comm_df <- metacomm_df[metacomm_df$comm == 1,][,-1]
+#' 
+#' # Decompose CV into stability components
+#' comstab_term(x = comm_df, time_col = "time")
+#' 
 #' @export
-comstab_term = function(x, 
+comstab_term <- function(x, 
                         term = "var",
                         time_col = "time") {
   

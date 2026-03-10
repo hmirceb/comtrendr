@@ -3,8 +3,8 @@
 #' @param x Numeric. A vector of abundances.
 #'
 #' @returns A numeric value.
-#' @export
-#'
+#' 
+#' @noRd
 richness <- function(x){
   sum(x > 0)
 }
@@ -15,8 +15,8 @@ richness <- function(x){
 #' @param relative Boolean. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
 #' 
 #' @returns A numeric value.
-#' @export
-#'
+#' 
+#' @noRd
 shannon <- function(x, relative = FALSE) {
   a <- x[x != 0]
   if ( isFALSE(relative)) {
@@ -34,8 +34,8 @@ shannon <- function(x, relative = FALSE) {
 #' @param relative Boolean. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
 #' 
 #' @returns A numeric value.
-#' @export
-#'
+#' 
+#' @noRd
 simpson <- function(x, relative = FALSE) {
   a <- x[x != 0]
   if ( isFALSE(relative) ) {
@@ -52,8 +52,8 @@ simpson <- function(x, relative = FALSE) {
 #' @param x Numeric. A vector of abundances.
 #'
 #' @returns A numeric value.
-#' @export
-#'
+#' 
+#' @noRd
 pielou <- function(x) {
   J <- shannon(x)/log(richness(x))
   return(J)
@@ -68,9 +68,9 @@ pielou <- function(x) {
 #' @param time_col Character. Name of column with time variable.
 #' @param trend Character. Method to check for trends in species abundance
 #'
-#' @returns A data.frame.
+#' @returns A data.frame wiht.
+#' 
 #' @export
-#'
 comm_expl <- function(x,
                      by_timestep = FALSE,
                      total = c("average", "overall"),

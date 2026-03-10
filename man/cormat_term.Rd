@@ -7,7 +7,7 @@
 cormat_term(x, term = "var")
 }
 \arguments{
-\item{x}{A dataframe. A community matrix of species abundance with years as rows and species as columns.}
+\item{x}{A data.frame. A community matrix of species abundance with years as rows and species as columns.}
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariane), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 }
@@ -16,4 +16,11 @@ A symmetric correlation matrix.
 }
 \description{
 Pearson's correlation matrix
+}
+\examples{
+require(detrending)
+
+comm_df <- matrix(rnorm(30), ncol = 5)
+cormat_term(comm_df, term = "var")
+
 }

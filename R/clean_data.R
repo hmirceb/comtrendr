@@ -315,3 +315,52 @@ clean_community <- function(x,
   
   return(clean_data)
 }
+
+#' Prepare metacommunity data from a wide format data.frame
+#'
+#' @param x A data.frame. Community matrix with time in rows and taxa in columns.
+#' @param community_col Character. Name of column with the community identifier. Default "comm".
+#' @param time_col Character. Name of column with time variable. Default "time".
+#' @param taxa_col Character. Name of column with taxa names. Default "species".
+#'
+#' @returns A data.frame with the community data ready to use by the `metacomstab_term()` function.
+#' 
+#' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
+#' 
+#' @noRd
+metacoms_data <- function(x, 
+                         community_col = "comm",
+                         time_col = "time",
+                         taxa_col = "species"
+) {
+  # Get community and time columns
+  ids <- colnames(x) %in% c(community_col, time_col)
+  
+  # Pivot to long format
+  data_long <- stats::reshape(
+    data = x,
+    direction = "long",
+    varying = colnames(x[,!ids]),
+    v.names = "value",
+    timevar = taxa_col,
+    times = colnames(x[,!ids]),
+    idvar = c(community_col, time_col)
+  )
+  
+  # Pivot to wide format
+  data_wide <- stats::reshape(
+    data = data_long,
+    direction = "wide",
+    idvar = c(community_col, taxa_col),
+    timevar = time_col
+  )
+  
+  # Clean column and row names
+  colnames(data_wide) = gsub("value.", "t", colnames(data_wide))
+  rownames(data_wide) = NULL
+  
+  # Set NAs to 0
+  data_wide[is.na(data_wide)] <- 0
+  
+  return(data_wide)
+}

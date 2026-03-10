@@ -13,21 +13,26 @@
 #' @param bimodal_trend Boolean. If TRUE half of the species have negative trends and half positive. Default FALSE.
 #'
 #' @returns A named list with three elements:
-#' * `sim_data`: A data.frame with the simulated data, species in columns and time steps in rows.
+#' - `sim_data`: A data.frame with the simulated data, species in columns and time steps in rows.
 #' 
-#' * `true_trend`: A named vector with the true mean trends of each simulated species. 
+#' - `true_trend`: A named vector with the true mean trends of each simulated species. 
 #' 
-#' * `params`: A named vector with the parameters used to simulate the data.
+#' - `params`: A named vector with the parameters used to simulate the data.
 #' 
 #' @author Lars Götzenberger, \email{jsegrestin@@gmail.com}
 #' @author Jan Lepš, \email{suspa@@prf.jcu.cz}
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' sim_mvcomm(n_sp = 15, years = 30)
+#' 
 #' @export
 sim_mvcomm <- function(n_sp = 10,
                        years = 25,
                        tot_abu = 200 * n_sp,
-                       power = 1.6,
+                       power = 1.8,
                        bound_pos = TRUE,
                        corr = 0.5,
                        p = 0.8,
@@ -145,25 +150,30 @@ sim_mvcomm <- function(n_sp = 10,
 #'
 #' @return A named list with four elements:
 #'
-#' * `sim_data`: The simulated temporal community data where species are
+#' - `sim_data`: The simulated temporal community data where species are
 #' columns and years are rows.
 #'
-#' * `param_years`: Values for the environmental cue and the trend throughout the
+#' - `param_years`: Values for the environmental cue and the trend throughout the
 #' years. Note that these contain values even if the environment or trend are
 #' switched off.
 #'
-#' * `param_species`: A data frame containing the responses to the environment and
+#' - `param_species`: A data frame containing the responses to the environment and
 #' the long term trend, as well as the mean abundance and its standard deviation
 #' for each species in the community.
 #'
-#' * `param_general`: A data frame with only one row, containing all the parameter
+#' - `param_general`: A data frame with only one row, containing all the parameter
 #' settings from the function call.
 #' 
 #' @author Lars Götzenberger, \email{jsegrestin@@gmail.com}
 #' @author Jan Lepš, \email{suspa@@prf.jcu.cz}
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' sim_comm(n_sp = 15, years = 30)
+#' 
 #' @export
-syngenr <- function(years = 100,
+sim_comm <- function(years = 100,
                     n_sp = 16,
                     max_rel_abu = 0.6,
                     tot_abu = 300,
@@ -264,7 +274,8 @@ syngenr <- function(years = 100,
 #'
 #' @return A vector with the length of the number of species containing the
 #' relative abundances of the species.
-#' @export
+#' 
+#' @noRd
 geom_seq <- function(max_rel_abu, n_sp) {
   rel.abu <- max_rel_abu
   remaining <- 1 - rel.abu
@@ -302,7 +313,8 @@ geom_seq <- function(max_rel_abu, n_sp) {
 #' value representing the response of a species to hypotehtical cue (i.e. in the
 #' context of the simulation, either an environmental signal or a longterm
 #' monotonic abundance trend).
-#' @export
+#' 
+#' @noRd
 response <- function(state = TRUE,
                      bimodal = FALSE,
                      mean = 1,

@@ -7,6 +7,11 @@
 #'
 #' @returns A numeric value.
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' cor_term(x = 1:10, y = 10:1, term = "var")
+#' 
 #' @export
 cor_term <- function(x, y, term = "var") {
   # Match argument for variance function to use
@@ -25,10 +30,16 @@ cor_term <- function(x, y, term = "var") {
 
 #' Pearson's correlation matrix
 #'
-#' @param x A dataframe. A community matrix of species abundance with years as rows and species as columns.
+#' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns.
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariane), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #'
 #' @returns A symmetric correlation matrix.
+#' 
+#' @examples
+#' require(detrending)
+#' 
+#' comm_df <- matrix(rnorm(30), ncol = 5)
+#' cormat_term(comm_df, term = "var")
 #' 
 #' @export
 cormat_term = function(x, term = "var") {

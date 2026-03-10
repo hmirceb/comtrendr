@@ -36,6 +36,18 @@ where \eqn{CV_{com}} is the community coefficient of variation (reciprocal of co
 \eqn{CV_e} is the expected community CV when controlling for the dominance structure and species temporal synchrony,
 \eqn{ \Delta} is the dominance effect, \eqn{ \Psi} is the asynchrony effect, and \eqn{ \omega} is the averaging effect.
 }
+\examples{
+require(detrending)
+
+# Load and clean data
+data(example_data_wide)
+metacomm_df <- clean_community_wide(x = example_data_wide)
+comm_df <- metacomm_df[metacomm_df$comm == 1,][,-1]
+
+# Decompose CV into stability components
+comstab_term(x = comm_df, time_col = "time")
+
+}
 \references{
 \itemize{
 \item Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.

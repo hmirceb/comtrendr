@@ -130,35 +130,6 @@ var_t2mv <- function(x, d = "euclidean"){
   return(mv_var)
 }
 
-# #' Multivariate three term local quadratic variance of community composition
-# #'
-# #' @param x A community abundance matrix.
-# #' @param d Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.
-# #'
-# #' @returns
-# #'
-# #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
-# #'
-# #' @export
-# #'
-# var_t3mv <- function(x, method = c("euclidean", "chord")){
-#   if( !d %in% c("euclidean", "chord") ){
-#     stop("Unsuitable distance metric. Please choose one of 'euclidean' or 'chord'")
-#   }
-# 
-#   # Apply chord transformation if necessary
-#   if( method == "chord" ) {
-#     x <- chord_transform(x)
-#   }
-#   # Compute distances
-#   dis <- as.matrix(dist(x))
-#   # Get superdiagonal (distance between consecutive years)
-#   dis <- dis[row(dis) == col(dis) + 1]
-#   mv_var <- var_t3(dis)
-# 
-#   return(mv_var)
-# }
-
 #' Multivariate coefficient of variation
 #'
 #' @param x A community abundance matrix.

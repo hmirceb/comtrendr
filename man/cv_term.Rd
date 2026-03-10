@@ -17,3 +17,9 @@ A numeric value.
 \description{
 Calculate the coefficient of variation (CV) of a variable
 }
+\examples{
+require(detrending)
+d <- rnorm(1000, mean = 10, sd = 30)
+cv_term(d) # ~3
+
+}

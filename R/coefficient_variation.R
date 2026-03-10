@@ -5,6 +5,11 @@
 #'
 #' @returns A numeric value.
 #' 
+#' @examples
+#' require(detrending)
+#' d <- rnorm(1000, mean = 10, sd = 30)
+#' cv_term(d) # ~3
+#' 
 #' @export
 cv_term <- function(x, term = "var") {
   # Match variance function
@@ -36,6 +41,24 @@ cv_term <- function(x, term = "var") {
 #'
 #' @returns If total = TRUE, a numeric value with the CV of the sum of annual abundances. If total = FALSE, a named list with the average CV across the populations in the community and the CVs of each population.
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Load and clean data
+#' data(example_data_wide)
+#' metacomm_df <- clean_community_wide(x = example_data_wide)
+#' comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)]
+#' 
+#' # Calculate CV of total abundance
+#' cv_com_term(x = comm_df, 
+#'            total = TRUE,
+#'            term = "var")
+#'            
+#' # Calculate average CV of populations
+#' cv_com_term(x = comm_df, 
+#'            total = FALSE,
+#'            term = "var")
+#'            
 #' @export
 cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time") {
   

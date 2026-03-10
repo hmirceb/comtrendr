@@ -23,3 +23,22 @@ If total = TRUE, a numeric value with the CV of the sum of annual abundances. If
 \description{
 CV of a community
 }
+\examples{
+require(detrending)
+
+# Load and clean data
+data(example_data_wide)
+metacomm_df <- clean_community_wide(x = example_data_wide)
+comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)]
+
+# Calculate CV of total abundance
+cv_com_term(x = comm_df, 
+           total = TRUE,
+           term = "var")
+           
+# Calculate average CV of populations
+cv_com_term(x = comm_df, 
+           total = FALSE,
+           term = "var")
+           
+}
