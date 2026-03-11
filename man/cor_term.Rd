@@ -21,5 +21,4 @@ Pearson's correlation index between two variables based on variance or Hill's 2 
 require(detrending)
 
 cor_term(x = 1:10, y = 10:1, term = "var")
-
 }

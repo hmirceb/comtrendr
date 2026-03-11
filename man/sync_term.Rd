@@ -34,7 +34,7 @@ There are four synchrony indices available:
 \itemize{
 \item Segrestin \emph{et al.}'s (2024) \eqn{\psi}:
 \deqn{\psi = \sqrt{ \phi } ^ \alpha = \left( \dfrac{ \sigma_{x_{T}} }{ \sum_{i=1}^{S}{\sigma_{x_{i}}} } \right) ^ \alpha }
-\deqn{\alpha = \dfrac{ log(1 / 2) }{ log( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 ) } }
+\deqn{\alpha = \dfrac{ \log_{10}{1 / 2} }{ \log_{10} \left( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 \right) } }
 \item Loreau & Mazancourt's (2008) \eqn{\phi}:
 \deqn{\phi = \dfrac{ \sigma_{x_{T}}^2 }{ (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 }}
 \item Gross \emph{et al.}'s (2014) \eqn{\eta}:
@@ -42,10 +42,17 @@ There are four synchrony indices available:
 \item Blüthgen \emph{et al.}'s (2016) weighted version of \eqn{\eta}, \eqn{\eta_{w}}:
 \deqn{\eta_{w} = \sum_{i=1}^{S}{p_{i} corr(x_{i},\sum_{j \neq i}^{S}{x_{j})}}}
 \item Lepš \emph{et al.} (2018) \emph{logvar} ratio:
-\deqn{logvar = log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
+\deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
 }
 
 Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step and \eqn{p_{i}} the average relative abundance of species \eqn{i}.
+}
+\examples{
+require(detrending)
+
+# Simulate community data
+comm_df <- sim_mvcomm()
+sync_term(x = comm_df$sim_data)
 }
 \references{
 \itemize{

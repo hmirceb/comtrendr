@@ -27,7 +27,6 @@
 #' require(detrending)
 #' 
 #' sim_mvcomm(n_sp = 15, years = 30)
-#' 
 #' @export
 sim_mvcomm <- function(n_sp = 10,
                        years = 25,
@@ -171,7 +170,6 @@ sim_mvcomm <- function(n_sp = 10,
 #' require(detrending)
 #' 
 #' sim_comm(n_sp = 15, years = 30)
-#' 
 #' @export
 sim_comm <- function(years = 100,
                     n_sp = 16,

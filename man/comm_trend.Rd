@@ -2,9 +2,9 @@
 % Please edit documentation in R/trends.R
 \name{comm_trend}
 \alias{comm_trend}
-\title{Title}
+\title{Estimate population trends in a community}
 \usage{
-comm_trend(x, time_col = "time", method = "dennis", plot = FALSE)
+comm_trend(x, time_col = "time", method = "loglinear", plot = FALSE)
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns.}
@@ -16,8 +16,17 @@ comm_trend(x, time_col = "time", method = "dennis", plot = FALSE)
 \item{plot}{Boolean. Plot species abundances and their estimated trends. Default FALSE.}
 }
 \value{
-A data.frame with one row per species in the community.
+A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95\% confidence interval.
 }
 \description{
-Title
+Estimate population trends in a community
+}
+\examples{
+require(detrending)
+
+# Simulate community data with trends
+comm_df <- sim_mvcomm(switch_trend = T, bimodal_trend = T)
+
+# Estimate trend for each species and plot estimated trends
+comm_trend(comm_df$sim_data, method = "loglinear", plot = T)
 }

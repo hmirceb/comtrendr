@@ -40,5 +40,4 @@ cv_com_term(x = comm_df,
 cv_com_term(x = comm_df, 
            total = FALSE,
            term = "var")
-           
 }

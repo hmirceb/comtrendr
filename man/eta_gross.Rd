@@ -21,6 +21,13 @@ A numeric value.
 \description{
 This function estimates Gross et al. 2014 synchrony index Eta and its weighted version by Blüthgen et al. 2016 using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
 }
+\examples{
+require(detrending)
+
+# Simulate community data
+comm_df <- sim_mvcomm()
+eta_gross(x = comm_df$sim_data)
+}
 \references{
 \itemize{
 \item Gross, K., Cardinale, B. J., Fox, J. W., Gonzalez, A., Loreau, M., Wayne Polley, H., ... & van Ruijven, J. (2014). Species richness and the temporal stability of biomass production: a new analysis of recent biodiversity experiments. The American Naturalist, 183(1), 1-12.

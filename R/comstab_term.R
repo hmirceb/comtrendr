@@ -37,13 +37,10 @@
 #' require(detrending)
 #' 
 #' # Load and clean data
-#' data(example_data_wide)
-#' metacomm_df <- clean_community_wide(x = example_data_wide)
-#' comm_df <- metacomm_df[metacomm_df$comm == 1,][,-1]
+#' comm_df <- sim_mvcomm(n_sp = 15, years = 30)
 #' 
 #' # Decompose CV into stability components
 #' comstab_term(x = comm_df, time_col = "time")
-#' 
 #' @export
 comstab_term <- function(x, 
                         term = "var",

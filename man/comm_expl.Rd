@@ -27,7 +27,7 @@ comm_expl(
 \item{trend}{Character. Method to check for trends in species abundance}
 }
 \value{
-A data.frame wiht.
+A data.frame with.
 }
 \description{
 Explore community data

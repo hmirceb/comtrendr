@@ -19,6 +19,13 @@ A numeric value.
 \description{
 This function estimates Loreau & Mazancourts 2008 Phi synchrony index using standard and detrended versions of variances based on Hill's 2 and 3 terms local quadratic variance.
 }
+\examples{
+require(detrending)
+
+# Simulate community data
+comm_df <- sim_mvcomm()
+phi_loreau(x = comm_df$sim_data)
+}
 \references{
 \itemize{
 \item Loreau, M., & de Mazancourt, C. (2008). Species synchrony and its drivers: neutral and nonneutral community dynamics in fluctuating environments. The American Naturalist, 172(2), E48-E66.

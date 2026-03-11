@@ -9,7 +9,6 @@
 #' require(detrending)
 #' d <- rnorm(1000, mean = 10, sd = 30)
 #' cv_term(d) # ~3
-#' 
 #' @export
 cv_term <- function(x, term = "var") {
   # Match variance function
@@ -58,7 +57,6 @@ cv_term <- function(x, term = "var") {
 #' cv_com_term(x = comm_df, 
 #'            total = FALSE,
 #'            term = "var")
-#'            
 #' @export
 cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time") {
   

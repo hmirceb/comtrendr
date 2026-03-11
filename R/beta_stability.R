@@ -24,7 +24,6 @@
 #' comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)] # Select only community 1
 #' # Transform
 #' chord_transform(x = comm_df)
-#' 
 #' @export
 chord_transform <- function(x) {
   c_t <- x / sqrt(rowSums(x^2))
@@ -57,7 +56,6 @@ chord_transform <- function(x) {
 #' # Calculate multivariate variance
 #' var_mv(x = comm_df, d = "euclidean") # 183.752
 #' var_mv(x = comm_df, d = "chord") # 0.399
-#' 
 #' @export
 var_mv <- function(x, d = "euclidean"){
   if( !d %in% c("euclidean", "chord") ){
@@ -109,7 +107,6 @@ var_mv <- function(x, d = "euclidean"){
 #' # Calculate multivariate variance
 #' var_t2mv(x = comm_df, d = "euclidean") # 193.893
 #' var_t2mv(x = comm_df, d = "chord") # 0.370
-#' 
 #' @export
 var_t2mv <- function(x, d = "euclidean"){
   if( !d %in% c("euclidean", "chord") ){
@@ -155,7 +152,6 @@ var_t2mv <- function(x, d = "euclidean"){
 #' # Calculate multivariate variance
 #' cv_mv(x = comm_df, d = "euclidean", term = "var") # 0.785
 #' cv_mv(x = comm_df, d = "euclidean", term = "two") # 0.807
-#' 
 #' @export
 cv_mv <- function(x, d = "euclidean", term = "var") {
   if( !d %in% c("euclidean", "chord") ){

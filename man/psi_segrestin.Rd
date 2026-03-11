@@ -26,9 +26,16 @@ Estimate \eqn{\psi},
 
 Where \eqn{\alpha} is a scaling factor estimated as:
 
-\deqn{\alpha = \dfrac{ log(1 / 2) }{ log( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 ) } }
+\deqn{\alpha = \dfrac{ \log_{10}{1 / 2} }{ \log_{10}{ \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 } } }
 
 Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step.
+}
+\examples{
+require(detrending)
+
+# Simulate community data
+comm_df <- sim_mvcomm()
+psi_segrestin(x = comm_df$sim_data)
 }
 \references{
 \itemize{

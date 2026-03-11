@@ -62,7 +62,6 @@ clean_community(x = example_data_wide,
                 input_format = "wide",
                 community_col = "comm",
                 time_col = "time")
-
 }
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}

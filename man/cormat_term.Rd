@@ -22,5 +22,4 @@ require(detrending)
 
 comm_df <- matrix(rnorm(30), ncol = 5)
 cormat_term(comm_df, term = "var")
-
 }

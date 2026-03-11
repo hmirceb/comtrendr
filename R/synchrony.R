@@ -16,7 +16,7 @@
 #' 
 #' Where \eqn{\alpha} is a scaling factor estimated as:
 #' 
-#' \deqn{\alpha = \dfrac{ log(1 / 2) }{ log( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 ) } } 
+#' \deqn{\alpha = \dfrac{ \log_{10}{1 / 2} }{ \log_{10}{ \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 } } } 
 #' 
 #' Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step.
 #' 
@@ -28,6 +28,12 @@
 #' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Simulate community data
+#' comm_df <- sim_mvcomm()
+#' psi_segrestin(x = comm_df$sim_data)
 #' @export
 psi_segrestin <- function(x, term = "var", time_col = "time"){
   # Match variance function
@@ -72,6 +78,12 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
 #' @references
 #' - Loreau, M., & de Mazancourt, C. (2008). Species synchrony and its drivers: neutral and nonneutral community dynamics in fluctuating environments. The American Naturalist, 172(2), E48-E66.
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Simulate community data
+#' comm_df <- sim_mvcomm()
+#' phi_loreau(x = comm_df$sim_data)
 #' @export
 phi_loreau <- function(x, term = "var", time_col = "time") {
   
@@ -110,6 +122,12 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
 #' - Gross, K., Cardinale, B. J., Fox, J. W., Gonzalez, A., Loreau, M., Wayne Polley, H., ... & van Ruijven, J. (2014). Species richness and the temporal stability of biomass production: a new analysis of recent biodiversity experiments. The American Naturalist, 183(1), 1-12.
 #' - Blüthgen, N., Simons, N. K., Jung, K., Prati, D., Renner, S. C., Boch, S., ... & Gossner, M. M. (2016). Land use imperils plant and animal community stability through changes in asynchrony rather than diversity. Nature Communications, 7(1), 10697.
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Simulate community data
+#' comm_df <- sim_mvcomm()
+#' eta_gross(x = comm_df$sim_data)
 #' @export
 eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
   
@@ -168,6 +186,12 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 #' @references
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Simulate community data
+#' comm_df <- sim_mvcomm()
+#' logvar_ratio(x = comm_df$sim_data)
 #' @export
 logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
   
@@ -200,10 +224,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
   } else {
     sync <- v_ratio
   }
-  # if ( term == "three") {
-  #   sync <- (var_com - var_sps)/var_sps
-  
-  # sync <- log10(var_com/var_sps) 
+
   return(sync)
 }
 
@@ -222,7 +243,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #'
 #' - Segrestin *et al.*'s (2024) \eqn{\psi}: 
 #' \deqn{\psi = \sqrt{ \phi } ^ \alpha = \left( \dfrac{ \sigma_{x_{T}} }{ \sum_{i=1}^{S}{\sigma_{x_{i}}} } \right) ^ \alpha } 
-#' \deqn{\alpha = \dfrac{ log(1 / 2) }{ log( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 ) } } 
+#' \deqn{\alpha = \dfrac{ \log_{10}{1 / 2} }{ \log_{10} \left( \sum_{i=1}^{S}{\sigma_{x_{i}}^2} / (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 \right) } } 
 #' 
 #' - Loreau & Mazancourt's (2008) \eqn{\phi}:
 #' \deqn{\phi = \dfrac{ \sigma_{x_{T}}^2 }{ (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 }}
@@ -234,7 +255,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' \deqn{\eta_{w} = \sum_{i=1}^{S}{p_{i} corr(x_{i},\sum_{j \neq i}^{S}{x_{j})}}}
 #' 
 #' - Lepš *et al.* (2018) *logvar* ratio:
-#' \deqn{logvar = log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
+#' \deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
 #' 
 #' Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step and \eqn{p_{i}} the average relative abundance of species \eqn{i}.
 #' 
@@ -247,6 +268,12 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' - Blüthgen, N., Simons, N. K., Jung, K., Prati, D., Renner, S. C., Boch, S., ... & Gossner, M. M. (2016). Land use imperils plant and animal community stability through changes in asynchrony rather than diversity. Nature Communications, 7(1), 10697.
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
 #' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Simulate community data
+#' comm_df <- sim_mvcomm()
+#' sync_term(x = comm_df$sim_data)
 #' @export
 sync_term <- function(x,
                       index = c("psi", "phi", "eta", "logvar"),  

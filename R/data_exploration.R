@@ -68,19 +68,27 @@ pielou <- function(x) {
 #' @param time_col Character. Name of column with time variable.
 #' @param trend Character. Method to check for trends in species abundance
 #'
-#' @returns A data.frame wiht.
+#' @returns A data.frame with.
 #' 
 #' @export
 comm_expl <- function(x,
-                     by_timestep = FALSE,
-                     total = c("average", "overall"),
-                     community_col = "comm",
-                     time_col = "time",
-                     trend = c("none", "dennis", "loglinear")){
+                      by_timestep = FALSE,
+                      total = "average",
+                      community_col = "comm",
+                      time_col = "time",
+                      trend = "none"){
+  # Check arguments
+  if( !total %in% c("average", "overall") ) {
+    stop("Argument 'total' must be one of 'average' or 'overall'")
+  }
+  
+  if( !trend %in% c("none", "dennis", "loglinear") ) {
+    stop("Argument 'trend' must be one of 'none', 'dennis' or 'loglinear'")
+  }
   
   # Check community column, if not present create one and assume a single community
   if( !community_col %in% colnames(x) ) {
-    warning("Missing 'community' column. Data are assumed to belong to a single community.",
+    warning("Missing community column. Data are assumed to belong to a single community.",
             call. = FALSE)
     community_col <- "comm"
     x <- cbind(comm = as.character(rep(1, times = nrow(x))), x)
@@ -90,6 +98,8 @@ comm_expl <- function(x,
   if( isFALSE(by_timestep) ){
     splitting_factor <- as.character(x[, community_col])
   } else {
+    # Check if a time column was specified and order rows
+    x <- check_time(x, time_col = time_col, term = "two", rm = FALSE)
     splitting_factor <- paste(sep = "_", x[, community_col], x[, time_col])
   }
   # split data by community
@@ -130,30 +140,30 @@ comm_expl <- function(x,
     # Format
     if( isFALSE(by_timestep) ){
       res <- data.frame(comm = unique(c_com[, community_col]),
-                       ny = ny, 
-                       S = S, 
-                       H = H, 
-                       J = J)
+                        ny = ny, 
+                        S = S, 
+                        H = H, 
+                        J = J)
       # Reorder result
       res <- res[with(res, order(res[, community_col])),]
     } else { # Information by timestep
       res <- data.frame(comm = unique(c_com[, community_col]),
-                       time = as.numeric(unique(c_com[, time_col])),
-                       S = S,
-                       H = H, 
-                       J = J)
+                        time = as.numeric(unique(c_com[, time_col])),
+                        S = S,
+                        H = H, 
+                        J = J)
       # Reorder result
       res <- res[with(res, order(res[, community_col], 
                                  res[, time_col])),]
       
     }
     return(res)
-    }
-    )
+  }
+  )
   # Join community-wise results into single df
   info_df <- do.call("rbind", info_by_comm)
   # Remove row names
   rownames(info_df) <- NULL
   
   return(info_df)
-  }
+}

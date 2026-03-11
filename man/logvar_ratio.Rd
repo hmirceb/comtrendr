@@ -21,6 +21,13 @@ A numeric value.
 \description{
 This function lets you estimate the synchrony index using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
 }
+\examples{
+require(detrending)
+
+# Simulate community data
+comm_df <- sim_mvcomm()
+logvar_ratio(x = comm_df$sim_data)
+}
 \references{
 \itemize{
 \item Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.

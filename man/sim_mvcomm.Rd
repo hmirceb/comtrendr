@@ -56,7 +56,6 @@ Simulate community from a multivariate normal
 require(detrending)
 
 sim_mvcomm(n_sp = 15, years = 30)
-
 }
 \author{
 Lars Götzenberger, \email{jsegrestin@gmail.com}

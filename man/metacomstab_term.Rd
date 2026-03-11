@@ -60,7 +60,6 @@ metacomm_df <- clean_community(x = example_data_wide,
                 
 # Partition metacommunity stability       
 metacomstab_term(x = metacomm_df)
-
 }
 \references{
 \itemize{

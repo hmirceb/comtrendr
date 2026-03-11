@@ -19,7 +19,6 @@
 #' clean_community_wide(x = example_data_wide,
 #'                      community_col = "comm",
 #'                      time_col = "time")
-#' 
 #' @export
 clean_community_wide <- function(x, 
          community_col = "comm",
@@ -156,7 +155,6 @@ clean_community_wide <- function(x,
 #'                      taxa_col = "species",
 #'                      abundance_col = "abundance")
 #' dim(data_wide) # 30 12
-#' 
 #' @export
 clean_community_long <- function(x, 
                                  community_col = "comm",
@@ -267,7 +265,6 @@ clean_community_long <- function(x,
 #'                 input_format = "wide",
 #'                 community_col = "comm",
 #'                 time_col = "time")
-#' 
 #' @export
 clean_community <- function(x, 
                             input_format = "wide",

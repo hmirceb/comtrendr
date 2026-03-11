@@ -15,7 +15,27 @@ trend_dennis(x, time = NULL)
 A named list with the mean annual growth rate in the natural logarithm scale and its variance.
 }
 \description{
-Estimate mean annual growth rate following Dennis et al. (2001).
+This function estimates the mean annual growth rate of a time series of abundance data following Dennis et al. (2001) (see Details).
+}
+\details{
+For a given a time series of abundances \eqn{n_{t}} the function estimates its mean growth rate \eqn{\mu} and variance \eqn{\sigma^2} using a linear regression model without intercept such as:
+\deqn{y_{i} \sim \mu t_{i} + \epsilon_{i} }
+\deqn{\epsilon_{i} \sim Normal(0, \sigma)}
+where \eqn{ y_{i} = \dfrac{ \ln{ ( n_{t}/n_{t-1}) } }{ t_{i} } } and \eqn{ t_{i} = \sqrt{ t_{t}-t_{t-1} } }
+
+Note that the confidence intervals for the estimate of \eqn{\mu} are not reliable.
+}
+\examples{
+require(detrending)
+
+# Simulate time series
+ts <- 5^seq(1, 2, by = 0.01)
+mean(diff(log(ts))) # True trend = 0.016 (~1.62\%)
+# Simulate some random noise
+noise <- rnorm(length(ts))
+
+# Estimate trend
+trend_dennis(ts+noise)
 }
 \references{
 \itemize{

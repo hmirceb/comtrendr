@@ -40,7 +40,6 @@ data_wide <- clean_community_long(x = example_data_long,
                      taxa_col = "species",
                      abundance_col = "abundance")
 dim(data_wide) # 30 12
-
 }
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}

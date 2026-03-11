@@ -93,7 +93,6 @@ Simulate community with fluctuations in species abundances across time
 require(detrending)
 
 sim_comm(n_sp = 15, years = 30)
-
 }
 \author{
 Lars Götzenberger, \email{jsegrestin@gmail.com}

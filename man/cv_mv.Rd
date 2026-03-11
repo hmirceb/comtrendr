@@ -33,7 +33,6 @@ comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)]
 # Calculate multivariate variance
 cv_mv(x = comm_df, d = "euclidean", term = "var") # 0.785
 cv_mv(x = comm_df, d = "euclidean", term = "two") # 0.807
-
 }
 \author{
 Jan Lepš, \email{suspa@prf.jcu.cz}

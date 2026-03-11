@@ -265,7 +265,6 @@ print.cv.dec <- function (x, ...) {
 #'                 
 #' # Partition metacommunity stability       
 #' metacomstab_term(x = metacomm_df)
-#' 
 #' @export
 metacomstab_term <- function(x, 
                             community_col = "comm",

@@ -11,7 +11,6 @@
 #' require(detrending)
 #' 
 #' cor_term(x = 1:10, y = 10:1, term = "var")
-#' 
 #' @export
 cor_term <- function(x, y, term = "var") {
   # Match argument for variance function to use
@@ -40,7 +39,6 @@ cor_term <- function(x, y, term = "var") {
 #' 
 #' comm_df <- matrix(rnorm(30), ncol = 5)
 #' cormat_term(comm_df, term = "var")
-#' 
 #' @export
 cormat_term = function(x, term = "var") {
   # Get number of species

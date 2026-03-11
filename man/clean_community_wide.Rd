@@ -42,7 +42,6 @@ data(example_data_wide) # Load sample data
 clean_community_wide(x = example_data_wide,
                      community_col = "comm",
                      time_col = "time")
-
 }
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}

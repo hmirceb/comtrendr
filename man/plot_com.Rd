@@ -15,6 +15,14 @@ A plot.
 \description{
 Plot a community time series
 }
+\examples{
+require(detrending)
+
+# Simulate data
+comm_data <- sim_mvcomm()
+plot_com(comm_data$sim_data)
+
+}
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
 }

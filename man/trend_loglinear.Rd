@@ -17,6 +17,21 @@ A numeric value with the slope of a linear regression of the log transformed abu
 \description{
 Estimate mean annual growth rate using linear regression
 }
+\details{
+For a given a time series of abundances \eqn{n_{t}} the function estimates a linear regression model with log-transformed abundances as the response variable and time steps (with \eqn{t_{0} = 0, t_{1} = 1...}) as the explanatory variable.
+}
+\examples{
+require(detrending)
+
+# Simulate time series
+ts <- 5^seq(1, 2, by = 0.01)
+mean(diff(log(ts))) # True trend = 0.016 (~1.62\%)
+# Simulate some random noise
+noise <- rnorm(length(ts))
+
+# Estimate trend
+trend_loglinear(ts+noise)
+}
 \author{
 Héctor Miranda-Cebrián, \email{hectorm94@gmail.com}
 }
