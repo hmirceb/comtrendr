@@ -7,8 +7,7 @@
 #' @param bound_pos Boolean. Bound abundance values to be positive. Default TRUE.
 #' @param corr Numeric. Correlation between populations.
 #' @param p Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with lower values indicating less dominance.
-#' @param switch_trend Boolean. Apply a trend to the data. Default FALSE.
-#' @param trend_mean Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline.
+#' @param trend_mean Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline. Default 0 (no trend).
 #' @param trend_sd Numeric. Standard deviation of the trend.
 #' @param bimodal_trend Boolean. If TRUE half of the species have negative trends and half positive. Default FALSE.
 #'
@@ -35,8 +34,7 @@ sim_mvcomm <- function(n_sp = 10,
                        bound_pos = TRUE,
                        corr = 0.5,
                        p = 0.8,
-                       switch_trend = FALSE,
-                       trend_mean = 1,
+                       trend_mean = 0,
                        trend_sd = 0.01,
                        bimodal_trend = FALSE){
   
@@ -52,7 +50,7 @@ sim_mvcomm <- function(n_sp = 10,
   
   # Simulate trends
   trend <- seq(-1, 1, length.out = years)
-  trend_resp <- response(state = switch_trend,
+  trend_resp <- response(state = TRUE,
                          n_sp = n_sp,
                          mean = trend_mean,
                          sd = trend_sd,
@@ -102,7 +100,6 @@ sim_mvcomm <- function(n_sp = 10,
                          bound_pos = bound_pos,
                          corr = corr,
                          p = p,
-                         switch_trend = switch_trend,
                          trend_mean = trend_mean,
                          trend_sd = trend_sd,
                          bimodal_trend = bimodal_trend))
@@ -120,7 +117,6 @@ sim_mvcomm <- function(n_sp = 10,
 #' individuals or the total amount of biomass.
 #' @param power Numeric. The slope of the relationship between log(mean) and log(variance) of
 #' the abundances of the species.
-#' @param switch_env Boolean. Defines if the species abundances respond to a hypothetical environmental cue. Default FALSE.
 #' @param mean_env_resp Numeric. The mean of the normal distribution from which each of the
 #' species responses to the environemtnal cue is drawn.
 #' @param sd_env_resp Numeric. The standard deviation around the mean of the normal distribution
@@ -132,8 +128,6 @@ sim_mvcomm <- function(n_sp = 10,
 #' of abundance in a species from one year to the next, is compensated by the
 #' loss of abundance in another species, where the latter has a similar mean
 #' abundance value. Default FALSE.
-#' @param switch_trend Boolean. Defines if there is a general monotonic
-#' trend in abundances of species across the timeseries. Default FALSE.
 #' @param mean_trend_resp Numeric. The mean of the normal distribution from which each of the
 #' species responses to the longterm trend is drawn. Default is 1.
 #' @param sd_trend_resp Numeric. The standard deviation around the mean of the normal
@@ -171,19 +165,17 @@ sim_mvcomm <- function(n_sp = 10,
 #' 
 #' sim_comm(n_sp = 15, years = 30)
 #' @export
-sim_comm <- function(years = 100,
-                    n_sp = 16,
+sim_comm <- function(years = 25,
+                    n_sp = 10,
                     max_rel_abu = 0.6,
                     tot_abu = 300,
                     power = 1.8,
-                    switch_env = FALSE,
-                    mean_env_resp = 1,
-                    sd_env_resp = 1,
+                    mean_env_resp = 0,
+                    sd_env_resp = 0.01,
                     bimodal_env = FALSE,
                     comp = FALSE,
-                    switch_trend = FALSE,
-                    mean_trend_resp = 1,
-                    sd_trend_resp = 1,
+                    mean_trend_resp = 0,
+                    sd_trend_resp = 0.01,
                     bimodal_trend = FALSE,
                     bound_pos = TRUE) {
   
@@ -195,7 +187,7 @@ sim_comm <- function(years = 100,
   # Simulate environmental trend
   env <- sample(seq(-0.5, 0.5, length.out = 3), years, replace = T)
   env_resp <- response(
-    state = switch_env,
+    state = TRUE,
     n_sp = n_sp,
     mean = mean_env_resp,
     sd = sd_env_resp,
@@ -205,7 +197,7 @@ sim_comm <- function(years = 100,
   
   # Simulate population trend
   trend = seq(-1, 1, length.out = years)
-  trend_resp <- response(state = switch_trend,
+  trend_resp <- response(state = TRUE,
                          n_sp = n_sp,
                          mean = mean_trend_resp,
                          sd = sd_trend_resp,
@@ -242,11 +234,9 @@ sim_comm <- function(years = 100,
     max_rel_abu,
     tot_abu,
     power,
-    switch_env,
     bimodal_env,
     mean_env_resp,
     sd_env_resp,
-    switch_trend,
     bimodal_trend,
     mean_trend_resp,
     sd_trend_resp,

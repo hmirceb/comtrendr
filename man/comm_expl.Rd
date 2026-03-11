@@ -7,10 +7,10 @@
 comm_expl(
   x,
   by_timestep = FALSE,
-  total = c("average", "overall"),
+  total = "average",
   community_col = "comm",
   time_col = "time",
-  trend = c("none", "dennis", "loglinear")
+  trend = "none"
 )
 }
 \arguments{
@@ -27,7 +27,11 @@ comm_expl(
 \item{trend}{Character. Method to check for trends in species abundance}
 }
 \value{
-A data.frame with.
+A named list:
+\itemize{
+\item \code{diversity}: A data.frame with several diversity metrics for each community.
+\item \code{trends}: A data.frame with the estimated mean abundance trends of the species in each community.
+}
 }
 \description{
 Explore community data

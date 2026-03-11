@@ -63,11 +63,11 @@ par(mfrow = c(1,1))
 We can also estimate linear trends in species abundance and test their statistical significance.
 ```{r trends, fig.height=4, fig.width=7}
 # Simulate data without strong trends
-sim_data_notrend <- sim_mvcomm(p = 0.8, switch_trend = T, trend_mean = 0)$sim_data
+sim_data_notrend <- sim_mvcomm(p = 0.8, trend_mean = 0)$sim_data
 comm_trend(x = sim_data_notrend, method = "loglinear", plot = T)
 
 # Simulate data with some postitive and negative trends
-sim_data_trend <- sim_mvcomm(p = 0.8, switch_trend = T, trend_mean = 0.4)$sim_data
+sim_data_trend <- sim_mvcomm(p = 0.8, trend_mean = 0.4)$sim_data
 comm_trend(x = sim_data_trend, method = "loglinear", plot = T)
 ```
 

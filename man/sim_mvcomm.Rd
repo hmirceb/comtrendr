@@ -12,8 +12,7 @@ sim_mvcomm(
   bound_pos = TRUE,
   corr = 0.5,
   p = 0.8,
-  switch_trend = FALSE,
-  trend_mean = 1,
+  trend_mean = 0,
   trend_sd = 0.01,
   bimodal_trend = FALSE
 )
@@ -33,9 +32,7 @@ sim_mvcomm(
 
 \item{p}{Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with lower values indicating less dominance.}
 
-\item{switch_trend}{Boolean. Apply a trend to the data. Default FALSE.}
-
-\item{trend_mean}{Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline.}
+\item{trend_mean}{Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline. Default 0 (no trend).}
 
 \item{trend_sd}{Numeric. Standard deviation of the trend.}
 

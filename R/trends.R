@@ -3,7 +3,7 @@
 #' This function estimates the mean annual growth rate of a time series of abundance data following Dennis et al. (2001) (see Details).
 #'
 #' @param x Numeric. A vector of abundances.
-#' @param time Numeric. A vector with the time steps corresponding to each value in x.
+#' @param time Numeric. A vector with the time steps corresponding to each value in x. If not provided data are assumed to be in order.
 #'
 #' @details For a given a time series of abundances \eqn{n_{t}} the function estimates its mean growth rate \eqn{\mu} and variance \eqn{\sigma^2} using a linear regression model without intercept such as:
 #' \deqn{y_{i} \sim \mu t_{i} + \epsilon_{i} }
@@ -61,7 +61,7 @@ trend_dennis  <- function(x, time = NULL){
 #' Estimate mean annual growth rate using linear regression 
 #'
 #' @param x Numeric. A vector of abundances.
-#' @param time Numeric. A vector with the time steps corresponding to each value in x.
+#' @param time Numeric. A vector with the time steps corresponding to each value in x. If not provided data are assumed to be in order.
 #'
 #' @details For a given a time series of abundances \eqn{n_{t}} the function estimates a linear regression model with log-transformed abundances as the response variable and time steps (with \eqn{t_{0} = 0, t_{1} = 1...}) as the explanatory variable.
 #' 
@@ -112,6 +112,7 @@ trend_loglinear  <- function(x, time = NULL){
 #' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #' @param method Character. Method to estimate the trends, one of "dennis" or "loglinear". Default "dennis".
+#' @param offset Boolean. Add a small offset to each species (1% of its median abundance) to avoid problems with log(0). Default TRUE.
 #' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
 #'
 #' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
@@ -125,7 +126,7 @@ trend_loglinear  <- function(x, time = NULL){
 #' # Estimate trend for each species and plot estimated trends
 #' comm_trend(comm_df$sim_data, method = "loglinear", plot = T)
 #' @export
-comm_trend <- function(x, time_col = "time", method = "loglinear", plot = FALSE){
+comm_trend <- function(x, time_col = "time", method = "loglinear", offset = TRUE, plot = FALSE){
   # Match variance function
   trend_func <- switch(
     method,
@@ -139,6 +140,13 @@ comm_trend <- function(x, time_col = "time", method = "loglinear", plot = FALSE)
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
   x <- remove_empty_sps(x = x, time_col = time_col)
   
+  # Add offset to avoid problems with log(0) when estimating trends
+  if( isTRUE(offset) ){
+    z <- apply(x, 2, median)*0.01
+    x <- sweep(x, 2, STATS = z, FUN = "+")
+  }
+  
+  # Estimate trends
   trends <- as.data.frame(
     cbind(
       taxa = colnames(x), 

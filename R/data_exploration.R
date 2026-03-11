@@ -68,8 +68,9 @@ pielou <- function(x) {
 #' @param time_col Character. Name of column with time variable.
 #' @param trend Character. Method to check for trends in species abundance
 #'
-#' @returns A data.frame with.
-#' 
+#' @returns A named list:
+#'  - `diversity`: A data.frame with several diversity metrics for each community.
+#'  - `trends`: A data.frame with the estimated mean abundance trends of the species in each community.
 #' @export
 comm_expl <- function(x,
                       by_timestep = FALSE,

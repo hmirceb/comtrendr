@@ -227,3 +227,21 @@ tpl <- function(vari, meani) {
   names(coefs) <- c("alpha", "beta")
   return(coefs)
 }
+
+#' Report a single warning if there are several
+#'
+#' @noRd
+warn_once <- function(expr) {
+  warned <- FALSE # initial state (no warnings yet)
+  withCallingHandlers(
+    expr, # run whatever function you want to suppress
+    warning = function(w) {
+      if ( isFALSE(warned)  ) {
+        warned <<- TRUE # <<- changes the variable outside warning()
+        warning(conditionMessage(w), call. = FALSE) # show warning from function
+      }
+      # suppress next warnings
+      invokeRestart("muffleWarning")
+    }
+  )
+}

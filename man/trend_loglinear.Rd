@@ -9,7 +9,7 @@ trend_loglinear(x, time = NULL)
 \arguments{
 \item{x}{Numeric. A vector of abundances.}
 
-\item{time}{Numeric. A vector with the time steps corresponding to each value in x.}
+\item{time}{Numeric. A vector with the time steps corresponding to each value in x. If not provided data are assumed to be in order.}
 }
 \value{
 A numeric value with the slope of a linear regression of the log transformed abundances.

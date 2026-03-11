@@ -5,19 +5,17 @@
 \title{Simulate community with fluctuations in species abundances across time}
 \usage{
 sim_comm(
-  years = 100,
-  n_sp = 16,
+  years = 25,
+  n_sp = 10,
   max_rel_abu = 0.6,
   tot_abu = 300,
   power = 1.8,
-  switch_env = FALSE,
-  mean_env_resp = 1,
-  sd_env_resp = 1,
+  mean_env_resp = 0,
+  sd_env_resp = 0.01,
   bimodal_env = FALSE,
   comp = FALSE,
-  switch_trend = FALSE,
-  mean_trend_resp = 1,
-  sd_trend_resp = 1,
+  mean_trend_resp = 0,
+  sd_trend_resp = 0.01,
   bimodal_trend = FALSE,
   bound_pos = TRUE
 )
@@ -35,8 +33,6 @@ individuals or the total amount of biomass.}
 \item{power}{Numeric. The slope of the relationship between log(mean) and log(variance) of
 the abundances of the species.}
 
-\item{switch_env}{Boolean. Defines if the species abundances respond to a hypothetical environmental cue. Default FALSE.}
-
 \item{mean_env_resp}{Numeric. The mean of the normal distribution from which each of the
 species responses to the environemtnal cue is drawn.}
 
@@ -51,9 +47,6 @@ species respond positively, and the other half negatively. Default FALSE.}
 of abundance in a species from one year to the next, is compensated by the
 loss of abundance in another species, where the latter has a similar mean
 abundance value. Default FALSE.}
-
-\item{switch_trend}{Boolean. Defines if there is a general monotonic
-trend in abundances of species across the timeseries. Default FALSE.}
 
 \item{mean_trend_resp}{Numeric. The mean of the normal distribution from which each of the
 species responses to the longterm trend is drawn. Default is 1.}

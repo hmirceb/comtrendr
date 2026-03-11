@@ -4,7 +4,13 @@
 \alias{comm_trend}
 \title{Estimate population trends in a community}
 \usage{
-comm_trend(x, time_col = "time", method = "loglinear", plot = FALSE)
+comm_trend(
+  x,
+  time_col = "time",
+  method = "loglinear",
+  offset = TRUE,
+  plot = FALSE
+)
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns.}
@@ -12,6 +18,8 @@ comm_trend(x, time_col = "time", method = "loglinear", plot = FALSE)
 \item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 
 \item{method}{Character. Method to estimate the trends, one of "dennis" or "loglinear". Default "dennis".}
+
+\item{offset}{Boolean. Add a small offset to each species (1\% of the median abundance of that species) to avoid problems with log(0). Default TRUE.}
 
 \item{plot}{Boolean. Plot species abundances and their estimated trends. Default FALSE.}
 }

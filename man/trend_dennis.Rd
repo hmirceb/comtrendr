@@ -9,7 +9,7 @@ trend_dennis(x, time = NULL)
 \arguments{
 \item{x}{Numeric. A vector of abundances.}
 
-\item{time}{Numeric. A vector with the time steps corresponding to each value in x.}
+\item{time}{Numeric. A vector with the time steps corresponding to each value in x. If not provided data are assumed to be in order.}
 }
 \value{
 A named list with the mean annual growth rate in the natural logarithm scale and its variance.
@@ -20,7 +20,7 @@ This function estimates the mean annual growth rate of a time series of abundanc
 \details{
 For a given a time series of abundances \eqn{n_{t}} the function estimates its mean growth rate \eqn{\mu} and variance \eqn{\sigma^2} using a linear regression model without intercept such as:
 \deqn{y_{i} \sim \mu t_{i} + \epsilon_{i} }
-\deqn{\epsilon_{i} \sim Normal(0, \sigma)}
+\deqn{\epsilon_{i} \sim Normal(0, \sigma^2)}
 where \eqn{ y_{i} = \dfrac{ \ln{ ( n_{t}/n_{t-1}) } }{ t_{i} } } and \eqn{ t_{i} = \sqrt{ t_{t}-t_{t-1} } }
 
 Note that the confidence intervals for the estimate of \eqn{\mu} are not reliable.
