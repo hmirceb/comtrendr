@@ -12,7 +12,7 @@ trend_loglinear(x, time = NULL)
 \item{time}{Numeric. A vector with the time steps corresponding to each value in x. If not provided data are assumed to be in order.}
 }
 \value{
-A numeric value with the slope of a linear regression of the log transformed abundances.
+A named vector with the slope of a linear regression of the log transformed abundances, its confidence interval and p-value.
 }
 \description{
 Estimate mean annual growth rate using linear regression

@@ -38,7 +38,7 @@
 psi_segrestin <- function(x, term = "var", time_col = "time"){
   # Match variance function
   var_func <- switch(
-    term,
+    match.arg(term, choices = c("var", "two", "three")),
     var = stats::var,
     two = var_t2,
     three = var_t3
@@ -86,10 +86,9 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
 #' phi_loreau(x = comm_df$sim_data)
 #' @export
 phi_loreau <- function(x, term = "var", time_col = "time") {
-  
   # Match variance function
   var_func <- switch(
-    term,
+    match.arg(term, choices = c("var", "two", "three")),
     var = stats::var,
     two = var_t2,
     three = var_t3
@@ -130,10 +129,9 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
 #' eta_gross(x = comm_df$sim_data)
 #' @export
 eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
-  
   # Match variance function
   var_func <- switch(
-    term,
+    match.arg(term, choices = c("var", "two", "three")),
     var = stats::var,
     two = var_t2,
     three = var_t3
@@ -194,10 +192,9 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 #' logvar_ratio(x = comm_df$sim_data)
 #' @export
 logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
-  
   # Match variance function
   var_func <- switch(
-    term,
+    match.arg(term, choices = c("var", "two", "three")),
     var = stats::var,
     two = var_t2,
     three = var_t3
@@ -292,14 +289,6 @@ sync_term <- function(x,
   
   # Check if a time column was specified for detrending methods
   x <- check_time(x = x, time_col = time_col, term = term, rm = FALSE)
-  # x <- tryCatch(
-  #   # Run check_time
-  #   check_time(x = x, time_col = time_col, term = term, rm = FALSE),
-  #   # If it returns a warning, add time column to result
-  #   # This way we avoid multiple warnings when running synchrony functions later
-  #   warning = function(w) return(
-  #     cbind(time = seq_len(nrow(x)),
-  #           check_time(x = x, time_col = time_col, term = term, rm = TRUE))))
   
   sync <- sapply(index_func, function(f){
     syn_func <- match.fun(f) # match function

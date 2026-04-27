@@ -12,7 +12,7 @@ trend_dennis(x, time = NULL)
 \item{time}{Numeric. A vector with the time steps corresponding to each value in x. If not provided data are assumed to be in order.}
 }
 \value{
-A named list with the mean annual growth rate in the natural logarithm scale and its variance.
+A named vector with the mean annual growth rate of a population in the natural logarithm scale, its confidence interval and p-value.
 }
 \description{
 This function estimates the mean annual growth rate of a time series of abundance data following Dennis et al. (2001) (see Details).

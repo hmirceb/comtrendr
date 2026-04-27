@@ -127,7 +127,7 @@ plot(x = 1:4, y = classic_sync,
 points(x = 1:4, y = det_sync,
        col = 4,
        pch = 19)
-axis(1, at = 1:4, labels = c("psi", "phi", "eta", "logvar"))
+axis(1, at = 1:4, labels = c(expression(psi), expression(phi), expression(eta), "logvar"))
 legend("bottomleft", legend = c("Classic", "Detrended"), col = palette()[3:4], pch = 19)
 ```
 

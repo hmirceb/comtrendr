@@ -5,12 +5,13 @@
 #' @param tot_abu Numeric. Total abundance of the community.
 #' @param power Numeric. Exponent of the Taylor's Power Law to estimate variance from mean abundance.
 #' @param bound_pos Boolean. Bound abundance values to be positive. Default TRUE.
-#' @param corr Numeric. Correlation between populations.
+#' @param corr Numeric. Average correlation between populations.
 #' @param p Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with lower values indicating less dominance.
 #' @param trend_mean Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline. Default 0 (no trend).
 #' @param trend_sd Numeric. Standard deviation of the trend.
 #' @param bimodal_trend Boolean. If TRUE half of the species have negative trends and half positive. Default FALSE.
-#'
+#' @param offset Boolean. Add a small offset (1% of the average species abundance) to avoid 0. Default TRUE.
+#' 
 #' @returns A named list with three elements:
 #' - `sim_data`: A data.frame with the simulated data, species in columns and time steps in rows.
 #' 
@@ -28,15 +29,16 @@
 #' sim_mvcomm(n_sp = 15, years = 30)
 #' @export
 sim_mvcomm <- function(n_sp = 10,
-                       years = 25,
-                       tot_abu = 200 * n_sp,
-                       power = 1.8,
-                       bound_pos = TRUE,
-                       corr = 0.5,
-                       p = 0.8,
-                       trend_mean = 0,
-                       trend_sd = 0.01,
-                       bimodal_trend = FALSE){
+                        years = 25,
+                        tot_abu = 200 * n_sp,
+                        power = 1.8,
+                        bound_pos = TRUE,
+                        corr = 0,
+                        p = 0.8,
+                        trend_mean = 0,
+                        trend_sd = 0.01,
+                        bimodal_trend = FALSE,
+                        offset = TRUE){
   
   # Vector of mean abundances. First get a vector of relative abundances 
   # that add up to 1 using the dirchlet distribtion. Parameter alpha (p)
@@ -60,21 +62,21 @@ sim_mvcomm <- function(n_sp = 10,
   # Get SD of abundances from TPL
   sd_abu <- sqrt(mean_abu ** power)
   
-  # Variance-covariance matrix for MVN distribution
-  k <- n_sp-1
-  # This makes positive definitive matrix (necessary for MVN) 
-  # with correlation between species
-  Lambda <- matrix(stats::rnorm(n_sp * k, sd = 1), n_sp, k)
-  Psi <- diag(sd_abu^2 * (1 - corr)) 
-  ss <- Lambda %*% t(Lambda) + Psi
+  # Check that correlation is feasible
+  eta_min <- -1 / (n_sp - 1)
+  n_sp_max <- ceiling((-1 / corr) + 1)
+  if(corr < eta_min | corr > 1){
+    stop(paste0("corr must be between ", round(eta_min, 3), " and 1 or n_sp lower than ", n_sp_max))
+  }
   
   # Simulate random variation around mean cover for each species
   # drawn from multivariate normal so species correlate
   simcom <- matrix(0, years, n_sp)
   for (j in 1:years) {
-    abi <- MASS::mvrnorm(n = 1, 
-                         mu = abu_matrix[j,] * (1 + trend[j] * trend_resp), 
-                         Sigma = ss)
+    abi <- unlist(faux::rnorm_multi(n = 1, 
+                                    mu = abu_matrix[j,] * (1 + trend[j] * trend_resp), 
+                                    sd = sd_abu,
+                                    r = corr))
     # Force positive values if necessary
     if (bound_pos) {
       abi[abi < 0] <- 0
@@ -83,9 +85,11 @@ sim_mvcomm <- function(n_sp = 10,
   }
   
   # Add a small offset (1% of the mean abundance of each species) to avoid having 0s
-  offset <- colMeans(simcom)*0.01 
-  # Add vector to matrix rowwise
-  simcom <- as.data.frame(sweep(x = simcom, MARGIN = 2, STATS = offset, FUN = "+"))
+  if( isTRUE(offset) ) {
+    off <- colMeans(simcom)*0.01 
+    # Add vector to matrix rowwise
+    simcom <- as.data.frame(sweep(x = simcom, MARGIN = 2, STATS = off, FUN = "+"))
+  }
   
   # Set species names
   colnames(simcom) <- paste(sep = "_", "sp", seq_along(colnames(simcom)))

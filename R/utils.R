@@ -30,7 +30,6 @@ check_time <- function(x, time_col = "time", term = NULL, rm = TRUE) {
   }
   
   # Reorder according to time
-  #x <- x[with(x, order(x[, time_col])),]
   x <- x[order(x[[time_col]]), ]
   
   if ( isTRUE(rm) ) {
@@ -96,14 +95,14 @@ jenfish <- function(x,
 #'
 #' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
 #' @param q Numeric. Threshold of relative abundance to consider a species dominant.
-#' @param plot Boolean. Plot the species-abundance curve of the community.
+#' @param plot Boolean. Plot the species-abundance curve of the community. Default FALSE.
 #'
 #' @returns A data.frame with each species in the community, its mean abundance and if it is dominant or not.
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @noRd
-get_dominants <- function(x, q = 0.9, plot = F) {
+get_dominants <- function(x, q = 0.9, plot = FALSE) {
   # Sort species by their mean abundance across years
   sps_sorted <- sort(apply(x, 2,
                            function(y) mean(y[y > 0])), decreasing = T)
@@ -175,7 +174,8 @@ is_even <- function(x) {
 #' Plot a community time series
 #'
 #' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
-#'
+#' @param total Boolean. Also plot the total abundance of the community by timestep. Default FALSE.
+#' 
 #' @returns A plot.
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
@@ -188,21 +188,40 @@ is_even <- function(x) {
 #' plot_com(comm_data$sim_data)
 #' 
 #' @export
-plot_com <- function(x) {
-  # Plot first species
-  plot(y = x[,1],
-       x = 1:nrow(x),
-       pch = 19,
-       col = 1,
-       ylim = c(min(x), max(x)),
-       xlab = "time",
-       ylab = "abundance")
-  # Add additional points
-  for (i in 2:ncol(x)) {
-    graphics::points(y = x[,i],
-           x = 1:nrow(x),
-           pch = 19,
-           col = i)
+plot_com <- function(x, total = FALSE) {
+  if ( isTRUE(total) ) {
+    # Plot total abundance
+    plot(y = rowSums(x),
+         x = 1:nrow(x),
+         pch = 19,
+         type = "l",
+         lwd = 2,
+         ylim = c(min(x), max(rowSums(x))),
+         xlab = "Time",
+         ylab = "Abundance")
+    # Add additional points
+    for (i in 1:ncol(x)) {
+      graphics::points(y = x[,i],
+                       x = 1:nrow(x),
+                       pch = 19,
+                       col = i)
+    }
+  } else {
+    # Plot first species
+    plot(y = x[,1],
+         x = 1:nrow(x),
+         pch = 19,
+         col = 1,
+         ylim = c(min(x), max(x)),
+         xlab = "Time",
+         ylab = "Abundance")
+    # Add additional points
+    for (i in 2:ncol(x)) {
+      graphics::points(y = x[,i],
+                       x = 1:nrow(x),
+                       pch = 19,
+                       col = i)
+    }
   }
 }
 

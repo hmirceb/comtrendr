@@ -12,7 +12,7 @@
 #'  
 #'  Note that the confidence intervals for the estimate of \eqn{\mu} are not reliable.
 #'  
-#' @returns A named list with the mean annual growth rate in the natural logarithm scale and its variance.
+#' @returns A named vector with the mean annual growth rate of a population in the natural logarithm scale, its confidence interval and p-value.
 #' 
 #' @references
 #' - Dennis, B., Munholland, P. L., & Scott, J. M. (1991). Estimation of Growth and Extinction Parameters for Endangered Species. Ecological Monographs, 61(2), 115–143.
@@ -53,8 +53,9 @@ trend_dennis  <- function(x, time = NULL){
   # Stochastic variance of growth rates
   stoc_v <- stats::sigma(t_m)^2
   # Return mean growth rate, variance and confidence interval
-  res <- c(stats::coef(t_m), stoc_v, stats::confint(t_m))
-  names(res) <- c("trend", "var", "l95", "u95")
+  res <- c(stats::anova(t_m)$F[1], stats::coef(t_m), stats::confint(t_m), stats::anova(t_m)$`Pr(>F)`[1])
+  names(res) <- c("F", "trend", "l95", "u95", "p")
+  
   return(res)
 }
 
@@ -66,7 +67,7 @@ trend_dennis  <- function(x, time = NULL){
 #' @details For a given a time series of abundances \eqn{n_{t}} the function estimates a linear regression model with log-transformed abundances as the response variable and time steps (with \eqn{t_{0} = 0, t_{1} = 1...}) as the explanatory variable.
 #' 
 #'
-#' @returns A numeric value with the slope of a linear regression of the log transformed abundances.
+#' @returns A named vector with the slope of a linear regression of the log transformed abundances, its confidence interval and p-value.
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
@@ -100,19 +101,62 @@ trend_loglinear  <- function(x, time = NULL){
   # linear regression
   t_m <- stats::lm(d_n~d_t)
   # Return slope and confidence interval
-  res <- c(stats::coef(t_m)[2], stats::confint(t_m)[2,])
-  names(res) <- c("trend", "l95", "u95")
+  res <- c(stats::anova(t_m)$F[1], stats::coef(t_m)[2], stats::confint(t_m)[2,], stats::anova(t_m)$`Pr(>F)`[1])
+  names(res) <- c("F", "trend", "l95", "u95", "p")
   
   return(res)
 }
 
+#' Perform Redundancy Analysis on species abundances and time to assess community level trends
+#'
+#' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
+#' @param time_col Character. Name of the column with time variable. Optional with default "time".
+#'
+#' @returns A named vector with the *F-value* of the Redundancy Analysis and its p-value based on 999 permutations.
+#'
+#' @examples
+#' require(detrending)
+#' 
+#' # Simulate community data with trends
+#' comm_df <- sim_mvcomm(trend_mean = 0.3, bimodal_trend = TRUE)
+#' 
+#' # Estimate trend for each species and plot estimated trends
+#' trend_mv(comm_df$sim_data, time_col = "time")
+#' 
+#' @export
+trend_mv <- function(x, time_col = "time"){
+  # Check if a time column was specified for detrending methods and order rows
+  x <- check_time(x, time_col = time_col, term = "var", rm = FALSE)
+  
+  # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
+  x <- remove_empty_sps(x = x, time_col = time_col)
+  
+  # prepare data matrices for RDA
+  comm <- x[!colnames(x) %in% time_col]
+  t <- x[colnames(x) %in% time_col]
+  
+  # make formula for RDA
+  rda_formula <- stats::as.formula(paste("comm", "~", time_col))
+  
+  # RDA
+  comm_rda <- vegan::rda(formula = as.formula(rda_formula), data = t)
+  rda_sign <- stats::anova(comm_rda, permutations = 999)
+  # format anova output
+  res <- c(rda_sign$F[1], NA, NA, NA, rda_sign$`Pr(>F)`[1])
+  names(res) <- c("F", "trend", "l95", "u95", "p")
+  # make mv_trend object
+  results <- list(anova = res, rda = comm_rda, time = t[,1])
+  class(results) <- "mv_trend"
+  return(results)
+
+}
 
 #' Estimate population trends in a community
 #'
 #' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
-#' @param method Character. Method to estimate the trends, one of "dennis" or "loglinear". Default "dennis".
-#' @param offset Boolean. Add a small offset to each species (1% of its median abundance) to avoid problems with log(0). Default TRUE.
+#' @param method Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".
+#' @param offset Boolean. Add a small offset to each species (1% of its mean abundance) to avoid problems with log(0). Default TRUE.
 #' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
 #'
 #' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
@@ -121,17 +165,20 @@ trend_loglinear  <- function(x, time = NULL){
 #' require(detrending)
 #' 
 #' # Simulate community data with trends
-#' comm_df <- sim_mvcomm(switch_trend = T, bimodal_trend = T)
+#' comm_df <- sim_mvcomm(trend_mean = 0.3, bimodal_trend = TRUE)
 #' 
-#' # Estimate trend for each species and plot estimated trends
-#' comm_trend(comm_df$sim_data, method = "loglinear", plot = T)
+#' # Estimate trend for each species and plot them
+#' comm_trend(comm_df$sim_data, method = "loglinear", plot = TRUE)
 #' @export
 comm_trend <- function(x, time_col = "time", method = "loglinear", offset = TRUE, plot = FALSE){
   # Match variance function
+  method_matched <- match.arg(method, choices = c("dennis", "loglinear", "rda"))
+  
   trend_func <- switch(
-    method,
+    method_matched,
     dennis = trend_dennis,
-    loglinear = trend_loglinear
+    loglinear = trend_loglinear,
+    rda = trend_mv
   )
   
   # Check if a time column was specified for detrending methods and order rows
@@ -142,51 +189,213 @@ comm_trend <- function(x, time_col = "time", method = "loglinear", offset = TRUE
   
   # Add offset to avoid problems with log(0) when estimating trends
   if( isTRUE(offset) ){
-    z <- apply(x, 2, median)*0.01
+    z <- apply(x, 2, mean)*0.01
     x <- sweep(x, 2, STATS = z, FUN = "+")
   }
   
-  # Estimate trends
-  trends <- as.data.frame(
-    cbind(
-      taxa = colnames(x), 
-      as.data.frame(
-        do.call("rbind", 
-                apply(x, MARGIN = 2, trend_func, simplify = F)
+  # Estimate trends using apropriate function (this is like this because mv function has different output format)
+  if (method_matched == "rda") {
+    trends <- trend_func(x = x, time_col = time_col)
+  }
+  
+  if (method_matched %in% c("dennis", "loglinear")) {
+    trends <- as.data.frame(
+      cbind(
+        taxa = colnames(x), 
+        as.data.frame(
+          do.call("rbind", 
+                  apply(x, MARGIN = 2, trend_func, simplify = F)
+          )
         )
       )
     )
-  )
-  rownames(trends) <- NULL
-  
-  # Plot abundances
-  if (plot) {
-    graphics::par(mfrow = c(1,2))
-    plot_com(x)
-    
-    plot(x = trends[1,]$trend, y = seq_along(trends$taxa)[1],
-         xlim = c(min(trends$l95), max(trends$u95)),
-         ylim = c(min(seq_along(trends$taxa)), max(seq_along(trends$taxa))),
-         pch = 19,
-         col = 1,
-         xlab = "trend (log)",
-         ylab = "taxa", 
-         yaxt = "n")
-    graphics::arrows(x0 = trends$l95, x1 = trends$u95, y0 = seq_along(trends$taxa),
-           code = 3, length = 0.05, angle = 90)
-    for (i in 2:nrow(trends)) {
-      graphics::points(x = trends[i,]$trend, y = seq_along(trends$taxa)[i], 
-                       pch = 19,
-                       col = i)
-    }
-    
-    graphics::axis(2, at = seq_along(trends$taxa), labels = trends$taxa, las = 2)
-    graphics::abline(v = 0, lty = "dashed")
-    
-    graphics::par(mfrow = c(1,1), 
-        xpd=FALSE, 
-        mar=c(5.1, 4.1, 4.1, 2.1))
+    rownames(trends) <- NULL
   }
   
-  return(trends)
+  # Plot abundances
+  if ( isTRUE(plot) ) {
+    
+    # plot mv trends
+    if (method_matched == "rda") {
+      # panel layout
+      graphics::layout(matrix(c(1,1,2,2,3), nrow = 1, ncol = 5, byrow = TRUE))
+      # plot community
+      plot_com(x)
+      # plot rda and trends
+      plot(trends)
+    }
+    # plot log trends
+    if (method_matched %in% c("dennis", "loglinear")) {
+      # setup two panels
+      graphics::layout(matrix(c(1,2), nrow = 1, ncol = 2, byrow = TRUE))
+      # plot community
+      plot_com(x)
+      # plot species trends
+      plot(x = trends[1,]$trend, y = seq_along(trends$taxa)[1],
+           xlim = c(min(trends$l95), max(trends$u95)),
+           ylim = c(min(seq_along(trends$taxa)), max(seq_along(trends$taxa))),
+           pch = 19,
+           col = 1,
+           xlab = "Trend (log)",
+           ylab = "Taxon", 
+           yaxt = "n")
+      graphics::arrows(x0 = trends$l95, x1 = trends$u95, y0 = seq_along(trends$taxa),
+                       code = 3, length = 0.05, angle = 90)
+      for (i in 2:nrow(trends)) {
+        graphics::points(x = trends[i,]$trend, y = seq_along(trends$taxa)[i], 
+                         pch = 19,
+                         col = i)
+      }
+      
+      graphics::axis(2, at = seq_along(trends$taxa), labels = trends$taxa, las = 2)
+      graphics::abline(v = 0, lty = "dashed") 
+    }
+    # reset graphics
+    graphics::par(mfrow = c(1,1), 
+                  xpd = FALSE, 
+                  mar = c(5.1, 4.1, 4.1, 2.1))
+  }
+  
+  if (method_matched == "rda") {
+    return(trends$anova)
+  }
+  if (method_matched %in% c("dennis", "loglinear")) {
+    return(trends)
+  }
 }
+
+#' @export
+plot.mv_trend <- function(x, ...) {
+  # get community scores 
+  rda_sites <- vegan::scores(x$rda)$sites
+  # get species scores
+  rda_species <- vegan::scores(x$rda)$species
+  # empty plot
+  plot(x = rda_sites[,1], y = rda_sites[,2],
+       type = "n", 
+       xlab = "Time (RDA1)", ylab = "Community composition (PC1)",
+       xlim = 2 * c(range(rda_sites[,1]))) # adjust limits
+  # add reference lines
+  graphics::abline(h = 0, lty = 3)
+  graphics::abline(v = 0, lty = 3)
+  # arrows from timestep to timestep
+  for (i in 2:nrow(rda_sites)) {
+    # get start and end of each arrow
+    x0 <- rda_sites[i-1,1]
+    y0 <- rda_sites[i-1,2]
+    x1 <- rda_sites[i,1]
+    y1 <- rda_sites[i,2]
+    # only the last one is a proper arrow
+    angle <- ifelse(i == max(nrow(rda_sites)), 20, 0)
+    graphics::arrows(x0 = x0, y0 = y0, x1 = x1, y1 = y1,
+                     angle = angle, length = 0.1)
+  }
+  # add time steps with text and colored points
+  graphics::text(x = rda_sites[,1],
+                 y = rda_sites[,2], 
+                 labels = x$time, 
+                 pos = 3)
+  graphics::points(x = rda_sites[,1],
+                   y = rda_sites[,2], 
+                   pch = 21, 
+                   bg = "grey")
+  # add arrow indicating time direction
+  graphics::arrows(x0 = 0, 
+                   y0 = 0, 
+                   y1 = 0, 
+                   x1 = 1.8 * max(rda_sites[,1]), 
+                   col = "blue", 
+                   length = 0.1)
+  graphics::text(y = 0, 
+                 x = 1.8 * max(rda_sites[,1]), 
+                 labels = "time", 
+                 pos = 3, 
+                 col = "blue")
+  # F statistic and p value from permutation test
+  graphics::mtext(side = 3, 
+                  adj = 1, 
+                  text = paste0("F=", round(x$anova["F"], 3), ", p=", x$anova["p"]))
+  
+  # plot with species trends
+  plot(x = rda_species[,1], 
+       y = seq_along(rownames(rda_species)), 
+       type = "n",
+       xlab = "Trend (RDA1)",
+       ylab = "Taxon",
+       yaxt = "n",
+       xlim = 1.1 * range(rda_species[,1]))
+  graphics::abline(v = 0, 
+                   lty = "dashed") 
+  graphics::axis(2, at = seq_along(rownames(rda_species)), 
+                 labels = rownames(rda_species), 
+                 las = 2)
+  graphics::points(x = rda_species[,1], 
+                   y = seq_along(rownames(rda_species)), 
+                   col = seq_along(rownames(rda_species)), 
+                   pch = 19,
+                   cex = 1.5)
+}
+
+# #' @export
+# plot.mv_trend <- function(x, ...) {
+#   # get community scores 
+#   rda_sites <- vegan::scores(x$rda)$sites
+#   # get species scores
+#   rda_species <- vegan::scores(x$rda)$species
+#   # empty plot
+#   plot(x = rda_sites[,1], y = rda_sites[,2],
+#        type = "n", 
+#        xlab = "Time (RDA1)", ylab = "Community composition (PC1)",
+#        xlim = 2 * c(range(rda_sites[,1]))) # adjust limits
+#   # add reference lines
+#   graphics::abline(h = 0, lty = 3); abline(v = 0, lty = 3)
+#   # arrows from timestep to timestep
+#   for (i in 2:nrow(rda_sites)) {
+#     # get start and end of each arrow
+#     x0 <- rda_sites[i-1,1]
+#     y0 <- rda_sites[i-1,2]
+#     x1 <- rda_sites[i,1]
+#     y1 <- rda_sites[i,2]
+#     # only the last one is a proper arrow
+#     angle <- ifelse(i == max(nrow(rda_sites)), 20, 0)
+#     graphics::arrows(x0 = x0, y0 = y0, x1 = x1, y1 = y1,
+#                      angle = angle, length = 0.1)
+#   }
+#   # add time steps with text and colored points
+#   graphics::text(x = rda_sites[,1],
+#                  y = rda_sites[,2], 
+#                  labels = x$time, 
+#                  pos = 3)
+#   graphics::points(x = rda_sites[,1],
+#                    y = rda_sites[,2], 
+#                    pch = 21, 
+#                    bg = "grey")
+#   # add arrow indicating time direction
+#   graphics::arrows(x0 = 0, 
+#                    y0 = 0, 
+#                    y1 = 0, 
+#                    x1 = 1.8 * max(rda_sites[,1]), 
+#                    col = "blue", 
+#                    length = 0.1)
+#   graphics::text(y = 0, 
+#                  x = 1.8 * max(rda_sites[,1]), 
+#                  labels = "time", 
+#                  pos = 3, 
+#                  col = "blue")
+#   # F statistic and p value from permutation test
+#   graphics::mtext(side = 3, 
+#                   adj = 1, 
+#                   text = paste0("F=", round(x$anova["F"], 3), ", p=", x$anova["p"]))
+#   # add species info
+#   graphics::points(x = rda_species[,1], 
+#                    y = rda_species[,2], 
+#                    col = seq_along(rownames(rda_species)), 
+#                    pch = 19,
+#                    cex = 1)
+#   graphics::text(x = rda_species[,1], 
+#                  y = rda_species[,2], 
+#                  col = seq_along(rownames(rda_species)),
+#                  labels = rownames(rda_species),
+#                  pos = 3)
+#   
+# }

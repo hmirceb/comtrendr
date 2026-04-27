@@ -4,12 +4,12 @@
 \alias{cv_mv}
 \title{Multivariate coefficient of variation}
 \usage{
-cv_mv(x, d = "euclidean", term = "var")
+cv_mv(x, method = c("euclidean", "chord"), term = c("var", "two"))
 }
 \arguments{
 \item{x}{A community abundance matrix.}
 
-\item{d}{Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
+\item{method}{Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance) "two" for Hill's two term local quadrat variance. Default "var".}
 }
@@ -31,8 +31,8 @@ metacomm_df <- clean_community_wide(x = example_data_wide)
 comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)]
 
 # Calculate multivariate variance
-cv_mv(x = comm_df, d = "euclidean", term = "var") # 0.785
-cv_mv(x = comm_df, d = "euclidean", term = "two") # 0.807
+cv_mv(x = comm_df, method = "euclidean", term = "var") # 0.785
+cv_mv(x = comm_df, method = "euclidean", term = "two") # 0.807
 }
 \author{
 Jan Lepš, \email{suspa@prf.jcu.cz}

@@ -43,7 +43,7 @@ require(detrending)
 comm_df <- sim_mvcomm(n_sp = 15, years = 30)
 
 # Decompose CV into stability components
-comstab_term(x = comm_df, time_col = "time")
+comstab_term(x = comm_df$sim_data, time_col = "time")
 }
 \references{
 \itemize{

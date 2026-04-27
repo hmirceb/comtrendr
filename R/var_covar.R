@@ -104,11 +104,13 @@ var_linear <- function(x) {
 #'
 #' @export
 cov_term <- function(x, y, term = "var") {
-  # Match argument for variance function to use
-  options <- data.frame(term = c("var", "two", "three", "linear"),
-                        var = c("var", "var_t2", "var_t3", "var_linear"))
-  # Get choice
-  var_func <- match.fun(options[options$term == term,]$var)
+  # Match variance function
+  var_func <- switch(
+    match.arg(term, choices = c("var", "two", "three")),
+    var = stats::var,
+    two = var_t2,
+    three = var_t3
+  )
   
   cov <- (var_func(x + y) - var_func(x) - var_func(y)) / 2
   return(cov)
@@ -130,11 +132,13 @@ cov_term <- function(x, y, term = "var") {
 #'
 #' @export
 vcov_term <- function(x, term = "var") {
-  
-  # Match argument for variance function to use
-  options <- data.frame(term = c("var", "two", "three", "linear"),
-                        var = c("var", "var_t2", "var_t3", "var_linear"))
-  var_func <- match.fun(options[options$term == term,]$var)
+  # Match variance function
+  var_func <- switch(
+    match.arg(term, choices = c("var", "two", "three")),
+    var = stats::var,
+    two = var_t2,
+    three = var_t3
+  )
   
   # Calculate variances for all columns
   n <- ncol(x)

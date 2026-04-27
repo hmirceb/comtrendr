@@ -10,11 +10,12 @@ sim_mvcomm(
   tot_abu = 200 * n_sp,
   power = 1.8,
   bound_pos = TRUE,
-  corr = 0.5,
+  corr = 0,
   p = 0.8,
   trend_mean = 0,
   trend_sd = 0.01,
-  bimodal_trend = FALSE
+  bimodal_trend = FALSE,
+  offset = TRUE
 )
 }
 \arguments{
@@ -28,7 +29,7 @@ sim_mvcomm(
 
 \item{bound_pos}{Boolean. Bound abundance values to be positive. Default TRUE.}
 
-\item{corr}{Numeric. Correlation between populations.}
+\item{corr}{Numeric. Average correlation between populations.}
 
 \item{p}{Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with lower values indicating less dominance.}
 
@@ -37,6 +38,8 @@ sim_mvcomm(
 \item{trend_sd}{Numeric. Standard deviation of the trend.}
 
 \item{bimodal_trend}{Boolean. If TRUE half of the species have negative trends and half positive. Default FALSE.}
+
+\item{offset}{Boolean. Add a small offset (1\% of the average species abundance) to avoid 0. Default TRUE.}
 }
 \value{
 A named list with three elements:

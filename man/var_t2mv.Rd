@@ -4,12 +4,12 @@
 \alias{var_t2mv}
 \title{Multivariate two term local quadratic variance of community composition}
 \usage{
-var_t2mv(x, d = "euclidean")
+var_t2mv(x, method = c("euclidean", "chord"))
 }
 \arguments{
 \item{x}{A community abundance matrix.}
 
-\item{d}{Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
+\item{method}{Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
 }
 \value{
 A numeric value. The multivariate two term quadratic variance of the community.
@@ -31,8 +31,8 @@ metacomm_df <- clean_community_wide(x = example_data_wide)
 comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)]
 
 # Calculate multivariate variance
-var_t2mv(x = comm_df, d = "euclidean") # 193.893
-var_t2mv(x = comm_df, d = "chord") # 0.370
+var_t2mv(x = comm_df, method = "euclidean") # 193.893
+var_t2mv(x = comm_df, method = "chord") # 0.370
 }
 \author{
 Jan Lepš, \email{suspa@prf.jcu.cz}

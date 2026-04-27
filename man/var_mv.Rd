@@ -4,12 +4,12 @@
 \alias{var_mv}
 \title{Multivariate variance of community composition}
 \usage{
-var_mv(x, d = "euclidean")
+var_mv(x, method = c("euclidean", "chord"))
 }
 \arguments{
 \item{x}{A community abundance matrix.}
 
-\item{d}{Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
+\item{method}{Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
 }
 \value{
 A numeric value. The multivariate variance of the community.
@@ -30,8 +30,8 @@ metacomm_df <- clean_community_wide(x = example_data_wide)
 comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)]
 
 # Calculate multivariate variance
-var_mv(x = comm_df, d = "euclidean") # 183.752
-var_mv(x = comm_df, d = "chord") # 0.399
+var_mv(x = comm_df, method = "euclidean") # 183.752
+var_mv(x = comm_df, method = "chord") # 0.399
 }
 \author{
 Jan Lepš, \email{suspa@prf.jcu.cz}

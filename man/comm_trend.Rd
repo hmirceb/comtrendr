@@ -17,9 +17,9 @@ comm_trend(
 
 \item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 
-\item{method}{Character. Method to estimate the trends, one of "dennis" or "loglinear". Default "dennis".}
+\item{method}{Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".}
 
-\item{offset}{Boolean. Add a small offset to each species (1\% of its median abundance) to avoid problems with log(0). Default TRUE.}
+\item{offset}{Boolean. Add a small offset to each species (1\% of its mean abundance) to avoid problems with log(0). Default TRUE.}
 
 \item{plot}{Boolean. Plot species abundances and their estimated trends. Default FALSE.}
 }
@@ -33,8 +33,8 @@ Estimate population trends in a community
 require(detrending)
 
 # Simulate community data with trends
-comm_df <- sim_mvcomm(switch_trend = T, bimodal_trend = T)
+comm_df <- sim_mvcomm(trend_mean = 0.3, bimodal_trend = TRUE)
 
-# Estimate trend for each species and plot estimated trends
-comm_trend(comm_df$sim_data, method = "loglinear", plot = T)
+# Estimate trend for each species and plot them
+comm_trend(comm_df$sim_data, method = "loglinear", plot = TRUE)
 }
