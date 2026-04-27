@@ -12,7 +12,7 @@ trend_mv(x, time_col = "time")
 \item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 }
 \value{
-An object of class \code{mv_trend}, a named list with vector
+An object of class \code{mv_trend}, a named list with three elements:
 \itemize{
 \item \code{anova}: A data.frame with the \emph{F-value} of the Redundancy Analysis and its p-value based on 999 permutations.
 \item \code{rda}: An object of class \code{rda} with the scores of the RDA.

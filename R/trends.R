@@ -114,7 +114,7 @@ trend_loglinear  <- function(x, time = NULL){
 #'
 #' @details This function estimates temporal trends in abundance at the community level by conducting Redundanncy Analysis (RDA) on species abundances with time as an explanaroty variable.
 #'
-#' @returns An object of class `mv_trend`, a named list with vector 
+#' @returns An object of class `mv_trend`, a named list with three elements:
 #'  - `anova`: A data.frame with the *F-value* of the Redundancy Analysis and its p-value based on 999 permutations.
 #'  
 #'  - `rda`: An object of class `rda` with the scores of the RDA.
