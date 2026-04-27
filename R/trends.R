@@ -65,7 +65,6 @@ trend_dennis  <- function(x, time = NULL){
 #' @param time Numeric. A vector with the time steps corresponding to each value in x. If not provided data are assumed to be in order.
 #'
 #' @details For a given a time series of abundances \eqn{n_{t}} the function estimates a linear regression model with log-transformed abundances as the response variable and time steps (with \eqn{t_{0} = 0, t_{1} = 1...}) as the explanatory variable.
-#' 
 #'
 #' @returns A named vector with the slope of a linear regression of the log transformed abundances, its confidence interval and p-value.
 #' 
