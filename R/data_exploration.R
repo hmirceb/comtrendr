@@ -63,7 +63,7 @@ pielou <- function(x) {
 #'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns.
 #' @param by_timestep Boolean. Get community information at each time step. Default FALSE.
-#' @param total Character. Wether to compute diversity indices from the average relative abundance of species across years (overall) or the average of annula diversity indices.  
+#' @param total Character. Whether to compute diversity indices from the average relative abundance of species across years (overall) or the average of annula diversity indices.  
 #' @param community_col Character. Name of column with the community identifier.
 #' @param time_col Character. Name of column with time variable.
 #' @param trends Boolean. Check for trends in species using linear regression on log-transformed abundances. Default FALSE.
