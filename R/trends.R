@@ -261,7 +261,7 @@ comm_trend <- function(x, time_col = "time", method = "loglinear", offset = TRUE
                          col = i)
       }
       # shorten taxa names
-      labs <- short_names(rownames(rda_species))
+      labs <- short_names(trends$taxa)
       graphics::axis(2, at = seq_along(trends$taxa), 
                      labels = labs, 
                      las = 2)
