@@ -6,7 +6,7 @@
 #' @param power Numeric. Exponent of the Taylor's Power Law to estimate variance from mean abundance.
 #' @param bound_pos Boolean. Bound abundance values to be positive. Default TRUE.
 #' @param corr Numeric. Average correlation between populations.
-#' @param p Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with lower values indicating less dominance.
+#' @param p Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with lower values indicating more even communities.
 #' @param trend_mean Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline. Default 0 (no trend).
 #' @param trend_sd Numeric. Standard deviation of the trend.
 #' @param bimodal_trend Boolean. If TRUE half of the species have negative trends and half positive. Default FALSE.

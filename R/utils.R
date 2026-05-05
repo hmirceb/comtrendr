@@ -273,7 +273,15 @@ short_names <- function(x) {
   # split by " " or "_"
   split_names <- strsplit(x, " |_")
   # put genus in upper case and only first letter
-  genera <- sapply(split_names, function(y) toupper(substring(y[1], 1, 1)))
+  genera <- sapply(split_names, function(y) {
+    # In only genus is available do not shorten
+    if( length(y) == 1 ) {
+      paste0(toupper(substring(y[1], 1, 1)),
+             substring(y[1], 2, nchar(y[1])))
+    } else {
+      toupper(substring(y[1], 1, 1))
+    }
+  })
   # paste rest
   others <- sapply(split_names, function(y) paste(y[-1], collapse = " "))
   # paste together
