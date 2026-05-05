@@ -118,7 +118,7 @@ get_dominants <- function(x, q = 0.9, plot = FALSE) {
     # Points
     plot(df$abund, cex = 1.3, pch = 21, bg = df$dominant)
     # Labels
-    graphics::text(sps_sorted, names(sps_sorted), cex=0.6, pos=1, col="red")
+    graphics::text(sps_sorted, labels = short_names(names(sps_sorted)), cex=0.6, pos=1, col="red")
     # Threshold line 
     graphics::abline(h = qu, lty = "dashed")
   }

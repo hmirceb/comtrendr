@@ -186,7 +186,7 @@ trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE,
 #' comm_trend(comm_df$sim_data, method = "loglinear", plot = TRUE)
 #' @export
 comm_trend <- function(x, time_col = "time", method = "loglinear", offset = TRUE, plot = FALSE, title = NULL){
-  # Match variance function
+  # Match trend estimation function
   method_matched <- match.arg(method, choices = c("dennis", "loglinear", "rda"))
   
   trend_func <- switch(
@@ -211,6 +211,17 @@ comm_trend <- function(x, time_col = "time", method = "loglinear", offset = TRUE
   # Estimate trends using apropriate function (this is like this because mv function has different output format)
   if (method_matched == "rda") {
     trends <- trend_func(x = x, time_col = time_col)
+    linear_trends <- as.data.frame(
+      cbind(
+        taxa = colnames(x), 
+        as.data.frame(
+          do.call("rbind", 
+                  apply(x, MARGIN = 2, trend_loglinear, simplify = F)
+          )
+        )
+      )
+    )
+    rownames(linear_trends) <- NULL
   }
   
   if (method_matched %in% c("dennis", "loglinear")) {
@@ -238,6 +249,29 @@ comm_trend <- function(x, time_col = "time", method = "loglinear", offset = TRUE
       plot_com(x, title = title)
       # plot rda and trends
       plot(trends)
+      
+      # plot species trends
+      plot(x = linear_trends[1,]$trend, y = seq_along(linear_trends$taxa)[1],
+           xlim = c(min(linear_trends$l95), max(linear_trends$u95)),
+           ylim = c(min(seq_along(linear_trends$taxa)), max(seq_along(linear_trends$taxa))),
+           pch = 19,
+           col = 1,
+           xlab = "Trend (log)",
+           ylab = "", 
+           yaxt = "n")
+      graphics::arrows(x0 = linear_trends$l95, x1 = linear_trends$u95, y0 = seq_along(linear_trends$taxa),
+                       code = 3, length = 0.05, angle = 90)
+      for (i in 2:nrow(linear_trends)) {
+        graphics::points(x = linear_trends[i,]$trend, y = seq_along(linear_trends$taxa)[i], 
+                         pch = 19,
+                         col = i)
+      }
+      # shorten taxa names
+      labs <- short_names(linear_trends$taxa)
+      graphics::axis(2, at = seq_along(linear_trends$taxa), 
+                     labels = labs, 
+                     las = 2)
+      graphics::abline(v = 0, lty = "dashed") 
     }
     # plot log trends
     if (method_matched %in% c("dennis", "loglinear")) {
