@@ -420,7 +420,7 @@ plot.mv_trend <- function(x, ...) {
                  pos = 3,
                  font = 2)
   # add arrows indicating species trend
-  spec_arrow <- rda_species[,1] + 0.2 * rda_species[,1] * -1 * sign(vegan::scores(x$rda)$regression[1])
+  spec_arrow <- rda_species[,1] + 0.2 * rda_species[,1] * vegan::scores(x$rda)$regression[1]
   graphics::arrows(x0 = rda_species[,1],
                    y0 = rda_species[,2],
                    y1 = rda_species[,2],
