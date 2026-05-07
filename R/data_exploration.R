@@ -70,16 +70,16 @@ pielou <- function(x) {
 #' @param check_dominants Boolean. Check if dominant species according to a certain threshold have missing data. Default FALSE.
 #' @param dominant_threshold Numeric. A number between 0 and 1 indicating the abundance threshold to consider a species as dominant.
 #' @param check_transient Boolean. Check the number and proportion of missing data for all species and classify them according to a threshold. Default FALSE.
-#' @param transient_threshold Numeric. A number between 0 and 1 indicating the acceptable proportion of missing years per species.
+#' @param transient_threshold Numeric. A number between 0 and 1 indicating the acceptable proportion of missing years per species. Species above that number will be tagged.
 #'  
 #' @returns A named list:
 #'  - `diversity`: A data.frame indicaitng the number of timesteps in each community, along with their species richness (S), Shannon's (H) and Pielou's indices (P).
-#'  - `trends`: A data.frame with the estimated mean abundance trends of the species in each community as returned by `comm_trend()`.
+#'  - `trends`: A data.frame with the estimated mean abundance trends of the species in each community as returned by `community_trends()`.
 #'  - `dominant_taxa`: A data.frame with the species considered dominant in each species and the number of missing data points in the time series.
 #'  - `transient_taxa`: A data.frame with the number and proportion of missing data for each species and if this proportion is below a certain threshold. 
 #'  
 #' @export
-comm_expl <- function(x,
+community_exploration <- function(x,
                        by_timestep = FALSE,
                        total = "average",
                        community_col = "comm",
@@ -105,12 +105,12 @@ comm_expl <- function(x,
   # split data by community
   c_list <- split(x, f = as.character(x[, community_col]))
   
-  # Estimate trends (comm_trend already checks the time column)
+  # Estimate trends (community_trends already checks the time column)
   if ( isTRUE(check_trends) ) {
     trends_df <- lapply(c_list, function(t_com){
       sps_index <- !colnames(t_com) %in% c(community_col, time_col)
       cbind(comm = unique(t_com[, community_col]),
-            comm_trend(x = t_com[sps_index], 
+            community_trends(x = t_com[sps_index], 
                        method = "loglinear", 
                        plot = F))
     }

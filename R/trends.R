@@ -184,9 +184,9 @@ trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE,
 #' comm_df <- sim_mvcomm(trend_mean = 0.3, bimodal_trend = TRUE)
 #' 
 #' # Estimate trend for each species and plot them
-#' comm_trend(comm_df$sim_data, method = "loglinear", plot = TRUE)
+#' community_trends(comm_df$sim_data, method = "loglinear", plot = TRUE)
 #' @export
-comm_trend <- function(x, time_col = "time", community_col = "comm", method = "loglinear", plot = FALSE, title = NULL){
+community_trends <- function(x, time_col = "time", community_col = "comm", method = "loglinear", plot = FALSE, title = NULL){
   # Match trend estimation function
   method_matched <- match.arg(method, choices = c("dennis", "loglinear", "rda"))
   
