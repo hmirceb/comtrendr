@@ -12,9 +12,9 @@ clean_community(
   taxa_col = "species",
   abundance_col = "abundance",
   na_zero = TRUE,
-  filter_transient = FALSE,
   empty_years = FALSE,
-  threshold = 0.3
+  filter_transient = FALSE,
+  min_samples = 0.3
 )
 }
 \arguments{
@@ -32,11 +32,11 @@ clean_community(
 
 \item{na_zero}{Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.}
 
-\item{filter_transient}{Boolean. Filter transient species. Default FALSE.}
-
 \item{empty_years}{Boolean. Remove empty years. Default FALSE.}
 
-\item{threshold}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.}
+\item{filter_transient}{Boolean. Filter out transient species. Default FALSE.}
+
+\item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.7.}
 }
 \value{
 A data.frame with community data ready to use in other functions.

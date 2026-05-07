@@ -8,10 +8,10 @@ clean_community_wide(
   x,
   community_col = "comm",
   time_col = "time",
-  na_zero = TRUE,
-  filter_transient = TRUE,
+  na_zero = FALSE,
+  filter_transient = FALSE,
   empty_years = FALSE,
-  threshold = 0.3
+  min_samples = 0.7
 )
 }
 \arguments{
@@ -21,13 +21,13 @@ clean_community_wide(
 
 \item{time_col}{Character. Name of column with time variable. Default "time".}
 
-\item{na_zero}{Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.}
+\item{na_zero}{Boolean. Replace missing values (NAs) with zeros (0). Default FALSE}
 
-\item{filter_transient}{Boolean. Filter transient species Default TRUE.}
+\item{filter_transient}{Boolean. Filter transient species Default FALSE}
 
 \item{empty_years}{Boolean. Remove empty years. Default FALSE.}
 
-\item{threshold}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.}
+\item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.7.}
 }
 \value{
 A data.frame with the community data in wide format.

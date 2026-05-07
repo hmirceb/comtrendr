@@ -3,10 +3,10 @@
 #' @param x A data.frame. Community matrix with time in rows and taxa in columns.
 #' @param community_col Character. Name of column with the community identifier. Default "comm".
 #' @param time_col Character. Name of column with time variable. Default "time".
-#' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.
-#' @param filter_transient Boolean. Filter transient species Default TRUE.
+#' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default FALSE
+#' @param filter_transient Boolean. Filter transient species Default FALSE
 #' @param empty_years Boolean. Remove empty years. Default FALSE.
-#' @param threshold Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.
+#' @param min_samples Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.7.
 #'
 #' @returns A data.frame with the community data in wide format.
 #' 
@@ -23,10 +23,10 @@
 clean_community_wide <- function(x, 
          community_col = "comm",
          time_col = "time",
-         na_zero = TRUE,
-         filter_transient = TRUE,
+         na_zero = FALSE,
+         filter_transient = FALSE,
          empty_years = FALSE,
-         threshold = 0.3) {
+         min_samples = 0.7) {
   # Set data as DF just in case its a tibble
   x <- as.data.frame(x)
   
@@ -63,7 +63,7 @@ clean_community_wide <- function(x,
       # Get indices of species columns
       sps_index <- !colnames(y) %in% c(community_col, time_col)
       # Get number of zeros (0) and missing years by species
-      missing <- get_transient(x = y[, sps_index], threshold = threshold)
+      missing <- get_transient(x = y[, sps_index], threshold = min_samples)
       
       # Get transient species (missing propoportion higher than threshold)
       transient_sps <- missing[missing$transient == "x",]$taxon
@@ -238,9 +238,9 @@ clean_community_long <- function(x,
 #' @param taxa_col Character. Name of column with taxa names. Default "species".
 #' @param abundance_col Character. Name of column with abundance values. Default "abundance".
 #' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.
-#' @param filter_transient Boolean. Filter transient species. Default FALSE.
 #' @param empty_years Boolean. Remove empty years. Default FALSE.
-#' @param threshold Numeric. Minimum proportion (between 0 and 1) of time points with valid data to consider a species as transient. Default 0.3.
+#' @param filter_transient Boolean. Filter out transient species. Default FALSE.
+#' @param min_samples Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.7.
 #'
 #' @returns A data.frame with community data ready to use in other functions.
 #' 
@@ -272,9 +272,9 @@ clean_community <- function(x,
                             taxa_col = "species",
                             abundance_col = "abundance",
                             na_zero = TRUE,
-                            filter_transient = FALSE,
                             empty_years = FALSE,
-                            threshold = 0.3) {
+                            filter_transient = FALSE,
+                            min_samples = 0.3) {
   # Check input format
   if( !input_format %in% c("long", "wide") ){
     stop("Please provide a valid input format.")
@@ -288,7 +288,7 @@ clean_community <- function(x,
                          na_zero = na_zero,
                          filter_transient = filter_transient,
                          empty_years = empty_years,
-                         threshold = threshold)
+                         min_samples = min_samples)
   }
   # Method for "long" format
   if ( input_format == "long" ) {
@@ -306,7 +306,7 @@ clean_community <- function(x,
                                        na_zero = na_zero,
                                        filter_transient = filter_transient,
                                        empty_years = empty_years,
-                                       threshold = threshold)
+                                       min_samples = min_samples)
   }
   
   return(clean_data)

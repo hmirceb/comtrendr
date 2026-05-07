@@ -70,7 +70,7 @@ pielou <- function(x) {
 #' @param check_dominants Boolean. Check if dominant species according to a certain threshold have missing data. Default FALSE.
 #' @param dominant_threshold Numeric. A number between 0 and 1 indicating the abundance threshold to consider a species as dominant.
 #' @param check_transient Boolean. Check the number and proportion of missing data for all species and classify them according to a threshold. Default FALSE.
-#' @param transient_threshold Numeric. A number between 0 and 1 indicating the acceptable proportion of missing years per species. Species above that number will be tagged.
+#' @param min_samples Numeric. A number between 0 and 1 indicating the minimum proportion of valid datapoints per species in the time series. Species below that number will be tagged.
 #'  
 #' @returns A named list:
 #'  - `diversity`: A data.frame indicaitng the number of timesteps in each community, along with their species richness (S), Shannon's (H) and Pielou's indices (P).
@@ -79,7 +79,7 @@ pielou <- function(x) {
 #'  - `transient_taxa`: A data.frame with the number and proportion of missing data for each species and if this proportion is below a certain threshold. 
 #'  
 #' @export
-community_exploration <- function(x,
+community_info <- function(x,
                        by_timestep = FALSE,
                        total = "average",
                        community_col = "comm",
@@ -88,7 +88,7 @@ community_exploration <- function(x,
                        check_dominants = FALSE,
                        dominant_threshold = 0.7,
                        check_transient = FALSE,
-                       transient_threshold = 0.3){
+                       min_samples = 0.7){
   # Check arguments
   if( !total %in% c("average", "overall") ) {
     stop("Argument 'total' must be one of 'average' or 'overall'")
@@ -168,7 +168,7 @@ community_exploration <- function(x,
       sps_index <- !colnames(c_com) %in% c(community_col, time_col)
       
       # Check proportion of missing years by species
-      transient_check <- get_transient(x = c_com[,sps_index], threshold = transient_threshold)
+      transient_check <- get_transient(x = c_com[,sps_index], threshold = min_samples)
       transient_check <- cbind(comm = unique(c_com[, community_col]),
                                transient_check)
       return(transient_check)

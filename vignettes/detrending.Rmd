@@ -35,16 +35,16 @@ clean_example <- clean_community(x = example_data_long,
                 time_col = "time", # Column with time information
                 empty_years = FALSE, # Remove years with no data
                 filter_transient = TRUE, # Filter out 
-                threshold = 0.3) # Minimum proportion of years with data to keep a species
+                min_samples = 0.3) # Minimum proportion of years with data to keep a species
 head(clean_example)
 
 # We can also check the number of time steps, species and 
 # other taxonomic alpha diversity metrics in each community. 
 # This metrics can be calculated for the whole community
-comm_expl(x = clean_example, total = "overall")
+community_info(x = clean_example, total = "overall")
 
 # Or the average across years
-comm_expl(x = clean_example, total = "average")
+community_info(x = clean_example, total = "average")
 ```
 
 ### Data simulation
@@ -64,11 +64,11 @@ We can also estimate linear trends in species abundance and test their statistic
 ```{r trends, fig.height=4, fig.width=7}
 # Simulate data without strong trends
 sim_data_notrend <- sim_mvcomm(p = 0.8, trend_mean = 0)$sim_data
-comm_trend(x = sim_data_notrend, method = "loglinear", plot = T)
+community_trends(x = sim_data_notrend, method = "loglinear", plot = T)
 
 # Simulate data with some postitive and negative trends
 sim_data_trend <- sim_mvcomm(p = 0.8, trend_mean = 0.4)$sim_data
-comm_trend(x = sim_data_trend, method = "loglinear", plot = T)
+community_trends(x = sim_data_trend, method = "loglinear", plot = T)
 ```
 
 ### Synchrony metrics

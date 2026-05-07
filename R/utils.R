@@ -311,10 +311,12 @@ get_transient <- function(x, threshold = 0.3) {
   missing <- colSums(x == 0 | is.na(x))
   
   missing_n <- data.frame(taxon = names(missing),
+                          n_years = nrow(x),
                           n_missing = missing,
                           p_missing = missing / nrow(x),
-                          n_years = nrow(x))
-  missing_n$transient <- ifelse(missing_n$p_missing >= threshold, "x", "")
+                          n_good = nrow(x)-missing,
+                          p_good = 1-(missing / nrow(x)))
+  missing_n$transient <- ifelse(missing_n$p_good < threshold, "x", "")
   
   rownames(missing_n) <- NULL
   return(missing_n)

@@ -24,7 +24,11 @@ require(detrending)
 
 # Load and clean data
 data(example_data_wide)
-metacomm_df <- clean_community_wide(x = example_data_wide)
+metacomm_df <- clean_community(x = example_data_wide,
+                               input_format = "wide",
+                               community_col = "comm",
+                               time_col = "time",
+                               filter_transient = FALSE)
 comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)] # Select only community 1
 # Transform
 chord_transform(x = comm_df)

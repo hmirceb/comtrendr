@@ -27,12 +27,16 @@ require(detrending)
 
 # Load and clean data
 data(example_data_wide)
-metacomm_df <- clean_community_wide(x = example_data_wide)
+metacomm_df <- clean_community(x = example_data_wide,
+                               input_format = "wide",
+                               community_col = "comm",
+                               time_col = "time",
+                               filter_transient = FALSE)
 comm_df <- metacomm_df[metacomm_df$comm == 1,][,-c(1:2)]
 
 # Calculate multivariate variance
-cv_mv(x = comm_df, method = "euclidean", term = "var") # 0.785
-cv_mv(x = comm_df, method = "euclidean", term = "two") # 0.807
+cv_mv(x = comm_df, method = "euclidean", term = "var") # 0.958
+cv_mv(x = comm_df, method = "euclidean", term = "two") # 0.961
 }
 \author{
 Jan Lepš, \email{suspa@prf.jcu.cz}
