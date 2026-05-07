@@ -161,6 +161,9 @@ comm_expl <- function(x,
       suppressWarnings(
         c_com <- check_time(c_com, time_col = time_col, term = "two", rm = FALSE)
       )
+      # Remove species with no abundance
+      c_com <- remove_empty_sps(c_com, time_col = time_col, community_col = community_col)
+      
       # Get columns with species ids
       sps_index <- !colnames(c_com) %in% c(community_col, time_col)
       
