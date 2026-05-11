@@ -443,6 +443,7 @@ plot.mv_trend <- function(x, ...) {
   # F statistic and p value from permutation test
   graphics::mtext(side = 3,
                   adj = 1,
+                  line = 0.2,
                   text = paste0("F=", round(x$anova["F"], 3), ", p=", x$anova["p"]))
   # add species info
   graphics::points(x = rda_species[,1],
