@@ -19,7 +19,8 @@ Imports:
   faux,
   gtools,
   graphics,
-  vegan
+  vegan,
+  isopleuros
 URL: https://github.com/hmirceb/detrending
 BugReports: https://github.com/hmirceb/detrending/issues
 Suggests: 

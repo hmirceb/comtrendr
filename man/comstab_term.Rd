@@ -4,17 +4,19 @@
 \alias{comstab_term}
 \title{Decompose community stability}
 \usage{
-comstab_term(x, term = "var", time_col = "time")
+comstab_term(x, term = "var", community_col = "comm", time_col = "time")
 }
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns.}
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 
+\item{community_col}{Character. Name of column with the community identifier.}
+
 \item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 }
 \value{
-An object of class \code{comstab}, a list of named vectors containing the following components:
+A single object of class \code{comstab} or multiple of them if data correspond to several communities, each \code{comstab} object is a list of named vectors containing the following components:
 \itemize{
 \item \code{CVs}: a named vector of calculated coefficient of variations. \code{CVe} is the CV of an average species,
 \code{CVtilde} is the mean of species CVs weighted by their relative abundances, \code{CVa} is the expected community CV if

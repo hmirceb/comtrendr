@@ -1,48 +1,9 @@
 # Functions to decompose community stability
 
-#' Decompose community stability
+#' Decompose community stability (internal function)
 #'
-#' `comstab_term()` partitions the temporal coefficient of variation of a community into the variability of the average species and three stabilizing effects: the dominance, asynchrony and averaging effects. It allows standard estimates of variance and CV as well as their detrended versions using Hill's two and three term local quadratic variance estimates (see Details).
-#' 
-#' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
-#' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
-#' @param time_col Character. Name of the column with time variable. Optional with default "time".
-#' 
-#' @details The analytic framework is described in detail in Segrestin *et al.* (2024).
-#' In short, the partitioning relies on the following equation: \deqn{CV_{com} = CV_e \Delta \Psi \omega} 
-#' where \eqn{CV_{com}} is the community coefficient of variation (reciprocal of community stability), 
-#' \eqn{CV_e} is the expected community CV when controlling for the dominance structure and species temporal synchrony,
-#' \eqn{ \Delta} is the dominance effect, \eqn{ \Psi} is the asynchrony effect, and \eqn{ \omega} is the averaging effect.
-#' 
-#' @returns An object of class `comstab`, a list of named vectors containing the following components:
-#'  - `CVs`: a named vector of calculated coefficient of variations. `CVe` is the CV of an average species,
-#'  `CVtilde` is the mean of species CVs weighted by their relative abundances, `CVa` is the expected community CV if 
-#'   the community was stabilized by species asynchrony only, and `CVc` is the observed community CV.
-#'   
-#'  - `Stabilization`: a named vector of the stabilizing effects. `tau` is the total stabilization, `Delta` is
-#'  the dominance effect, `Psi` is the asynchrony effect, and `omega` is the averaging effect.
-#'  
-#'  - `Relative`: a named vector of the relative contributions of each stabilizing effect to the total stabilization.
-#'  `Delta_cont`, `Psi_cont`, and `omega_cont` are the relative contribution of respectively, the dominance, asynchrony, and averaging effects to the total stabilization.
-#'  Returns a vector of NAs if any Stabilizing effect is higher than 1.
-#'  
-#' @references
-#'  - Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.
-#' 
-#' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
-#' @author Jan Lepš, \email{suspa@@prf.jcu.cz} 
-#' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
-#' 
-#' @examples
-#' require(detrending)
-#' 
-#' # Load and clean data
-#' comm_df <- sim_mvcomm(n_sp = 15, years = 30)
-#' 
-#' # Decompose CV into stability components
-#' comstab_term(x = comm_df$sim_data, time_col = "time")
-#' @export
-comstab_term <- function(x, 
+#' @noRd
+comstab_internal <- function(x, 
                         term = "var",
                         time_col = "time") {
   
@@ -170,20 +131,121 @@ comstab_term <- function(x,
   return(res)
 }
 
+#' Decompose community stability
+#'
+#' `comstab_term()` partitions the temporal coefficient of variation of a community into the variability of the average species and three stabilizing effects: the dominance, asynchrony and averaging effects. It allows standard estimates of variance and CV as well as their detrended versions using Hill's two and three term local quadratic variance estimates (see Details).
+#' 
+#' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
+#' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
+#' @param community_col Character. Name of column with the community identifier.
+#' @param time_col Character. Name of the column with time variable. Optional with default "time".
+#' 
+#' @details The analytic framework is described in detail in Segrestin *et al.* (2024).
+#' In short, the partitioning relies on the following equation: \deqn{CV_{com} = CV_e \Delta \Psi \omega} 
+#' where \eqn{CV_{com}} is the community coefficient of variation (reciprocal of community stability), 
+#' \eqn{CV_e} is the expected community CV when controlling for the dominance structure and species temporal synchrony,
+#' \eqn{ \Delta} is the dominance effect, \eqn{ \Psi} is the asynchrony effect, and \eqn{ \omega} is the averaging effect.
+#' 
+#' @returns A single object of class `comstab` or multiple of them if data correspond to several communities, each `comstab` object is a list of named vectors containing the following components:
+#'  - `CVs`: a named vector of calculated coefficient of variations. `CVe` is the CV of an average species,
+#'  `CVtilde` is the mean of species CVs weighted by their relative abundances, `CVa` is the expected community CV if 
+#'   the community was stabilized by species asynchrony only, and `CVc` is the observed community CV.
+#'   
+#'  - `Stabilization`: a named vector of the stabilizing effects. `tau` is the total stabilization, `Delta` is
+#'  the dominance effect, `Psi` is the asynchrony effect, and `omega` is the averaging effect.
+#'  
+#'  - `Relative`: a named vector of the relative contributions of each stabilizing effect to the total stabilization.
+#'  `Delta_cont`, `Psi_cont`, and `omega_cont` are the relative contribution of respectively, the dominance, asynchrony, and averaging effects to the total stabilization.
+#'  Returns a vector of NAs if any Stabilizing effect is higher than 1.
+#'  
+#' @references
+#'  - Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.
+#' 
+#' @author Jules Segrestin, \email{jsegrestin@@gmail.com}
+#' @author Jan Lepš, \email{suspa@@prf.jcu.cz} 
+#' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
+#' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Load and clean data
+#' comm_df <- sim_mvcomm(n_sp = 15, years = 30)
+#' 
+#' # Decompose CV into stability components
+#' comstab_term(x = comm_df$sim_data, time_col = "time")
+comstab_term <- function(x, 
+                          term = "var",
+                          community_col = "comm",
+                          time_col = "time"){
+  
+  # Check community column, if not present create one and assume a single community
+  if( !community_col %in% colnames(x) ) {
+    warning("Missing community column. Data are assumed to belong to a single community.",
+            call. = FALSE)
+    community_col <- "comm"
+    x <- cbind(comm = as.character(rep(1, times = nrow(x))), x)
+  }
+  
+  # split into communities
+  c_list <- split(x, f = as.character(x[, community_col]))
+  
+  # apply comstab to each community
+  comstab <- lapply(c_list, FUN = function(y){
+    # remove community column
+    x <- x[,!colnames(x) %in% community_col]
+    # apply comstab
+    comstab <- comstab_internal(x = y,
+                            term = term,
+                            time_col = time_col)
+    return(comstab)
+  }
+  )
+  
+  # join and add community id
+  comstab_df <- do.call("rbind", lapply(comstab, as.data.frame))
+  comstab_df <- cbind(comm = unique(x$comm), comstab_df)
+  colnames(comstab_df)[1] <- community_col
+  rownames(comstab_df) <- NULL
+  
+  print(comstab_df)
+  
+  # set class for plot and print methods
+  class(comstab) <- c("comstab", "comstab_list")
+  return(comstab)
+}
+
 #' @export
-print.comstab <- function(x, ...){
-  cat("\nPartitionning of the community temporal variability (CV)")
-  cat("\n")
-  cat(paste0("Community CV = ", round(x$CVs["CVc"], 2),
-             "\nTotal stabilization = ", round(x$Stabilization["tau"], 2),
-             "\nDominance effect = ", round(x$Stabilization["Delta"], 2),
-             "\nAsynchrony effect = ", round(x$Stabilization["Psi"], 2),
-             "\nAveraging effect = ", round(x$Stabilization["omega"], 2)))
-  cat("\n")
-  cat("\nRelatives contributions:")
-  cat(paste0("\n% Dominance = ", round(x$Relative["Delta_cont"], 2)),
-      paste0("\n% Asynchrony = ", round(x$Relative["Psi_cont"], 2)),
-      paste0("\n% Averaging = ", round(x$Relative["omega_cont"], 2)))
+print.comstab <- function(x){
+  
+  prt_comstab <- function(y){
+    cat("\nPartitionning of the community temporal variability (CV)")
+    cat("\n")
+    cat(paste0("Community CV = ", round(y$CVs["CVc"], 2),
+               "\nTotal stabilization = ", round(y$Stabilization["tau"], 2),
+               "\nDominance effect = ", round(y$Stabilization["Delta"], 2),
+               "\nAsynchrony effect = ", round(y$Stabilization["Psi"], 2),
+               "\nAveraging effect = ", round(y$Stabilization["omega"], 2)))
+    cat("\n")
+    cat("\nRelatives contributions:")
+    cat(paste0("\n% Dominance = ", round(y$Relative["Delta_cont"], 2)),
+        paste0("\n% Asynchrony = ", round(y$Relative["Psi_cont"], 2)),
+        paste0("\n% Averaging = ", round(y$Relative["omega_cont"], 2)))
+  }
+  
+  if (inherits(x, "comstab_list")) {
+    nms <- names(x)
+    for (i in seq_along(x)) {
+      label <- if (!is.null(nms) && nms[i] != "") nms[i] else paste("Object", i)
+      if( i == 1 ){
+        cat(paste0("Community: ", label, "\n"))
+      } else {
+        cat(paste0("\n\nCommunity: ", label, "\n"))
+      }
+      prt_comstab(x[[i]])
+    }
+  } else {
+    prt_comstab(x)
+  }
 }
 
 #' @export
@@ -201,4 +263,58 @@ as.data.frame.comstab <- function(x, ...) {
              omega_rel = x$Relative["omega_cont"])
   rownames(d) <- NULL
   return(d)
+}
+
+##### REVISAR TERNARY PLTOS PORQUE LOS EJES VAN AL REVES
+
+#' @export
+plot.comstab <- function(x, y = NULL, change = TRUE, relative = TRUE, ...) {
+  
+  # as data frome based on class
+  if (inherits(x, "comstab_list")) {
+    dat <- do.call("rbind", lapply(x, as.data.frame))
+  } else {
+    dat <- as.data.frame(x)
+  }
+  
+  # pot functions
+  # cv
+  plot_cv <- function(dat) {
+    cc <- dat[, c("CVe", "CVtilde", "CVa", "CVc")]
+    plot(x = 1:4, y = NULL, type = "n", xaxt = "n", xlab = NA, ylab = NA,
+         xlim = c(1, 4), ylim = c(0.9 * min(cc), 1.1 * max(cc)))
+    for (i in seq_len(nrow(cc))) {
+      lines(x = 1:4, y = cc[i, ], type = "b", col = i, pch = 19, cex = 1.5)
+    }
+    axis(side = 1, at = 1:4,
+         labels = c(expression(CV[e]), expression(widetilde(CV)),
+                    expression(CV[a]), expression(CV[com])))
+    mtext(text = c("Dominance", "Asynchrony", "Averaging"),
+          side = 1, at = 1.5:3.5, line = -1.1, cex = 1)
+  }
+  # relative effects
+  plot_ternary <- function(dat) {
+    isopleuros::ternary_plot(
+      x = dat$delta_rel, xlab = "Dominance",
+      y = dat$psi_rel,   ylab = "Asynchrony",
+      z = dat$omega_rel, zlab = "Averaging",
+      panel.first = isopleuros::ternary_grid(),
+      pch = 19, col = seq_len(nrow(dat))
+    )
+  }
+  
+  # set layout and plot
+  if ( isTRUE(change) && isTRUE(relative) ) {
+    graphics::layout(matrix(c(1, 2), nrow = 1, ncol = 2))
+    plot_cv(dat)
+    plot_ternary(dat)
+  } else if ( isTRUE(change) ) {
+    graphics::layout(matrix(1, nrow = 1, ncol = 1))
+    plot_cv(dat)
+  } else {
+    graphics::layout(matrix(1, nrow = 1, ncol = 1))
+    plot_ternary(dat)
+    
+  }
+  graphics::par(mfrow = c(1, 1), xpd = FALSE, mar = c(5.1, 4.1, 4.1, 2.1))
 }
