@@ -128,6 +128,7 @@ var_t2mv <- function(x, method = c("euclidean", "chord")){
 #' @param x A community abundance matrix.
 #' @param method Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance) "two" for Hill's two term local quadrat variance. Default "var".
+#' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #'
 #' @details The multivariate coefficient of variation is estimated by dividing the multivariate variance of community composition by the sample norm of the average composition.
 #' 
@@ -153,9 +154,15 @@ var_t2mv <- function(x, method = c("euclidean", "chord")){
 #' cv_mv(x = comm_df, method = "euclidean", term = "var") # 0.958
 #' cv_mv(x = comm_df, method = "euclidean", term = "two") # 0.961
 #' @export
-cv_mv <- function(x, method = c("euclidean", "chord"), term = c("var", "two")) {
+cv_mv <- function(x, time_col = "time", method = c("euclidean", "chord"), term = c("var", "two")) {
   method <- match.arg(method)
   term   <- match.arg(term)
+  
+  # Check if a time column was specified for detrending methods and order rows
+  x <- check_time(x, time_col = time_col, term = term, rm = TRUE)
+  
+  # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
+  x <- remove_empty_sps(x = x, time_col = time_col)
   
   # Match variance function
   var_func <- switch(
@@ -177,5 +184,7 @@ cv_mv <- function(x, method = c("euclidean", "chord"), term = c("var", "two")) {
                  chord     = sqrt(vv),
                  euclidean = sqrt(vv) / SN
   )
+  names(CVmv) <- paste0("CV_", method)
+  
   return(CVmv)
 }

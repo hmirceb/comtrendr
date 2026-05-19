@@ -12,7 +12,9 @@ community_stability(
   cv = c("com", "pop"),
   weighted = TRUE,
   synchrony = TRUE,
-  index = c("psi", "phi", "eta", "logvar")
+  index = c("psi", "phi", "eta", "logvar"),
+  composition = FALSE,
+  method = c("euclidean", "chord")
 )
 }
 \arguments{

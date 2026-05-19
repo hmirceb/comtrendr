@@ -27,7 +27,9 @@ community_stability <- function(
     cv = c("com", "pop"),
     weighted = TRUE,
     synchrony = TRUE,
-    index = c("psi", "phi", "eta", "logvar")
+    index = c("psi", "phi", "eta", "logvar"),
+    composition = FALSE,
+    method = c("euclidean", "chord")
     ) {
   
   # Check community column, if not present create one and assume a single community
@@ -61,20 +63,32 @@ community_stability <- function(
     }
     
     # cv metrics
+    # community
     if ( any(cv %in% "com") ){
-      cv_com <- cv_com_term(y, total = TRUE, 
-                        time_col = time_col, 
-                        term = term)
+      cv_com <- cv_com_term(y, 
+                            total = TRUE, 
+                            time_col = time_col, 
+                            term = term)
     } else { cv_com <- NA }
     
+    # populations
     if ( any(cv %in% "pop") ){
-      cv_pop <- cv_com_term(y, total = F, 
-                        time_col = time_col, 
-                        term = term, 
-                        weighted = weighted)$CV
+      cv_pop <- cv_com_term(y, 
+                            total = F, 
+                            time_col = time_col, 
+                            term = term, 
+                            weighted = weighted)$CV
     } else { cv_pop <- NA }
     
-    res <- c(synchrony, cv_com, cv_pop)
+    # multivariate
+    if ( isTRUE(composition) ){
+      cv_composition <- cv_mv(y,
+                              method = method,
+                              time_col = time_col, 
+                              term = term)
+    } else { cv_composition <- NA }
+    
+    res <- c(synchrony, cv_com, cv_pop, cv_composition)
     res_df <- data.frame(metric = names(res), 
                          value = res,
                          term = term)
@@ -85,7 +99,7 @@ community_stability <- function(
   }
   )
   comm_stability <- do.call("rbind", res_list)
-  comm_stability <- comm_stability[comm_stability$metric != "", ]
+  comm_stability <- comm_stability[!is.na(comm_stability$value), ]
   rownames(comm_stability) <- NULL
   
   # tag weighted metrics

@@ -4,10 +4,17 @@
 \alias{cv_mv}
 \title{Multivariate coefficient of variation}
 \usage{
-cv_mv(x, method = c("euclidean", "chord"), term = c("var", "two"))
+cv_mv(
+  x,
+  time_col = "time",
+  method = c("euclidean", "chord"),
+  term = c("var", "two")
+)
 }
 \arguments{
 \item{x}{A community abundance matrix.}
+
+\item{time_col}{Character. Name of the column with time variable. Optional with default "time".}
 
 \item{method}{Character. Community dissimilarity metric to use. One of 'euclidean' or 'chord'. Default 'euclidean'.}
 
