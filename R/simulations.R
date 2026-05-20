@@ -59,9 +59,6 @@ sim_mvcomm <- function(n_sp = 10,
                          bimodal = bimodal_trend,
                          comp = FALSE)
   
-  # Get SD of abundances from TPL
-  sd_abu <- sqrt(mean_abu ** power)
-  
   # Check that correlation is feasible
   eta_min <- -1 / (n_sp - 1)
   n_sp_max <- ceiling((-1 / corr) + 1)
@@ -73,8 +70,11 @@ sim_mvcomm <- function(n_sp = 10,
   # drawn from multivariate normal so species correlate
   simcom <- matrix(0, years, n_sp)
   for (j in 1:years) {
+    mu <- abu_matrix[j,] * (1 + trend[j] * trend_resp)
+    # Get SD of abundances from TPL
+    sd_abu <- sqrt(mu ** power)
     abi <- unlist(faux::rnorm_multi(n = 1, 
-                                    mu = abu_matrix[j,] * (1 + trend[j] * trend_resp), 
+                                    mu = mu, 
                                     sd = sd_abu,
                                     r = corr))
     # Force positive values if necessary
