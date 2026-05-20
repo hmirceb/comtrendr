@@ -6,7 +6,7 @@
 #' @param power Numeric. Exponent of the Taylor's Power Law to estimate variance from mean abundance.
 #' @param bound_pos Boolean. Bound abundance values to be positive. Default TRUE.
 #' @param corr Numeric. Average correlation between populations.
-#' @param p Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with lower values indicating more even communities.
+#' @param even Numeric. Dispersion parameter for a Dirichlet distribution. Controls the evenness of the community with higher values indicating more even communities.
 #' @param trend_mean Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline. Default 0 (no trend).
 #' @param trend_sd Numeric. Standard deviation of the trend.
 #' @param bimodal_trend Boolean. If TRUE half of the species have negative trends and half positive. Default FALSE.
@@ -34,7 +34,7 @@ sim_mvcomm <- function(n_sp = 10,
                         power = 1.8,
                         bound_pos = TRUE,
                         corr = 0,
-                        p = 0.8,
+                        even = 0.8,
                         trend_mean = 0,
                         trend_sd = 0.01,
                         bimodal_trend = FALSE,
@@ -44,7 +44,7 @@ sim_mvcomm <- function(n_sp = 10,
   # that add up to 1 using the dirchlet distribtion. Parameter alpha (p)
   # controls the spread of the values, with higher values leading to 
   # more even relative abundances and thus less dominance
-  mean_abu <- sort(tot_abu * gtools::rdirichlet(1, alpha = rep(p, n_sp))[1,], decreasing = TRUE)
+  mean_abu <- sort(tot_abu * gtools::rdirichlet(1, alpha = rep(even, n_sp))[1,], decreasing = TRUE)
   
   # Create a matrix of abundances
   abu_matrix <- matrix(rep(mean_abu, times = years),
@@ -103,7 +103,7 @@ sim_mvcomm <- function(n_sp = 10,
                          power = power,
                          bound_pos = bound_pos,
                          corr = corr,
-                         p = p,
+                         even = even,
                          trend_mean = trend_mean,
                          trend_sd = trend_sd,
                          bimodal_trend = bimodal_trend))

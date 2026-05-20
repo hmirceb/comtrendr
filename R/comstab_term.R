@@ -178,6 +178,7 @@ comstab_term <- function(x,
                           term = "var",
                           community_col = "comm",
                           time_col = "time"){
+  x <- as.data.frame(x)
   
   # Check community column, if not present create one and assume a single community
   if( !community_col %in% colnames(x) ) {
