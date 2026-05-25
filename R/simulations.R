@@ -4,13 +4,10 @@
 #' @param years Numeric. NUmber of years to simulate.
 #' @param tot_abu Numeric. Total abundance of the community.
 #' @param power Numeric. Exponent of the Taylor's Power Law to estimate variance from mean abundance.
-#' @param bound_pos Boolean. Bound abundance values to be positive. Default TRUE.
 #' @param corr Numeric. Average correlation between populations.
 #' @param even Numeric. The relative abundance (between 0 and 1) of the most abundant species. Controls the evenness of the community with lower values indicating more even communities. Alternatively, a vector of relative abundaces of length = n_sp.
-#' @param trend_mean Numeric. Mean of the trend. Positive values indicate growth and negative ones, decline. Default 0 (no trend).
-#' @param trend_sd Numeric. Standard deviation of the trend.
-#' @param bimodal_trend Boolean. If TRUE half of the species have negative trends and half positive. Default FALSE.
-#' @param offset Boolean. Add a small offset to all species (1% of the average species abundance) to avoid 0s in the simulated dataset. Default TRUE.
+#' @param trend_mean Numeric. Mean of the trend. Can be a single value (for a shared trend across species) or a vector of length = `n_sp` (for individual trends). Positive values indicate growth and negative ones, decline. Default 0 (no trend).
+#' @param trend_sd Numeric. Standard deviation of the trend. Can be a single value or a vector of the same length as `trend_mean`.
 #' 
 #' @returns A named list with three elements:
 #' - `sim_data`: A data.frame with the simulated data, species in columns and time steps in rows.
@@ -32,13 +29,10 @@ sim_mvcomm <- function(n_sp = 10,
                        years = 25,
                        tot_abu = 200 * n_sp,
                        power = 1.8,
-                       bound_pos = TRUE,
                        corr = 0,
                        even = 0.5,
                        trend_mean = 0,
-                       trend_sd = 0.01,
-                       bimodal_trend = FALSE,
-                       offset = TRUE){
+                       trend_sd = 0.01){
   
   # Vector of mean abundances.
   # check evenness values
@@ -54,7 +48,7 @@ sim_mvcomm <- function(n_sp = 10,
     mean_abu <- sort(
       tot_abu * even,
       decreasing = TRUE
-      )
+    )
   }
   
   # Create a matrix of abundances
@@ -63,12 +57,16 @@ sim_mvcomm <- function(n_sp = 10,
   
   # Simulate trends
   trend <- seq(-1, 1, length.out = years)
-  trend_resp <- response(state = TRUE,
-                         n_sp = n_sp,
-                         mean = trend_mean,
-                         sd = trend_sd,
-                         bimodal = bimodal_trend,
-                         comp = FALSE)
+  # Check vector of trends
+  if( length(trend_mean) == 1 ){
+    trend_resp <- stats::rnorm(n = n_sp, mean = trend_mean, sd = trend_sd)
+  } else {
+    if (length(trend_mean) != length(trend_sd)){stop("Lengths of vectors of means and SD differ.")}
+    trend_resp <- sapply(seq_along(trend_mean), FUN = function(z){
+      stats::rnorm(n = 1, mean = trend_mean[z], sd = trend_sd[z])
+    }
+    )
+  }
   
   # Check that correlation is feasible
   eta_min <- -1 / (n_sp - 1)
@@ -81,33 +79,29 @@ sim_mvcomm <- function(n_sp = 10,
   # drawn from multivariate normal so species correlate
   simcom <- matrix(0, years, n_sp)
   for (j in 1:years) {
-    mu <- abu_matrix[j,] * (1 + trend[j] * trend_resp)
+    mu <- abu_matrix[j,] *  exp(trend[j] * trend_resp)
     # Get SD of abundances from TPL
     sd_abu <- sqrt(mu ** power)
     abi <- unlist(faux::rnorm_multi(n = 1, 
                                     mu = mu, 
                                     sd = sd_abu,
                                     r = corr))
-    # Force positive values if necessary
-    if (bound_pos) {
-      abi[abi < 0] <- 0
-    }
+    # Force positive values
+    abi[abi < 0] <- 0
     simcom[j, ] <- abi
   }
   
   # Add a small offset (1% of the mean abundance of each species) to avoid having 0s
-  if( isTRUE(offset) ) {
-    off <- colMeans(simcom)*0.01 
-    # Add vector to matrix rowwise
-    simcom <- as.data.frame(sweep(x = simcom, MARGIN = 2, STATS = off, FUN = "+"))
-  }
+  off <- colMeans(simcom)*0.01 
+  # Add vector to matrix rowwise
+  simcom <- as.data.frame(sweep(x = simcom, MARGIN = 2, STATS = off, FUN = "+"))
   
   # Set species names
-  colnames(simcom) <- paste(sep = "_", "sp", seq_along(colnames(simcom)))
+  colnames(simcom) <- paste(sep = "_", "sp", seq_len(n_sp))
   
   # Results into list
   res <- list(sim_data = simcom,
-              true_trend = exp(colMeans(apply(log(simcom), 2, diff))),
+              true_trend = colMeans(apply(log(simcom), 2, diff)),
               params = c(n_sp = n_sp,
                          years = years,
                          tot_abu = tot_abu,
@@ -115,8 +109,8 @@ sim_mvcomm <- function(n_sp = 10,
                          bound_pos = bound_pos,
                          corr = corr,
                          even = even,
-                         trend_mean = trend_mean,
-                         trend_sd = trend_sd,
+                         trend_mean = unique(trend_mean),
+                         trend_sd = unique(trend_sd),
                          bimodal_trend = bimodal_trend))
   
   return(res)
