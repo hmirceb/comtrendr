@@ -166,7 +166,7 @@ trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE,
 
 }
 
-#' Estimate population trends in a community
+#' Internal function to estimate population trends in a community
 #'
 #' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
@@ -177,16 +177,13 @@ trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE,
 #' 
 #' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
 #' 
-#' @examples
-#' require(detrending)
-#' 
-#' # Simulate community data with trends
-#' comm_df <- sim_mvcomm(trend_mean = 0.3)
-#' 
-#' # Estimate trend for each species and plot them
-#' community_trends(comm_df$sim_data, method = "loglinear", plot = TRUE)
-#' @export
-community_trends <- function(x, time_col = "time", community_col = "comm", method = "loglinear", plot = FALSE, title = NULL){
+#' @noRd
+community_trends_internal <- function(x,
+                                      time_col = "time", 
+                                      community_col = "comm", 
+                                      method = "loglinear", 
+                                      plot = FALSE,
+                                      title = NULL){
   # Match trend estimation function
   method_matched <- match.arg(method, choices = c("dennis", "loglinear", "rda"))
   
@@ -310,11 +307,76 @@ community_trends <- function(x, time_col = "time", community_col = "comm", metho
   }
   
   if (method_matched == "rda") {
-    return(trends$anova)
+    return(as.data.frame(trends))
   }
   if (method_matched %in% c("dennis", "loglinear")) {
     return(trends)
   }
+}
+
+#' Estimate population trends in a community
+#'
+#' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
+#' @param time_col Character. Name of the column with time variable. Optional with default "time".
+#' @param community_col Character. Name of column with the community identifier.
+#' @param method Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".
+#' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
+#' @param title Character. Title for the plot. Default NULL.
+#' 
+#' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
+#' 
+#' @examples
+#' require(detrending)
+#' 
+#' # Simulate community data with trends
+#' comm_df <- sim_mvcomm(trend_mean = 0.3)
+#' 
+#' # Estimate trend for each species and plot them
+#' community_trends(comm_df$sim_data, method = "loglinear", plot = TRUE)
+#' @export
+community_trends <- function(x, 
+                             time_col = "time",
+                             community_col = "comm", 
+                             method = "loglinear",
+                             plot = FALSE, 
+                             title = NULL){
+  # force df
+  x <- as.data.frame(x)
+  
+  # Check community column, if not present create one and assume a single community
+  if( !community_col %in% colnames(x) ) {
+    warning("Missing community column. Data are assumed to belong to a single community.",
+            call. = FALSE)
+    community_col <- "comm"
+    x <- cbind(comm = as.character(rep(1, times = nrow(x))), x)
+  }
+  
+  # split into communities
+  c_list <- split(x, f = as.character(x[, community_col]))
+  
+  # get trend of each community
+  community_trends <- lapply(c_list, FUN = function(y){
+    # save community id
+    comm_id <- unique(y[,colnames(y) %in% community_col])
+    # remove community column
+    y <- y[,!colnames(y) %in% community_col]
+    # trends
+    community_trends_ <- community_trends_internal(x = y,
+                                                   time_col = time_col,
+                                                   community_col = community_col, 
+                                                   method = method,
+                                                   plot = plot, 
+                                                   title = comm_id)
+    # return comm id
+    community_trends_ <- cbind(comm = comm_id, community_trends_)
+    return(community_trends_)
+  }
+  )
+  # merge and remove rownames
+  community_trends <- do.call("rbind", community_trends)
+  rownames(community_trends) <- NULL
+  
+  return(community_trends)
 }
 
 # #' @export
@@ -393,6 +455,14 @@ community_trends <- function(x, time_col = "time", community_col = "comm", metho
 # }
 
 #' @export
+as.data.frame.mv_trend <- function(x, ...){
+  df <- as.data.frame(t(x$anova))
+  rownames(df) <- NULL
+  
+  return(df)
+}
+
+#' @export
 plot.mv_trend <- function(x, ...) {
   # get community scores
   rda_sites <- vegan::scores(x$rda)$sites
@@ -415,8 +485,10 @@ plot.mv_trend <- function(x, ...) {
     y1 <- rda_sites[i,2]
     # only the last one is a proper arrow
     angle <- ifelse(i == max(nrow(rda_sites)), 20, 0)
+    suppressWarnings(
     graphics::arrows(x0 = x0, y0 = y0, x1 = x1, y1 = y1,
                      angle = angle, length = 0.1)
+    )
   }
   # add time steps with text and colored points
   graphics::text(x = rda_sites[,1],
