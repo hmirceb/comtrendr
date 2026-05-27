@@ -277,7 +277,7 @@ as.data.frame.comstab <- function(x, ...){
   } else {
     dat <- comstab_to_df(x)
   }
-  dat <- cbind(comm = rownames(dat), term= attributes(aaa)$term, dat)
+  dat <- cbind(comm = rownames(dat), term = attributes(x)$term, dat)
   rownames(dat) <- NULL
   return(dat)
 }
