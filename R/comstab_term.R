@@ -211,8 +211,10 @@ comstab_term <- function(x,
   # 
   # print(comstab_df)
   
-  # set class for plot and print methods
+  # set class and term for plot and print methods
   class(comstab) <- c("comstab", "comstab_list")
+  attr(comstab, "term") <- term
+  
   return(comstab)
 }
 
@@ -275,7 +277,7 @@ as.data.frame.comstab <- function(x, ...){
   } else {
     dat <- comstab_to_df(x)
   }
-  dat <- cbind(comm = rownames(dat), dat)
+  dat <- cbind(comm = rownames(dat), term= attributes(aaa)$term, dat)
   rownames(dat) <- NULL
   return(dat)
 }
