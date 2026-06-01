@@ -53,7 +53,7 @@ comstab_internal <- function(x,
   
   # Check if community fluctuates
   if (CV == 0) {
-    stop("The community CV is zero. This analysis does not apply to \n perfectly stable communities.")
+    stop("The community CV is zero. This analysis does not apply to \nperfectly stable communities.")
   }
   
   # Stop if there is only one species

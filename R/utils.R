@@ -257,8 +257,11 @@ tpl <- function(vari, meani) {
   # Remove them
   y <- vari[inds]
   x <- meani[inds]
+  # log transform
+  y <- log(y)
+  x <- log(x)
   # Estimate TPL
-  coefs <- stats::coef(stats::lm(log10(y) ~ log10(x)))
+  coefs <- stats::coef(stats::lm(y ~ x))
   names(coefs) <- c("alpha", "beta")
   return(coefs)
 }
