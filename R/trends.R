@@ -463,7 +463,7 @@ as.data.frame.mv_trend <- function(x, ...){
 }
 
 #' @export
-plot.mv_trend <- function(x, ...) {
+plot.mv_trend <- function(x, species_labels = T, ...) {
   # get community scores
   rda_sites <- vegan::scores(x$rda)$sites
   # get species scores
@@ -524,11 +524,15 @@ plot.mv_trend <- function(x, ...) {
                    col = seq_along(rownames(rda_species)),
                    pch = 19,
                    cex = 1.5)
-  graphics::text(x = rda_species[,1],
-                 y = rda_species[,2],
-                 labels = short_names(rownames(rda_species)),
-                 pos = 3,
-                 font = 2)
+  
+  if( isTRUE(species_labels) ){
+    graphics::text(x = rda_species[,1],
+                   y = rda_species[,2],
+                   labels = short_names(rownames(rda_species)),
+                   pos = 3,
+                   font = 2)
+  }
+  
   # add arrows indicating species trend
   spec_arrow <- rda_species[,1] + 0.2 * rda_species[,1] * vegan::scores(x$rda)$regression[1]
   suppressWarnings(
