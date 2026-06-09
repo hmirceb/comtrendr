@@ -8,6 +8,7 @@ sync_term(
   x,
   index = c("psi", "phi", "eta", "logvar"),
   term = "var",
+  linear = FALSE,
   time_col = "time",
   weighted = FALSE
 )
@@ -18,6 +19,8 @@ sync_term(
 \item{index}{Character. Synchrony index to calculate. One of "psi", (Segrestin \emph{et al.} 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross \emph{et al.} 2014) or "logvar" (Leps \emph{et al.} 2018).}
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
+
+\item{linear}{Boolean. Decompose synchrony into its trend and non-trend components using linear regression. Default FALSE.}
 
 \item{time_col}{Character. Name of the column with time variable. Optional, if not provided the function assumes that rows are in order  by default.}
 
