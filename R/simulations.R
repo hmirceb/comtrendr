@@ -101,6 +101,7 @@ sim_mvcomm <- function(n_sp = 10,
   off    <- colMeans(simcom) * 0.01
   simcom <- as.data.frame(sweep(x = simcom, MARGIN = 2, STATS = off, FUN = "+"))
   
+  # remove trend to retreive baseline
   p <- matrix(trend_resp, ncol = n_sp, nrow = years, byrow = T)
   p <- sweep(p, 1, seq_len(years), "*")
   baseline <- simcom / exp(p)
