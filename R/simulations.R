@@ -123,8 +123,6 @@ sim_mvcomm <- function(n_sp = 10,
   )
 }
 
-
-
 #' Simulate community with fluctuations in species abundances across time
 #'
 #' @param years Numeric. The length of the timeseries in years.
