@@ -5,12 +5,12 @@
 #' @param x Numeric. A vector of values to estimate the 2 term local quadrat variance.
 #'
 #' @details
-#' The two term local quadrat variance is calculated using the following expression:
-#' \deqn{TTLQV_{2} = \dfrac{\sum_{i=1}^{t-1}{(x_{i+1}-x_{i}})^2}{2(t-1)}}
+#' The two term local quadrat variance (\eqn{2TLQV}) is calculated using the following expression:
+#' \deqn{2TLQV = \dfrac{\sum_{i=1}^{t-1}{(x_{i+1}-x_{i}})^2}{2(t-1)}}
 #' 
-#' Where \eqn{x_{i}} is the abundance of species \eqn{i} along time \eqn{t}. 
+#' Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series. 
 #'
-#' @returns The 2 term local quadrat variance.
+#' @returns A single numeric value with the \eqn{2TLQV}).
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
@@ -36,12 +36,12 @@ var_t2 <- function(x){
 #' @param x Numeric. A vector of values to estimate their 3 term local quadrat variance.
 #'
 #' @details
-#' The three term local variance is calculated using the following expression:
-#' \deqn{TTLQV_{3} = \dfrac{\sum_{i=1}^{t-2}{(x_{i}-2x_{i+1}+x_{i+2}})^2}{6(t-2)}}
+#' The three term local variance (\eqn{3TLQV }) is calculated using the following expression:
+#' \deqn{3TLQV = \dfrac{\sum_{i=1}^{t-2}{(x_{i}-2x_{i+1}+x_{i+2}})^2}{6(t-2)}}
 #' 
-#' Where \eqn{x_{i}} is the abundance of species \eqn{i} along time \eqn{t}. 
-#' 
-#' @returns Numeric. The 3 term local quadrat variance
+#' Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series. 
+#'
+#' @returns A single numeric value with the \eqn{3TLQV}).
 #'
 #' @author Lars Götzenberger, \email{}
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}

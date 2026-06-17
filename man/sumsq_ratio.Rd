@@ -23,6 +23,7 @@ require(detrending)
 # Simulate community data
 comm_df <- sim_mvcomm()
 sumsq_ratio(x = comm_df$sim_data)
+
 }
 \references{
 \itemize{

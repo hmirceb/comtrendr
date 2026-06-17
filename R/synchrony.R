@@ -243,6 +243,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
 #' sumsq_ratio(x = comm_df$sim_data)
+#' 
 #' @export
 sumsq_ratio <- function(x, time_col = "time") {
   
@@ -255,9 +256,9 @@ sumsq_ratio <- function(x, time_col = "time") {
   # Variance of sum of abundances
   var_com <- var_linear(rowSums(x))
   # Sum of individual variances of fitted values and residuals
-  var_fitres <- rowSums(apply(dat, 2, var_linear))
+  var_fitres <- rowSums(apply(x, 2, var_linear))
   # Sum of individual variances 
-  var_sps <- sum(apply(x, 2, var)) 
+  var_sps <- sum(apply(x, 2, stats::var)) 
   
   # Compute ratio
   v_ratio <- (var_com-var_fitres)/var_sps

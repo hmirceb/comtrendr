@@ -10,16 +10,16 @@ var_t3(x)
 \item{x}{Numeric. A vector of values to estimate their 3 term local quadrat variance.}
 }
 \value{
-Numeric. The 3 term local quadrat variance
+A single numeric value with the \eqn{3TLQV}).
 }
 \description{
 Hill's three term local quadrat variance
 }
 \details{
-The three term local variance is calculated using the following expression:
-\deqn{TTLQV_{3} = \dfrac{\sum_{i=1}^{t-2}{(x_{i}-2x_{i+1}+x_{i+2}})^2}{6(t-2)}}
+The three term local variance (\eqn{3TLQV }) is calculated using the following expression:
+\deqn{3TLQV = \dfrac{\sum_{i=1}^{t-2}{(x_{i}-2x_{i+1}+x_{i+2}})^2}{6(t-2)}}
 
-Where \eqn{x_{i}} is the abundance of species \eqn{i} along time \eqn{t}.
+Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series.
 }
 \examples{
 require(detrending)

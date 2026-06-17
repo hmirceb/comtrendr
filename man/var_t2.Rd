@@ -10,16 +10,16 @@ var_t2(x)
 \item{x}{Numeric. A vector of values to estimate the 2 term local quadrat variance.}
 }
 \value{
-The 2 term local quadrat variance.
+A single numeric value with the \eqn{2TLQV}).
 }
 \description{
 Hill's two term local quadrat variance
 }
 \details{
-The two term local quadrat variance is calculated using the following expression:
-\deqn{TTLQV_{2} = \dfrac{\sum_{i=1}^{t-1}{(x_{i+1}-x_{i}})^2}{2(t-1)}}
+The two term local quadrat variance (\eqn{2TLQV}) is calculated using the following expression:
+\deqn{2TLQV = \dfrac{\sum_{i=1}^{t-1}{(x_{i+1}-x_{i}})^2}{2(t-1)}}
 
-Where \eqn{x_{i}} is the abundance of species \eqn{i} along time \eqn{t}.
+Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series.
 }
 \examples{
 require(detrending)
