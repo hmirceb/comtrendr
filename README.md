@@ -11,3 +11,5 @@ Until its release on CRAN, the latest version can be installed using:
 ```
 pak::pkg_install("hmirceb/detrending")
 ```
+
+For any questions, please raise an issue on GitHub or via [email](mailto:hector94@gmail.com).
