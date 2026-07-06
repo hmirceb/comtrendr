@@ -1,6 +1,6 @@
 # detrending - Standard and detrended community stability metrics
 
-*Authors:*
+**Authors:**
 
 R package for calculating community stability using standard and detrended versions of several metrics.
 Long-term trends in abundance change may mask underlying short-term or annual dynamics when using standard metrics of variance. Using two and three term local quadratic estimates of variance, **detrending** offers additional information about short-term community dynamics. 
