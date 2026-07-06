@@ -6,7 +6,7 @@ R package for calculating community stability using standard and detrended versi
 Long-term trends in abundance change may mask underlying short-term or annual dynamics when using standard metrics of variance. Using two and three term local quadratic estimates of variance, **detrending** offers additional information about short-term community dynamics. 
 
 # Installation
-Until its release on CRAN, the latest version can be installed using:
+Until its release on CRAN, the latest version can be installed from GitHub:
 
 ```
 pak::pkg_install("hmirceb/detrending")
