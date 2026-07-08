@@ -1,5 +1,7 @@
 # detrending - Standard and detrended community stability metrics
 
+**Although fully functional, this is a development version and some things are may change before the final version release**
+
 **Authors:**
 
 R package for calculating community stability using standard and detrended versions of several metrics.
