@@ -34,7 +34,7 @@ require(detrending)
 
 # Load and clean data
 data(example_data_wide)
-metacomm_df <- clean_community(x = example_data_wide,
+metacomm_df <- comm_clean(x = example_data_wide,
                                input_format = "wide",
                                community_col = "comm",
                                time_col = "time",

@@ -1,11 +1,11 @@
 # Functions to calculate detrended variances and covariances
 
-#' Hill's two term local quadrat variance
+#' Hill's two term local quadrat variance (\eqn{2TLQV}).
 #'
-#' @param x Numeric. A vector of values to estimate the 2 term local quadrat variance.
+#' @param x Numeric. A vector of values to estimate their 2TLQV.
 #'
 #' @details
-#' The two term local quadrat variance (\eqn{2TLQV}) is calculated using the following expression:
+#' The \eqn{2TLQV} is calculated using the following expression:
 #' \deqn{2TLQV = \dfrac{\sum_{i=1}^{t-1}{(x_{i+1}-x_{i}})^2}{2(t-1)}}
 #' 
 #' Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series. 
@@ -31,12 +31,12 @@ var_t2 <- function(x){
   return(vtwo)
 }
 
-#' Hill's three term local quadrat variance 
+#' Hill's three term local quadrat variance (3TLQV).
 #'
-#' @param x Numeric. A vector of values to estimate their 3 term local quadrat variance.
+#' @param x Numeric. A vector of values to estimate their 3TLQV.
 #'
 #' @details
-#' The three term local variance (\eqn{3TLQV }) is calculated using the following expression:
+#' The \eqn{3TLQV } is calculated using the following expression:
 #' \deqn{3TLQV = \dfrac{\sum_{i=1}^{t-2}{(x_{i}-2x_{i+1}+x_{i+2}})^2}{6(t-2)}}
 #' 
 #' Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series. 

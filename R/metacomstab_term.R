@@ -2,7 +2,7 @@
 
 #' Partitioning of metacommunity stability in its components
 #' 
-#' This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond *et al.* (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates. Ideally input data should be processed with `clean_community()` before use. 
+#' This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond *et al.* (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates. Ideally input data should be processed with `comm_clean()` before use. 
 #'
 #' @param x A data.frame. Metacommunity matrix with time in rows, taxa in columns and a column identifying each community.
 #' @param community_col Character. Name of column with the community identifier.
@@ -258,7 +258,7 @@ print.cv.dec <- function (x, ...) {
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
-#' metacomm_df <- clean_community(x = example_data_wide, 
+#' metacomm_df <- comm_clean(x = example_data_wide, 
 #'                 input_format = "wide",
 #'                 community_col = "comm",
 #'                 time_col = "time")

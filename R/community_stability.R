@@ -18,10 +18,10 @@
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
-#' community_stability(x = comm_df$sim_data)
+#' comm_stability(x = comm_df$sim_data)
 #' 
 #' @export
-community_stability <- function(
+comm_stability <- function(
     x, 
     time_col = "time",
     community_col = "comm",

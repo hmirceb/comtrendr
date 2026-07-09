@@ -251,7 +251,7 @@ clean_community_long <- function(x,
 #' 
 #' # Clean data in long format
 #' data(example_data_long)
-#' clean_community(x = example_data_long, 
+#' comm_clean(x = example_data_long, 
 #'                 input_format = "long",
 #'                 community_col = "comm",
 #'                 time_col = "time",
@@ -260,12 +260,12 @@ clean_community_long <- function(x,
 #' 
 #' # Clean data in wide format
 #' data(example_data_wide)
-#' clean_community(x = example_data_wide, 
+#' comm_clean(x = example_data_wide, 
 #'                 input_format = "wide",
 #'                 community_col = "comm",
 #'                 time_col = "time")
 #' @export
-clean_community <- function(x, 
+comm_clean <- function(x, 
                             input_format = "wide",
                             community_col = "comm",
                             time_col = "time",

@@ -133,7 +133,7 @@ comstab_internal <- function(x,
 
 #' Decompose community stability
 #'
-#' `comstab_term()` partitions the temporal coefficient of variation of a community into the variability of the average species and three stabilizing effects: the dominance, asynchrony and averaging effects. It allows standard estimates of variance and CV as well as their detrended versions using Hill's two and three term local quadratic variance estimates (see Details).
+#' `comm_partitioning()` partitions the temporal coefficient of variation of a community into the variability of the average species and three stabilizing effects: the dominance, asynchrony and averaging effects. It allows standard estimates of variance and CV as well as their detrended versions using Hill's two and three term local quadratic variance estimates (see Details).
 #' 
 #' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
@@ -172,9 +172,9 @@ comstab_internal <- function(x,
 #' comm_df <- sim_mvcomm(n_sp = 15, years = 30)
 #' 
 #' # Decompose CV into stability components
-#' comstab_term(x = comm_df$sim_data, time_col = "time")
+#' comm_partitioning(x = comm_df$sim_data, time_col = "time")
 #' @export
-comstab_term <- function(x, 
+comm_partitioning <- function(x, 
                           term = "var",
                           community_col = "comm",
                           time_col = "time"){

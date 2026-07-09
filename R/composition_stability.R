@@ -20,7 +20,7 @@
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
-#' metacomm_df <- clean_community(x = example_data_wide,
+#' metacomm_df <- comm_clean(x = example_data_wide,
 #'                                input_format = "wide",
 #'                                community_col = "comm",
 #'                                time_col = "time",
@@ -54,7 +54,7 @@ chord_transform <- function(x) {
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
-#' metacomm_df <- clean_community(x = example_data_wide,
+#' metacomm_df <- comm_clean(x = example_data_wide,
 #'                                input_format = "wide",
 #'                                community_col = "comm",
 #'                                time_col = "time",
@@ -101,7 +101,7 @@ var_mv <- function(x, method = c("euclidean", "chord")){
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
-#' metacomm_df <- clean_community(x = example_data_wide,
+#' metacomm_df <- comm_clean(x = example_data_wide,
 #'                                input_format = "wide",
 #'                                community_col = "comm",
 #'                                time_col = "time",
@@ -143,7 +143,7 @@ var_t2mv <- function(x, method = c("euclidean", "chord")){
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
-#' metacomm_df <- clean_community(x = example_data_wide,
+#' metacomm_df <- comm_clean(x = example_data_wide,
 #'                                input_format = "wide",
 #'                                community_col = "comm",
 #'                                time_col = "time",

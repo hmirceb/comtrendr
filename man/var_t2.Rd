@@ -2,21 +2,21 @@
 % Please edit documentation in R/var_covar.R
 \name{var_t2}
 \alias{var_t2}
-\title{Hill's two term local quadrat variance}
+\title{Hill's two term local quadrat variance (\eqn{2TLQV}).}
 \usage{
 var_t2(x)
 }
 \arguments{
-\item{x}{Numeric. A vector of values to estimate the 2 term local quadrat variance.}
+\item{x}{Numeric. A vector of values to estimate their 2TLQV.}
 }
 \value{
 A single numeric value with the \eqn{2TLQV}).
 }
 \description{
-Hill's two term local quadrat variance
+Hill's two term local quadrat variance (\eqn{2TLQV}).
 }
 \details{
-The two term local quadrat variance (\eqn{2TLQV}) is calculated using the following expression:
+The \eqn{2TLQV} is calculated using the following expression:
 \deqn{2TLQV = \dfrac{\sum_{i=1}^{t-1}{(x_{i+1}-x_{i}})^2}{2(t-1)}}
 
 Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series.

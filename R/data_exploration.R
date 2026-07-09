@@ -74,12 +74,12 @@ pielou <- function(x) {
 #'  
 #' @returns A named list:
 #'  - `diversity`: A data.frame indicaitng the number of timesteps in each community, along with their species richness (S), Shannon's (H) and Pielou's indices (P).
-#'  - `trends`: A data.frame with the estimated mean abundance trends of the species in each community as returned by `community_trends()`.
+#'  - `trends`: A data.frame with the estimated mean abundance trends of the species in each community as returned by `comm_trends()`.
 #'  - `dominant_taxa`: A data.frame with the species considered dominant in each species and the number of missing data points in the time series.
 #'  - `transient_taxa`: A data.frame with the number and proportion of missing data for each species and if this proportion is below a certain threshold. 
 #'  
 #' @export
-community_info <- function(x,
+comm_info <- function(x,
                        by_timestep = FALSE,
                        total = "average",
                        community_col = "comm",
@@ -105,12 +105,12 @@ community_info <- function(x,
   # split data by community
   c_list <- split(x, f = as.character(x[, community_col]))
   
-  # Estimate trends (community_trends already checks the time column)
+  # Estimate trends (comm_trends already checks the time column)
   if ( isTRUE(check_trends) ) {
     trends_df <- lapply(c_list, function(t_com){
       sps_index <- !colnames(t_com) %in% c(community_col, time_col)
       cbind(comm = unique(t_com[, community_col]),
-            community_trends(x = t_com[sps_index], 
+            comm_trends(x = t_com[sps_index], 
                        method = "loglinear", 
                        plot = F))
     }

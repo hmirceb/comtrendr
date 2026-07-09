@@ -19,7 +19,7 @@ library(detrending)
 The **detrending** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamis, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spureous patterns of synchrony or variance.
 
 ## Cleaning and formatting data
-Most functions in `detrending` work with a data.frame of species data in columns and time steps in rows. The package includes the function `clean_community` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
+Most functions in `detrending` work with a data.frame of species data in columns and time steps in rows. The package includes the function `comm_clean()` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
 
 ```{r formatting_wide, fig.height=4, fig.width=7}
 # Load example data
@@ -29,7 +29,7 @@ data("example_data_long", package = "detrending")
 head(example_data_long)
 
 # We can
-clean_example <- clean_community(x = example_data_long,
+clean_example <- comm_clean(x = example_data_long,
                 input_format = "long",
                 community_col = "comm", # Column with community id
                 time_col = "time", # Column with time information
@@ -41,10 +41,10 @@ head(clean_example)
 # We can also check the number of time steps, species and 
 # other taxonomic alpha diversity metrics in each community. 
 # This metrics can be calculated for the whole community
-community_info(x = clean_example, total = "overall")
+comm_info(x = clean_example, total = "overall")
 
 # Or the average across years
-community_info(x = clean_example, total = "average")
+comm_info(x = clean_example, total = "average")
 ```
 
 ### Data simulation
@@ -64,11 +64,11 @@ We can also estimate linear trends in species abundance and test their statistic
 ```{r trends, fig.height=4, fig.width=7}
 # Simulate data without strong trends
 sim_data_notrend <- sim_mvcomm(trend_mean = 0)$sim_data
-community_trends(x = sim_data_notrend, method = "loglinear", plot = T)
+comm_trends(x = sim_data_notrend, method = "loglinear", plot = T)
 
 # Simulate data with some postitive and negative trends
 sim_data_trend <- sim_mvcomm(trend_mean = 0.4)$sim_data
-community_trends(x = sim_data_trend, method = "loglinear", plot = T)
+comm_trends(x = sim_data_trend, method = "loglinear", plot = T)
 ```
 
 ### Synchrony metrics

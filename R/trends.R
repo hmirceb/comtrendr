@@ -178,7 +178,7 @@ trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE,
 #' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
 #' 
 #' @noRd
-community_trends_internal <- function(x,
+comm_trends_internal <- function(x,
                                       time_col = "time", 
                                       community_col = "comm", 
                                       method = "loglinear", 
@@ -332,9 +332,9 @@ community_trends_internal <- function(x,
 #' comm_df <- sim_mvcomm(trend_mean = 0.3)
 #' 
 #' # Estimate trend for each species and plot them
-#' community_trends(comm_df$sim_data, method = "loglinear", plot = TRUE)
+#' comm_trends(comm_df$sim_data, method = "loglinear", plot = TRUE)
 #' @export
-community_trends <- function(x, 
+comm_trends <- function(x, 
                              time_col = "time",
                              community_col = "comm", 
                              method = "loglinear",
@@ -355,28 +355,28 @@ community_trends <- function(x,
   c_list <- split(x, f = as.character(x[, community_col]))
   
   # get trend of each community
-  community_trends <- lapply(c_list, FUN = function(y){
+  comm_trends <- lapply(c_list, FUN = function(y){
     # save community id
     comm_id <- unique(y[,colnames(y) %in% community_col])
     # remove community column
     y <- y[,!colnames(y) %in% community_col]
     # trends
-    community_trends_ <- community_trends_internal(x = y,
+    comm_trends_ <- comm_trends_internal(x = y,
                                                    time_col = time_col,
                                                    community_col = community_col, 
                                                    method = method,
                                                    plot = plot, 
                                                    title = comm_id)
     # return comm id
-    community_trends_ <- cbind(comm = comm_id, community_trends_)
-    return(community_trends_)
+    comm_trends_ <- cbind(comm = comm_id, comm_trends_)
+    return(comm_trends_)
   }
   )
   # merge and remove rownames
-  community_trends <- do.call("rbind", community_trends)
-  rownames(community_trends) <- NULL
+  comm_trends <- do.call("rbind", comm_trends)
+  rownames(comm_trends) <- NULL
   
-  return(community_trends)
+  return(comm_trends)
 }
 
 # #' @export
