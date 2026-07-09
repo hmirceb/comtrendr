@@ -30,7 +30,7 @@ A data.frame with the community data in long format.
 Clean community data in long format
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 data(example_data_long) # Load sample data
 dim(example_data_long) # 300 4

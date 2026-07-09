@@ -1,17 +1,17 @@
-# detrending - Standard and detrended community stability metrics
+# comtrendr - Standard and detrended community stability metrics
 
 **Although fully functional, this is a development version and some things are may change before the final version release**
 
 **Authors:**
 
 R package for calculating community stability using standard and detrended versions of several metrics.
-Long-term trends in abundance change may mask underlying short-term or annual dynamics when using standard metrics of variance. Using two and three term local quadratic estimates of variance, **detrending** offers additional information about short-term community dynamics. 
+Long-term trends in abundance change may mask underlying short-term or annual dynamics when using standard metrics of variance. Using two and three term local quadratic estimates of variance, **comtrendr** offers additional information about short-term community dynamics. 
 
 # Installation
 Until its release on CRAN, the latest version can be installed from GitHub:
 
 ```
-pak::pkg_install("hmirceb/detrending")
+pak::pkg_install("hmirceb/comtrendr")
 ```
 
 For any questions, please raise an issue on GitHub or via [email](mailto:hectorm94@gmail.com).

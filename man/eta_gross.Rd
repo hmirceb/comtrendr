@@ -30,7 +30,7 @@ This function estimates Gross et al. (2014) synchrony index Eta and its weighted
 }
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate community data
 comm_df <- sim_mvcomm()

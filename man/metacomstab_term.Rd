@@ -49,7 +49,7 @@ A data.frame with one column per stability component:
 This function partitions the stability of a metacommunity following the methods by Segrestin & Leps (2022) and Hammond \emph{et al.} (2020). It allows standard estimates of variance and CV as well as dentrended versions using Hill's two and three term local quadratic variance estimates.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Load and clean data
 data(example_data_wide)

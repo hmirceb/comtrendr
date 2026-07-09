@@ -31,7 +31,7 @@ Where \eqn{\alpha} is a scaling factor estimated as:
 Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate community data
 comm_df <- sim_mvcomm()

@@ -23,7 +23,7 @@
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' sim_mvcomm(n_sp = 15, years = 30)
 #' @export
@@ -179,7 +179,7 @@ sim_mvcomm <- function(n_sp = 10,
 #' @author Jan Lepš, \email{suspa@@prf.jcu.cz}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' sim_comm(n_sp = 15, years = 30)
 #' @export

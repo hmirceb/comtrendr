@@ -23,7 +23,7 @@ This function estimates Loreau & Mazancourts 2008 Phi synchrony index using stan
 \deqn{\phi = \dfrac{ \sigma_{x_{T}}^2 }{ (\sum_{i=1}^{S}{\sigma_{x_{i}}})^2 }}
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate community data
 comm_df <- sim_mvcomm()

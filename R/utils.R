@@ -16,10 +16,10 @@
 #' @noRd
 check_time <- function(x, time_col = "time", term = NULL, rm = TRUE) {
   
-  # Check if a time column was specified for detrending methods
+  # Check if a time column was specified for comtrendr methods
   if ( !time_col %in% colnames(x) & 
        term %in% c("two", "three") ) {
-    warning("Missing time column. Rows are assumed to be in order for detrending.",
+    warning("Missing time column. Rows are assumed to be in order for comtrendr.",
             call. = FALSE)
   } 
   
@@ -194,7 +194,7 @@ is_even <- function(x) {
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate data
 #' comm_data <- sim_mvcomm()

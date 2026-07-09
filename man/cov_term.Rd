@@ -18,7 +18,7 @@ Numeric. The covariance between variables x and y.
 Covariance between two variables using variance or Hill's 2 and 3 term variance
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 cov_term(x = rnorm(10), y = rnorm(10), term = "var")
 cov_term(x = rnorm(10), y = rnorm(10), term = "two")

@@ -39,7 +39,7 @@ where \eqn{CV_{com}} is the community coefficient of variation (reciprocal of co
 \eqn{ \Delta} is the dominance effect, \eqn{ \Psi} is the asynchrony effect, and \eqn{ \omega} is the averaging effect.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Load and clean data
 comm_df <- sim_mvcomm(n_sp = 15, years = 30)

@@ -1,8 +1,8 @@
 ---
-title: "detrending"
+title: "comtrendr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{detrending}
+  %\VignetteIndexEntry{comtrendr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,17 +13,17 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-library(detrending)
+library(comtrendr)
 ```
 
-The **detrending** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamis, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spureous patterns of synchrony or variance.
+The **comtrendr** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamis, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spureous patterns of synchrony or variance.
 
 ## Cleaning and formatting data
-Most functions in `detrending` work with a data.frame of species data in columns and time steps in rows. The package includes the function `comm_clean()` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
+Most functions in `comtrendr` work with a data.frame of species data in columns and time steps in rows. The package includes the function `comm_clean()` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
 
 ```{r formatting_wide, fig.height=4, fig.width=7}
 # Load example data
-data("example_data_long", package = "detrending")
+data("example_data_long", package = "comtrendr")
 
 # Show first rows of the data
 head(example_data_long)
@@ -84,7 +84,7 @@ sync_term(x = sim_df$sim_data, index = c("psi", "eta"))
 cv_com_term(x = sim_df$sim_data)
 ```
 
-An important aspect of the `detrending` is that it allows the estimation of detrended stability and synchrony metrics.
+An important aspect of the `comtrendr` is that it allows the estimation of detrended stability and synchrony metrics.
 Let's see this with an extreme case in which two species have clearly opposite trends but fluctuate randomly.
 
 ```{r detrends, fig.height=4, fig.width=4}

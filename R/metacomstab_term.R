@@ -254,7 +254,7 @@ print.cv.dec <- function (x, ...) {
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Load and clean data
 #' data(example_data_wide)

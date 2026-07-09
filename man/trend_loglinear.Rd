@@ -21,7 +21,7 @@ Estimate mean annual growth rate using linear regression
 For a given a time series of abundances \eqn{n_{t}} the function estimates a linear regression model with log-transformed abundances as the response variable and time steps (with \eqn{t_{0} = 0, t_{1} = 1...}) as the explanatory variable.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate time series
 ts <- 5^seq(1, 2, by = 0.01)

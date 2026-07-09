@@ -45,7 +45,7 @@ A named list with three elements:
 Simulate community from a multivariate normal
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 sim_mvcomm(n_sp = 15, years = 30)
 }

@@ -83,7 +83,7 @@ settings from the function call.
 Simulate community with fluctuations in species abundances across time
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 sim_comm(n_sp = 15, years = 30)
 }

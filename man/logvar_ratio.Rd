@@ -22,7 +22,7 @@ A numeric value.
 This function lets you estimate the synchrony index using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate community data
 comm_df <- sim_mvcomm()

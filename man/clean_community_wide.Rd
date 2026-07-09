@@ -36,7 +36,7 @@ A data.frame with the community data in wide format.
 Clean community data in wide format
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 data(example_data_wide) # Load sample data
 clean_community_wide(x = example_data_wide,

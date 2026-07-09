@@ -1,4 +1,4 @@
-Package: detrending
+Package: comtrendr
 Title: A Suite of Tools for Estimating Community Stability and its Components in the Presence of Trends
 Version: 1.0.0
 Authors@R: c(
@@ -20,8 +20,8 @@ Imports:
   graphics,
   vegan,
   isopleuros
-URL: https://github.com/hmirceb/detrending
-BugReports: https://github.com/hmirceb/detrending/issues
+URL: https://github.com/hmirceb/comtrendr
+BugReports: https://github.com/hmirceb/comtrendr/issues
 Suggests: 
     knitr,
     rmarkdown,

@@ -16,7 +16,7 @@
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
@@ -50,7 +50,7 @@ chord_transform <- function(x) {
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
@@ -97,7 +97,7 @@ var_mv <- function(x, method = c("euclidean", "chord")){
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
@@ -139,7 +139,7 @@ var_t2mv <- function(x, method = c("euclidean", "chord")){
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
@@ -158,7 +158,7 @@ cv_mv <- function(x, time_col = "time", method = c("euclidean", "chord"), term =
   method <- match.arg(method)
   term   <- match.arg(term)
   
-  # Check if a time column was specified for detrending methods and order rows
+  # Check if a time column was specified for comtrendr methods and order rows
   x <- check_time(x, time_col = time_col, term = term, rm = TRUE)
   
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 

@@ -29,7 +29,7 @@
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
@@ -44,7 +44,7 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
     three = var_t3
   )
   
-  # Check if a time column was specified for detrending methods
+  # Check if a time column was specified for comtrendr methods
   x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
@@ -82,7 +82,7 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
 #' - Loreau, M., & de Mazancourt, C. (2008). Species synchrony and its drivers: neutral and nonneutral community dynamics in fluctuating environments. The American Naturalist, 172(2), E48-E66.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
@@ -97,7 +97,7 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
     three = var_t3
   )
   
-  # Check if a time column was specified for detrending methods
+  # Check if a time column was specified for comtrendr methods
   x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
@@ -132,7 +132,7 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
 #' - Blüthgen, N., Simons, N. K., Jung, K., Prati, D., Renner, S. C., Boch, S., ... & Gossner, M. M. (2016). Land use imperils plant and animal community stability through changes in asynchrony rather than diversity. Nature Communications, 7(1), 10697.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
@@ -147,7 +147,7 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
     three = var_t3
   )
   
-  # Check if a time column was specified for detrending methods
+  # Check if a time column was specified for comtrendr methods
   x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
@@ -195,7 +195,7 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
@@ -210,7 +210,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
     three = var_t3
   )
   
-  # Check if a time column was specified for detrending methods
+  # Check if a time column was specified for comtrendr methods
   x <- check_time(x = x, time_col = time_col, term = term, rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
@@ -248,7 +248,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' - Lepš, J., Götzenberger, L., Valencia, E. & de Bello, F. (2019). Accounting for long-term directional trends on year-to-year synchrony in species fluctuations. Ecography, 42, 1728-1741.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
@@ -257,7 +257,7 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' @export
 sumsq_ratio <- function(x, time_col = "time") {
   
-  # Check if a time column was specified for detrending methods
+  # Check if a time column was specified for comtrendr methods
   x <- check_time(x = x, time_col = time_col, term = "two", rm = TRUE)
   
   # Set NAs as 0 and remove species with 0 abundance
@@ -330,7 +330,7 @@ sumsq_ratio <- function(x, time_col = "time") {
 #' - Lepš, J., Götzenberger, L., Valencia, E. & de Bello, F. (2019). Accounting for long-term directional trends on year-to-year synchrony in species fluctuations. Ecography, 42, 1728-1741.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
@@ -352,7 +352,7 @@ sync_term <- function(x,
                         fun = c("psi_segrestin", "phi_loreau", "eta_gross", "logvar_ratio"))
   index_func <- options[options$index %in% index,]$fun
   
-  # Check if a time column was specified for detrending methods
+  # Check if a time column was specified for comtrendr methods
   x <- check_time(x = x, time_col = time_col, term = term, rm = FALSE)
   
   sync <- sapply(index_func, function(f){

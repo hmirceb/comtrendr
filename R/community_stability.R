@@ -14,7 +14,7 @@
 #' @returns A data frame with the selected metrics for each community, their value, the variance term used to estimate them and whether weighting was used.
 #'
 #' @examples
-#' #' require(detrending)
+#' #' require(comtrendr)
 #' 
 #' # Simulate community data
 #' comm_df <- sim_mvcomm()
@@ -46,7 +46,7 @@ comm_stability <- function(
   c_list <- split(x, f = as.character(x[, community_col]))
   
   res_list <- lapply(c_list, function(y) {
-    # Check if a time column was specified for detrending methods and order rows
+    # Check if a time column was specified for comtrendr methods and order rows
     y <- check_time(y, time_col = time_col, term = term, rm = FALSE)
     # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
     y <- remove_empty_sps(x = y, time_col = time_col, community_col = community_col)

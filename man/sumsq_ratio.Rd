@@ -18,7 +18,7 @@ A named vector of numeric values with the synchrony of the community whole commu
 This function fits linear regression models to each species in the community. Then it estimaes the synchrony of the community using the variance ratio of the observed values, the fitted values from the regression and their residuals.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate community data
 comm_df <- sim_mvcomm()

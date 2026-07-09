@@ -38,7 +38,7 @@ Perform Redundancy Analysis on species abundances with time as explanatory varia
 This function estimates temporal trends in abundance at the community level by conducting Redundanncy Analysis (RDA) on species abundances with time as an explanaroty variable.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate community data with trends
 comm_df <- sim_mvcomm(trend_mean = 0.3)

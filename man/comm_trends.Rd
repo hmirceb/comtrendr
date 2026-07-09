@@ -33,7 +33,7 @@ A data.frame with the trend (in the natural logarithm scale) for each species in
 Estimate population trends in a community
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate community data with trends
 comm_df <- sim_mvcomm(trend_mean = 0.3)

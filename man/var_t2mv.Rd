@@ -23,7 +23,7 @@ The multivariate two term local quadratic variance (\eqn{2TLQV_{mv}}) of communi
 Where \eqn{X_{i}} is the composition of the community at time \eqn{i} and \eqn{d(X_{i}, X_{i+1})} the Euclidean or Chord distance between succesive time steps.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Load and clean data
 data(example_data_wide)

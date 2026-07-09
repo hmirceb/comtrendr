@@ -56,7 +56,7 @@ results_euclid <- map_dfr(plot_ids,
     comp_var_euclid = var_euclid,
     euclid_CV = cv_euclid,
     sample_norm = sqrt(sum(mean_vec^2)),
-    dist_matrix = list(dist_matrix) # distance matrix needed for the next step - i.e. "detrending" by 2tlqv
+    dist_matrix = list(dist_matrix) # distance matrix needed for the next step - i.e. "comtrendr" by 2tlqv
   )
 }
 )

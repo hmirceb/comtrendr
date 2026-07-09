@@ -26,7 +26,7 @@ where \eqn{ y_{i} = \dfrac{ \ln{ ( n_{t}/n_{t-1}) } }{ t_{i} } } and \eqn{ t_{i}
 Note that the confidence intervals for the estimate of \eqn{\mu} are not reliable.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate time series
 ts <- 5^seq(1, 2, by = 0.01)

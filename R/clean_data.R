@@ -13,7 +13,7 @@
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' data(example_data_wide) # Load sample data
 #' clean_community_wide(x = example_data_wide,
@@ -144,7 +144,7 @@ clean_community_wide <- function(x,
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' data(example_data_long) # Load sample data
 #' dim(example_data_long) # 300 4
@@ -247,7 +247,7 @@ clean_community_long <- function(x,
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Clean data in long format
 #' data(example_data_long)

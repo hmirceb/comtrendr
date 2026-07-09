@@ -22,7 +22,7 @@ The multivariate variance of community composition is defined as the average squ
 \deqn{var_{mv} = \dfrac{ \sum_{i=1}^{t}{d(X_{i}, \overline{X})^2} }{t-1}}
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Load and clean data
 data(example_data_wide)

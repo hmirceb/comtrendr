@@ -29,7 +29,7 @@ comstab_internal <- function(x,
     stop("Only one year provided.")
   }
   
-  # Check if a time column was specified for detrending methods and order rows
+  # Check if a time column was specified for comtrendr methods and order rows
   x <- check_time(x, time_col = time_col, term = term, rm = TRUE)
   
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
@@ -166,7 +166,7 @@ comstab_internal <- function(x,
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Load and clean data
 #' comm_df <- sim_mvcomm(n_sp = 15, years = 30)

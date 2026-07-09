@@ -45,7 +45,7 @@ A data.frame with community data ready to use in other functions.
 Clean community data to use in other functions
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Clean data in long format
 data(example_data_long)

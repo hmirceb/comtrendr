@@ -6,7 +6,7 @@
 #' @returns A numeric value.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' d <- rnorm(1000, mean = 10, sd = 30)
 #' cv_term(d) # ~3
 #' @export
@@ -41,7 +41,7 @@ cv_term <- function(x, term = "var") {
 #' @returns If total = TRUE, a numeric value with the CV of the sum of annual abundances. If total = FALSE, a named list with the average CV across the populations in the community and the CVs of each population.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Load and clean data
 #' data(example_data_wide)
@@ -60,7 +60,7 @@ cv_term <- function(x, term = "var") {
 #' @export
 cv_com_term <- function(x, total = TRUE, weighted = FALSE, term = "var", time_col = "time") {
   
-  # Check if a time column was specified for detrending methods and order rows
+  # Check if a time column was specified for comtrendr methods and order rows
   x <- check_time(x, time_col = time_col, term = term, rm = TRUE)
   
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 

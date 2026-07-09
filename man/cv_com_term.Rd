@@ -24,7 +24,7 @@ If total = TRUE, a numeric value with the CV of the sum of annual abundances. If
 CV of a community
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Load and clean data
 data(example_data_wide)

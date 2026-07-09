@@ -18,7 +18,7 @@
 #' - Hill, M. O. (1973). The intensity of spatial pattern in plant communities. The Journal of Ecology, 225-235.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #'
 #' var_t2(rnorm(100)) # ~1
 #' 
@@ -51,7 +51,7 @@ var_t2 <- function(x){
 #' - Lepš, J., Götzenberger, L., Valencia, E., & de Bello, F. (2019). Accounting for long‐term directional trends on year‐to‐year synchrony in species fluctuations. Ecography, 42(10), 1728-1741.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #'
 #' var_t3(rnorm(100)) # ~1
 #' 
@@ -76,7 +76,7 @@ var_t3 <- function(x) {
 #' @returns Numeric. The detrened variance using linear regression.
 #'
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #'
 #' var_linear(rnorm(100)) # ~1
 #'
@@ -99,7 +99,7 @@ var_linear <- function(x) {
 #' @returns Numeric. The covariance between variables x and y.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #'
 #' cov_term(x = rnorm(10), y = rnorm(10), term = "var")
 #' cov_term(x = rnorm(10), y = rnorm(10), term = "two")
@@ -127,7 +127,7 @@ cov_term <- function(x, y, term = "var") {
 #' @returns A matrix variance/covariance
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' data(example_data_wide) # Load sample data
 #' example_data_wide[is.na(example_data_wide)] <- 0 # Change NAs to 0
 #'

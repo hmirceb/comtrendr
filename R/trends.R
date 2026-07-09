@@ -20,7 +20,7 @@
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate time series
 #' ts <- 5^seq(1, 2, by = 0.01)
@@ -71,7 +71,7 @@ trend_dennis  <- function(x, time = NULL){
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate time series
 #' ts <- 5^seq(1, 2, by = 0.01)
@@ -130,7 +130,7 @@ trend_loglinear  <- function(x, time = NULL){
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #'
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data with trends
 #' comm_df <- sim_mvcomm(trend_mean = 0.3)
@@ -140,7 +140,7 @@ trend_loglinear  <- function(x, time = NULL){
 #' 
 #' @export
 trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE, perm = 999){
-  # Check if a time column was specified for detrending methods and order rows
+  # Check if a time column was specified for comtrendr methods and order rows
   x <- check_time(x, time_col = time_col, term = "var", rm = FALSE)
   
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
@@ -194,7 +194,7 @@ comm_trends_internal <- function(x,
     rda = trend_mv
   )
   
-  # Check if a time column was specified for detrending methods and order rows
+  # Check if a time column was specified for comtrendr methods and order rows
   x <- check_time(x, time_col = time_col, term = "var", rm = TRUE)
   
   # Replace NAs with 0 and remove columns (species) with 0 abundance across all years 
@@ -326,7 +326,7 @@ comm_trends_internal <- function(x,
 #' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' # Simulate community data with trends
 #' comm_df <- sim_mvcomm(trend_mean = 0.3)

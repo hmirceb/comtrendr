@@ -45,7 +45,7 @@ A data frame with the selected metrics for each community, their value, the vari
 Estimate stability and sychrony metrics for one or more communities
 }
 \examples{
-#' require(detrending)
+#' require(comtrendr)
 
 # Simulate community data
 comm_df <- sim_mvcomm()

@@ -8,7 +8,7 @@
 #' @returns A numeric value.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' cor_term(x = 1:10, y = 10:1, term = "var")
 #' @export
@@ -35,7 +35,7 @@ cor_term <- function(x, y, term = "var") {
 #' @returns A symmetric correlation matrix.
 #' 
 #' @examples
-#' require(detrending)
+#' require(comtrendr)
 #' 
 #' comm_df <- matrix(rnorm(30), ncol = 5)
 #' cormat_term(comm_df, term = "var")

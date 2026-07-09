@@ -30,7 +30,7 @@ Multivariate coefficient of variation
 The multivariate coefficient of variation is estimated by dividing the multivariate variance of community composition by the sample norm of the average composition.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Load and clean data
 data(example_data_wide)

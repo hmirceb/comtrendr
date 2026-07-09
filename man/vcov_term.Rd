@@ -18,7 +18,7 @@ A matrix variance/covariance
 Standard, 2 and 3 term variance covariance matrix
 }
 \examples{
-require(detrending)
+require(comtrendr)
 data(example_data_wide) # Load sample data
 example_data_wide[is.na(example_data_wide)] <- 0 # Change NAs to 0
 

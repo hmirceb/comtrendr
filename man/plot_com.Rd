@@ -20,7 +20,7 @@ A plot.
 Plot a community time series
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 # Simulate data
 comm_data <- sim_mvcomm()

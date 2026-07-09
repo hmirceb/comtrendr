@@ -22,7 +22,7 @@ The \eqn{2TLQV} is calculated using the following expression:
 Where \eqn{x_{i}} is the abundance of species \eqn{x} at time \eqn{i} and \eqn{t} represents the length of the time series.
 }
 \examples{
-require(detrending)
+require(comtrendr)
 
 var_t2(rnorm(100)) # ~1
 
