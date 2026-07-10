@@ -55,6 +55,7 @@ trend_dennis  <- function(x, time = NULL){
   # Return mean growth rate, variance and confidence interval
   res <- c(stats::anova(t_m)$F[1], stats::coef(t_m), stats::confint(t_m), stats::anova(t_m)$`Pr(>F)`[1])
   names(res) <- c("F", "trend", "l95", "u95", "p")
+  attr(res, which = "var") <- stoc_v
   
   return(res)
 }
