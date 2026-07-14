@@ -1,5 +1,5 @@
 ---
-title: "A fully worked example"
+title: "comtrendr"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{comtrendr}
