@@ -1,7 +1,6 @@
 ---
-title: "worked_example"
+title: "A fully worked example"
 output: rmarkdown::html_vignette
-author: Héctor Miranda-Cebrián
 vignette: >
   %\VignetteIndexEntry{worked_example}
   %\VignetteEngine{knitr::rmarkdown}
