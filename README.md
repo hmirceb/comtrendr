@@ -1,4 +1,4 @@
-# comtrendr - Standard and detrended community stability metrics
+# comtrendr - standard and detrended community stability metrics
 
 **Although fully functional, this is a development version and some things may change before the final version is released**
 
