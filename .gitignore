@@ -4,7 +4,6 @@
 .Ruserdata
 inst/doc
 in_prep
-docs
-otros
-prueba.RData
+^docs$
+^otros$
 simulations

@@ -3,7 +3,5 @@
 ^LICENSE\.md$
 ^docs$
 ^otros$
-^in_prep$
-^prueba.RData
 ^README.md
 ^simulations
