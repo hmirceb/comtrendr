@@ -2,8 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-inst/doc
-in_prep
-^docs$
-^otros$
-simulations
+/inst/doc
+/in_prep/
+/docs/
+/otros/
+/simulations/
