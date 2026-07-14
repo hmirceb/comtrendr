@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 library(comtrendr)
 ```
 
-The **comtrendr** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamis, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spureous patterns of synchrony or variance.
+The **comtrendr** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamics, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spurious patterns of synchrony or variance.
 
 ## Cleaning and formatting data
 Most functions in `comtrendr` work with a data.frame of species data in columns and time steps in rows. The package includes the function `comm_clean()` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
@@ -132,6 +132,6 @@ axis(1, at = 1:4, labels = c(expression(psi), expression(phi), expression(eta), 
 legend("bottomleft", legend = c("Classic", "Detrended"), col = palette()[3:4], pch = 19)
 ```
 
-Psi and phi are bounded between 0 and 1, with lower values indicating asynchrony and values closer to 1 synchrony. Eta is bound betwen -1 and 1, while logvar is open, although in both metric values closer to 0 indicate independent fluctuations. Here we see how detrended metrics show more indeopendent fluctuations in species abundances, coindicing with the random noise that we introduced in each species.
+\psi and \phi are bounded between 0 and 1, with lower values indicating asynchrony and values closer to 1 synchrony. Because \eta is derived from the correlation between species in the community, it is bound between -1 and 1. The logvar index is open, although in both metric values closer to 0 indicate independent fluctuations. Here we see how detrended metrics show more independent fluctuations in species abundances, coinciding with the random noise that we introduced in each species.
 
 It is important to note that standard and detrended versions of these metrics are not mutually exclusive and give different information. Standard metrics represent the overall synchrony of the community while detrended version focus on year to year variability. In communities with small or nonexistent trends, both metrics yield very similar results.
