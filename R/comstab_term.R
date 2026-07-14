@@ -296,7 +296,7 @@ plot.comstab <- function(x, y = NULL, change = TRUE, relative = TRUE, ...) {
   # cv
   plot_cv <- function(dat) {
     cc <- dat[, c("CVe", "CVtilde", "CVa", "CVc")]
-    plot(x = 1:4, y = NULL, type = "n", xaxt = "n", xlab = NA, ylab = NA,
+    plot(x = 1:4, y = NULL, type = "n", xaxt = "n", xlab = NA, ylab = NA, log = "y",
          xlim = c(1, 4), ylim = c(0.9 * min(cc), 1.1 * max(cc)))
     for (i in seq_len(nrow(cc))) {
       graphics::lines(x = 1:4, y = cc[i, ], type = "b", col = i, pch = 19, cex = 1.5)
