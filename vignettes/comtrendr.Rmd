@@ -18,7 +18,7 @@ library(comtrendr)
 
 The **comtrendr** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamics, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spurious patterns of synchrony or variance.
 
-# Cleaning and formatting data
+## Cleaning and formatting data
 Most functions in `comtrendr` work with a data.frame of species data in columns and time steps in rows. The package includes the function `comm_clean()` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
 
 ```{r formatting_wide, fig.height=4, fig.width=7}
@@ -48,7 +48,7 @@ comm_info(x = clean_example, total = "average")
 ```
 
 
-# Data simulation
+## Data simulation
 Let's work on an example using some simulated data replicating a community after a disturbance, in which all species have an overall positive trend, indicating recovery, but with asynchronous abundance changes due to different year-to-year environmental responses. We are going to simulate 30 years of data for a community of 10 species. This is going to be a relatively low evenness (even = 0.4), with a relation between mean abundance and variance (slope of a Taylor's power law) of 1.4 and a global positive trend (trend_mean = 0.01). We set trend_sd to 0 to ensure that the majority of species have positive trends (although some variation is introduced when the function samples from the multivariate normal distribution). We can parameterize the temporal autocorrelation between species abundances using the argument `corr`. Here we are going to set it to -0.111, the lowest value possible for a community of 10 species. Although the `corr` argument is limited between -1 and 1 because it is a correlation coefficient, in practice its lower bound depends on the number of species. The `sim_mvcomm()` function will return an error if the value set to `corr` is not valid, and it will tell you the lowest value possible for that number of species.  
 
 ```{r simulation}
@@ -73,7 +73,7 @@ head(sim_comm$sim_data)
 
 `sim_mvcomm()` returns a list with four objects: `sim_comm` is a community matrix of years by species. `baseline` is the same community matrix but with the trends removed. It can be used to check if the detrended methods work properly. `true_trend` is a named vector with the true mean trends of each species in the community, estimated from the simulated data. `params` is a named vector with the values of each parameter used in the simulation.
 
-# Basic descriptors
+## Basic descriptors
 
 Now, using the `comm_info()` function, we are going to check some basic characteristics of the community. More precisely, we are going to check the number of years, its average species richness, Shannon's index and evenness; along with identifying any dominant or transient species. Here, we consider dominant any species with an average abundance above a certain threshold, in this case those above the 70th percentile of abundance across all species (dominant_threshold = 0.7). Similarly, we consider transient species those appearing in less than a certain proportion of years. In this case, we consider a minimum of 70% of samples. `comm_info()` works for one or several communities, as long as a column in the data.frame identifying each community is properly indicated using the `community_col` argument. The `time_col` argument specifies which column indicates the order of observations. If `community_col` and `time_col` are omitted, by default `comm_info()` will return a warning indicating that it assumes that all data belongs to a single community and that rows are in chronological order.
 
@@ -115,7 +115,7 @@ comm_trends(sim_comm$sim_data,
             plot = T) # plot the results
 ```
 
-# Estimating community stability metrics
+## Estimating community stability metrics
 
 Since there are clear trends in abundance, it seems reasonable to use detrended methods for estimating community stability. However, for comparison's sake we are going to calculate both standard and detrended metrics. We can estimate stability and synchrony indices one by one using their respective functions `cv_com_term()`, `eta_gross()`, `psi_segrestin()`, `phi_loreau()` and `logvar_ratio()`. However, it is usually more convenient to calculate all of them with the `comm_stability()` function. This returns a data.frame with these metrics for each community, whether they are detrended or not and, for $CV_{pop}$ and $\eta$, if the index value was weighted by the relative average abundance of each species.
 
@@ -148,7 +148,7 @@ Here, $\psi$, $\phi$, $\eta$ and $logvar$ and synchrony indices, and $CV_{com}$ 
 
 Both CVs are reduced when using detrended variance estimates, an expected result since trends increase the variance of the time series. For stability, standard indices were located above the midpoint of their ranges, indicating a small degree of synchronous fluctuations between species. This is expected given that all species are increasing their abundances at the same time. However, using the detrended estimates reveals the underlying, year-to-year asynchrony that we simulated and that was masked by the overarching trends.
 
-# Partitioning of community stability
+## Partitioning of community stability
 
 The
 
@@ -161,4 +161,4 @@ plot(comstab)
 
 ```
 
-# Multivariate stability
+## Multivariate stability
