@@ -19,7 +19,7 @@ library(comtrendr)
 The **comtrendr** package is a suite of tools for calculating community stability metrics. It includes a framework to decompose stability into its compensatory dynamics, dominance and diversity effects, multivariate version of community stability and tools for checking data structure. It incorporates several procedures to check and account for trends in data that might lead to spurious patterns of synchrony or variance.
 
 ## Cleaning and formatting data
-Most functions in `comtrendr` work with a data.frame of species data in columns and time steps in rows. The package includes the function `comm_clean()` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. Is is also possible to specify a column with a community identifier if we have several communities in our data or a time column. The function also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
+Most functions in `comtrendr` work with a data.frame of species data in columns and time steps in rows. The package includes the function `comm_clean()` to help with this. This function gives the appropriate format to input data in wide (time by species) and long (time and species in two separate columns) formats. In addition, it allows removing years with no data and filtering out transient species that only appear in certain number of years based on a threshold determined by the user. It is also possible to specify a column with a community identifier if we have several communities in our data or a time column. `comm_clean()` also sorts each community in chronological order if a time column is provided or assumes that data are in order if not.
 
 ```{r formatting_wide, fig.height=4, fig.width=7}
 # Load example data
@@ -28,7 +28,7 @@ data("example_data_long", package = "comtrendr")
 # Show first rows of the data
 head(example_data_long)
 
-# We can remove species taht appear only a few times
+# We remove species appearing in less than 30% of time steps, but keep time steps with no data.
 clean_example <- comm_clean(x = example_data_long,
                 input_format = "long",
                 community_col = "comm", # Column with community id
@@ -36,15 +36,9 @@ clean_example <- comm_clean(x = example_data_long,
                 empty_years = FALSE, # Remove years with no data
                 filter_transient = TRUE, # Filter out 
                 min_samples = 0.3) # Minimum proportion of years with data to keep a species
+
+# Data are returned in a wide format and ready to use
 head(clean_example)
-
-# We can also check the number of time steps, species and 
-# other taxonomic alpha diversity metrics in each community. 
-# This metrics can be calculated for the whole community
-comm_info(x = clean_example, total = "overall")
-
-# Or the average across years
-comm_info(x = clean_example, total = "average")
 ```
 
 
@@ -52,8 +46,6 @@ comm_info(x = clean_example, total = "average")
 Let's work on an example using some simulated data replicating a community after a disturbance, in which all species have an overall positive trend, indicating recovery, but with asynchronous abundance changes due to different year-to-year environmental responses. We are going to simulate 30 years of data for a community of 10 species. This is going to be a relatively low evenness (even = 0.4), with a relation between mean abundance and variance (slope of a Taylor's power law) of 1.4 and a global positive trend (trend_mean = 0.01). We set trend_sd to 0 to ensure that the majority of species have positive trends (although some variation is introduced when the function samples from the multivariate normal distribution). We can parameterize the temporal autocorrelation between species abundances using the argument `corr`. Here we are going to set it to -0.111, the lowest value possible for a community of 10 species. Although the `corr` argument is limited between -1 and 1 because it is a correlation coefficient, in practice its lower bound depends on the number of species. The `sim_mvcomm()` function will return an error if the value set to `corr` is not valid, and it will tell you the lowest value possible for that number of species.  
 
 ```{r simulation}
-library(comtrendr)
-
 set.seed(1234) # set seed for reproducibility
 
 sim_comm <- sim_mvcomm(n_sp = 10, # number of species
