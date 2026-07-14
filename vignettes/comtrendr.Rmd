@@ -87,7 +87,7 @@ Instead of using `comm_info()` to check for trends in species abundances we are 
 
 The first method, `loglinear`, estimates the average trend using linear regression with log-transformed abundances as the response variable and time as the explanatory variable. Here, time is transformed so that the first time step corresponds to 0 and subsequent time steps are 1, 2, etc. This way, the estimated slope corresponds to the average change per time step.  The second method, `dennis`, calculates the log-ratios between consecutive time steps using the method of Dennis et al. (1993), which takes into account any gaps between time steps. The third method, `rda`, estimates the community-level trends using redundancy analysis on the community matrix using time as an explanatory variable.
 
-If methods `loglinear`or `dennis` are used, `comm_info()` returns a data.frame with the average trend of each species in the community (or communities), its 95% confidence interval and *p-value*. Method `rda` returns the *F-statistic* and *p-value* of the redundandy analysis for each community. 
+If methods `loglinear` or `dennis` are used, `comm_info()` returns a data.frame with the average trend of each species in the community (or communities), its 95% confidence interval and *p-value*. Method `rda` returns the *F-statistic* and *p-value* of the redundandy analysis for each community. 
 `comm_info()` includes a plotting option to visualize trends.
 
 Let's check the species-level trends first using the `loglinear` method: 
