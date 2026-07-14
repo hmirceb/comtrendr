@@ -199,21 +199,20 @@ comm_partitioning <- function(x,
     comstab <- comstab_internal(x = y,
                             term = term,
                             time_col = time_col)
+    attr(comstab, "term") <- term
+    
     return(comstab)
   }
   )
   
-  # join and add community id
-  # comstab_df <- do.call("rbind", lapply(comstab, as.data.frame))
-  # comstab_df <- cbind(comm = unique(x$comm), comstab_df)
-  # colnames(comstab_df)[1] <- community_col
-  # rownames(comstab_df) <- NULL
-  # 
-  # print(comstab_df)
-  
-  # set class and term for plot and print methods
-  class(comstab) <- c("comstab", "comstab_list")
-  attr(comstab, "term") <- term
+  if ( length(comstab) == 1 ){
+    comstab <- comstab[[1]]
+    class(comstab) <- "comstab"
+  } else {
+    # set class and term for plot and print methods
+    class(comstab) <- c("comstab", "comstab_list")
+    
+  }
   
   return(comstab)
 }
@@ -274,10 +273,15 @@ as.data.frame.comstab <- function(x, ...){
   # apply based on class
   if (inherits(x, "comstab_list")) {
     dat <- do.call("rbind", lapply(x, comstab_to_df))
+    # get term from attributes
+    comm_terms <- sapply(x, simplify = "vector", function(y){attributes(y)$term})
   } else {
     dat <- comstab_to_df(x)
+    # get term from attributes
+    comm_terms <- attributes(x)$term
   }
-  dat <- cbind(comm = rownames(dat), term = attributes(x)$term, dat)
+  
+  dat <- cbind(comm = rownames(dat), term = comm_terms, dat)
   rownames(dat) <- NULL
   return(dat)
 }
@@ -288,7 +292,7 @@ plot.comstab <- function(x, y = NULL, change = TRUE, relative = TRUE, ...) {
   # as data frame based on class
   dat <- as.data.frame(x)
   
-  # pot functions
+  # plot functions
   # cv
   plot_cv <- function(dat) {
     cc <- dat[, c("CVe", "CVtilde", "CVa", "CVc")]

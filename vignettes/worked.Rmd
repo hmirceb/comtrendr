@@ -61,7 +61,7 @@ Again, `comm_info()` returns a list with four objects, all of them indicating th
 
 Instead of using `comm_info()` to check for trends in species abundances we are going to use the `comm_trends()` function because it gives us greater flexibility and detail. This function includes three different methods to estimate trends at different levels of organization, two at the species level (`loglinear` and `dennis`) and one at the community level (`rda`). 
 
-The first method, `loglinear`, estimates the average trend using linear regression with log-transformed abundances as the response variable and time as the explanatory variable. Here, time is transformed so that the first timestep corresponds to 0 and subsequent timesteps are 1, 2, etc. This way, the estimated slope corresponds to the average change per timestep.  The second method, `dennis`, calculates the log-ratios between consecutive timesteps using the method of Dennis et al. (1993), which takes into account any gaps between timesteps. The third method, `rda`, estimates the community-level trends using redundancy analysis on the community matrix using time as an explanatory variable.
+The first method, `loglinear`, estimates the average trend using linear regression with log-transformed abundances as the response variable and time as the explanatory variable. Here, time is transformed so that the first time step corresponds to 0 and subsequent time steps are 1, 2, etc. This way, the estimated slope corresponds to the average change per time step.  The second method, `dennis`, calculates the log-ratios between consecutive time steps using the method of Dennis et al. (1993), which takes into account any gaps between time steps. The third method, `rda`, estimates the community-level trends using redundancy analysis on the community matrix using time as an explanatory variable.
 
 If methods `loglinear`or `dennis` are used, `comm_info()` returns a data.frame with the average trend of each species in the community (or communities), its 95% confidence interval and *p-value*. Method `rda` returns the *F-statistic* and *p-value* of the redundandy analysis for each community. 
 `comm_info()` includes a plotting option to visualize trends.
@@ -73,9 +73,9 @@ comm_trends(sim_comm$sim_data,
             plot = T) # plot the results
 ```
 
-We can see clearly that species 1 to 5 and 10 have significant trends, species 6 to 7 are almost significant and species 8 and 9 do not show a clear pattern. This deviation from the inputed parameters for the simulation is caused by the samping process from the multivariate normal distribution, because each years abundances are randomly drawn from a distribution with means determined by the underlying trends and variance determined by the slope of a Taylor's power law (argument `power` in `sim_mvcomm()`).
+We can see clearly that species 1 to 5 and 10 have significant trends, species 6 to 7 are almost significant and species 8 and 9 do not show a clear pattern. This deviation from the imputed parameters happens because each years abundances are randomly drawn from a multivariate normal distribution with means determined by the underlying trends and variance determined by the slope of a Taylor's power law (argument `power` in `sim_mvcomm()`).
 
-If we check the community level trends using redundancy analysis by setting `method` to `rda` we can confirm that there is a statistically significant trend in the community as a whole. In the left panel, each grey dot corresponds to one timestep, and the x-axis represents time. If consecutive dots follow the axis from left to right, it indicates an overall positive trend, whereas the opposite pattern indicates an overall decrease in abundance. The colored dots correspond to each species, and their arrows indicate the direction of abundance change for that particular species. The *F-statistic* and *p-value* are also shown above the right panel. 
+If we check the community level trends using redundancy analysis by setting `method` to `rda` we can confirm that there is a statistically significant trend in the community as a whole. In the left panel, each grey dot corresponds to one time step, and the x-axis represents time. If consecutive dots follow the axis from left to right, it indicates an overall positive trend, whereas the opposite pattern indicates an overall decrease in abundance. The colored dots correspond to each species, and their arrows indicate an increase (right) of decrease (left) of abundance. The *F-statistic* and *p-value* are also shown above the left panel. 
 
 ```{r trends_multi, fig.height=4, fig.width=7}
 comm_trends(sim_comm$sim_data, 
@@ -83,25 +83,16 @@ comm_trends(sim_comm$sim_data,
             plot = T) # plot the results
 ```
 
-Since there is a clear trend in abundance, it seems reasonable to use detrended methods for estimating community stability. But first, we are going to remove species 7 from our data using the `comm_clean()` function because it is missing many years and thus could bias our results.
-
-```{r clean_data}
-clean_data <- comm_clean(sim_comm$sim_data,
-                         input_format = "wide",
-                         filter_transient = TRUE,
-                         min_samples = 0.3)
-```
-
 # Estimating community stability metrics
 
-After . We can estimate stability and synchrony indices one by one using their functions `cv_com_term()`, `eta_gross()`, `psi_segrestin()`, `phi_loreau()` and `logvar_ratio()`. However, it is usually more convenient to calculate all of them with the `comm_stability()` function. This returns a data.frame with these metrics for each community, whether they are detrended or not and, for \eqn{CV_{pop}} and \eta if the index value was weighted by the average relative abundance of each species.
+Since there are clear trends in abundance, it seems reasonable to use detrended methods for estimating community stability. However, for comparison's sake we are going to calculate both standard and detrended metrics. We can estimate stability and synchrony indices one by one using their respective functions `cv_com_term()`, `eta_gross()`, `psi_segrestin()`, `phi_loreau()` and `logvar_ratio()`. However, it is usually more convenient to calculate all of them with the `comm_stability()` function. This returns a data.frame with these metrics for each community, whether they are detrended or not and, for $CV_{pop}$ and $\eta$, if the index value was weighted by the relative average abundance of each species.
 
 ```{r stability, fig.height=4, fig.width=5}
 # Compute some classic synchrony metrics
-classic_sync <- comm_stability(clean_data, term = "var")
+classic_sync <- comm_stability(sim_comm$sim_data, term = "var")
 
 # Compute detrended synchrony metrics
-det_sync <- comm_stability(clean_data, term = "two")
+det_sync <- comm_stability(sim_comm$sim_data, term = "two")
 
 plot(x = seq_along(classic_sync$value), y = classic_sync$value, 
      col = 1, 
@@ -109,9 +100,8 @@ plot(x = seq_along(classic_sync$value), y = classic_sync$value,
      xaxt = "n",
      ylab = "Value",
      xlab = "Stability or synchrony metric",
-     ylim = c(min(c(classic_sync$value, det_sync$value)), 1))
+     ylim = range(c(classic_sync$value, det_sync$value)))
 abline(h = 0, lty = 2)
-abline(h = 1, lty = 1)
 points(x = seq_along(det_sync$value), y = det_sync$value,
        col = 1,
        pch = 19)
@@ -120,6 +110,21 @@ axis(1, at = 1:6, labels = c(expression(psi), expression(phi), expression(eta),
 legend("bottomleft", legend = c("Classic", "Detrended"), col = 1, pch = c(1, 19))
 ```
 
+Here, $\psi$, $\phi$, $\eta$ and $logvar$ and synchrony indices, and $CV_{com}$ and $CV_{pop}$ correspond, respectively, to the coefficeint of variation of the sum of annual abundances and the average CV across species. $\psi$ and $\phi$ are bounded between 0 and 1, with 1 indicating perfect synchrony and 0 perfect asynchrony. $\eta$ is bounded between -1 and 1, with positive values indicate synchrony and viceversa. The same applies for $logvar$, although its upper limit is the natural logarithm of the number of species in the community $ln(S)$ and its lower limit equals $-\infty$.
+
+Both CVs are reduced when using detrended variance estimates, an expected result since trends increase the variance of the time series. For stability, standard indices were located above the midpoint of their ranges, indicating a small degree of synchronous fluctuations between species. This is expected given that all species are increasing their abundances at the same time. However, using the detrended estimates reveals the underlying, year-to-year asynchrony that we simulated and that was masked by the overarching trends.
+
 # Partitioning of community stability
+
+The
+
+```{r partitioning, fig.height=5, fig.width=10}
+comstab_var <- comm_partitioning(sim_comm$sim_data)
+comstab_two <- comm_partitioning(sim_comm$sim_data, term = "two")
+comstab <- list(comstab_var, comstab_two)
+class(comstab) <-  c("comstab", "comstab_list")
+plot(comstab)
+
+```
 
 # Multivariate stability
