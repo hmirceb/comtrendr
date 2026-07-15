@@ -1,6 +1,7 @@
 ---
 title: "comtrendr"
 output: rmarkdown::html_vignette
+lang: en
 vignette: >
   %\VignetteIndexEntry{comtrendr}
   %\VignetteEngine{knitr::rmarkdown}
@@ -43,7 +44,8 @@ head(clean_example)
 
 
 ## Data simulation
-Let's work on an example using some simulated data replicating a community after a disturbance, in which all species have an overall positive trend, indicating recovery, but with asynchronous abundance changes due to different year-to-year environmental responses. We are going to simulate 30 years of data for a community of 10 species. This is going to be a relatively low evenness (even = 0.4), with a relation between mean abundance and variance (slope of a Taylor's power law) of 1.4 and a global positive trend (trend_mean = 0.01). We set trend_sd to 0 to ensure that the majority of species have positive trends (although some variation is introduced when the function samples from the multivariate normal distribution). We can parameterize the temporal autocorrelation between species abundances using the argument `corr`. Here we are going to set it to -0.111, the lowest value possible for a community of 10 species. Although the `corr` argument is limited between -1 and 1 because it is a correlation coefficient, in practice its lower bound depends on the number of species. The `sim_mvcomm()` function will return an error if the value set to `corr` is not valid, and it will tell you the lowest value possible for that number of species.  
+
+Let's work on an example using some simulated data replicating a community after a disturbance, in which all species have an overall positive trend, indicating recovery, but with asynchronous abundance changes due to different year to year environmental responses. We are going to simulate 30 years of data for a community of 10 species. This is going to be a relatively low evenness (even = 0.4), with a relation between mean abundance and variance (slope of a Taylor's power law) of 1.4 and a global positive trend (trend_mean = 0.01). We set trend_sd to 0 to ensure that the majority of species have positive trends (although some variation is introduced when the function samples from the multivariate normal distribution). We can parameterize the temporal autocorrelation between species abundances using the argument `corr`. Here we are going to set it to -0.111, the lowest value possible for a community of 10 species. Although the `corr` argument is limited between -1 and 1 because it is a correlation coefficient, in practice its lower bound depends on the number of species. The `sim_mvcomm()` function will return an error if the value set to `corr` is not valid, and it will tell you the lowest value possible for that number of species.  
 
 ```{r simulation}
 set.seed(1234) # set seed for reproducibility
@@ -81,11 +83,11 @@ comm_info(sim_comm$sim_data,
 
 Again, `comm_info()` returns a list with four objects, all of them indicating the community to which that information belongs to: `diversity`, with some basic metrics of taxonomic diversity, and `dominant_taxa` and `transient_taxa` with the information about which species fall in each category. We have omitted on purpose the fourth object returned by `comm_info()`, `trends`, because we will check for any long-term trends in the community in the next step.
 
-# Trend detection
+## Trend detection
 
 Instead of using `comm_info()` to check for trends in species abundances we are going to use the `comm_trends()` function because it gives us greater flexibility and detail. This function includes three different methods to estimate trends at different levels of organization, two at the species level (`loglinear` and `dennis`) and one at the community level (`rda`). 
 
-The first method, `loglinear`, estimates the average trend using linear regression with log-transformed abundances as the response variable and time as the explanatory variable. Here, time is transformed so that the first time step corresponds to 0 and subsequent time steps are 1, 2, etc. This way, the estimated slope corresponds to the average change per time step.  The second method, `dennis`, calculates the log-ratios between consecutive time steps using the method of Dennis et al. (1993), which takes into account any gaps between time steps. The third method, `rda`, estimates the community-level trends using redundancy analysis on the community matrix using time as an explanatory variable.
+The first method, `loglinear`, estimates the average trend using linear regression with log-transformed abundances as the response variable and time as the explanatory variable. Here, time is transformed so that the first time step corresponds to 0 and subsequent time steps are 1, 2, etc. This way, the estimated slope corresponds to the average change per time step.  The second method, `dennis`, calculates the log-ratios between consecutive time steps using the method of Dennis et al. (1991), which takes into account any gaps between time steps. The third method, `rda`, estimates the community-level trends using redundancy analysis on the community matrix using time as an explanatory variable.
 
 If methods `loglinear` or `dennis` are used, `comm_info()` returns a data.frame with the average trend of each species in the community (or communities), its 95% confidence interval and *p-value*. Method `rda` returns the *F-statistic* and *p-value* of the redundandy analysis for each community. 
 `comm_info()` includes a plotting option to visualize trends.
@@ -109,7 +111,7 @@ comm_trends(sim_comm$sim_data,
 
 ## Estimating community stability metrics
 
-Since there are clear trends in abundance, it seems reasonable to use detrended methods for estimating community stability. However, for comparison's sake we are going to calculate both standard and detrended metrics. We can estimate stability and synchrony indices one by one using their respective functions `cv_com_term()`, `eta_gross()`, `psi_segrestin()`, `phi_loreau()` and `logvar_ratio()`. However, it is usually more convenient to calculate all of them with the `comm_stability()` function. This returns a data.frame with these metrics for each community, whether they are detrended or not and, for $CV_{pop}$ and $\eta$, if the index value was weighted by the relative average abundance of each species.
+Since there are clear trends in abundance, it seems reasonable to use detrended methods for estimating community stability. For comparison's sake we are going to calculate both standard and detrended metrics. We can estimate stability and synchrony indices one by one using their respective functions `cv_com_term()` ($CV_{com}$ and $CV_{pop}$), `eta_gross()` ($\eta$, Gross et al. 2014 and Blüthgen et al. 2016), `psi_segrestin()` ($\psi$, Segrestin et al. 2024), `phi_loreau()` ($\phi$, Loreau \& de Mazancourt 2008) and `logvar_ratio()` (Lepš et al. 2018). However, it is usually more convenient to calculate all of them with the `comm_stability()` function. This returns a data.frame with these metrics for each community, whether they are detrended or not and, for $CV_{pop}$ and $\eta$, if the index value was weighted by the relative average abundance of each species.
 
 It is important to note that standard and detrended versions of these metrics are not mutually exclusive and give different information. Standard metrics represent the overall synchrony of the community while detrended version focus on year to year variability. In communities with small or nonexistent trends, both metrics yield very similar results.
 
@@ -138,19 +140,42 @@ legend("bottomleft", legend = c("Classic", "Detrended"), col = 1, pch = c(1, 19)
 
 Here, $\psi$, $\phi$, $\eta$ and $logvar$ are synchrony indices, and $CV_{com}$ and $CV_{pop}$ correspond, respectively, to the coefficeint of variation of the sum of annual abundances and the average CV across species. $\psi$ and $\phi$ are bounded between 0 and 1, with 1 indicating perfect synchrony and 0 perfect asynchrony. $\eta$ is bounded between -1 and 1, with positive values indicate synchrony, negative ones asynchrony and 0 indicating independent fluctuations. The same applies for $logvar$, although its upper limit is the natural logarithm of the number of species in the community $ln(S)$ and its lower limit equals $-\infty$.
 
-Both CVs are reduced when using detrended variance estimates, an expected result since trends increase the variance of the time series. For stability, standard indices were located above the midpoint of their ranges, indicating a small degree of synchronous fluctuations between species. This is expected given that all species are increasing their abundances at the same time. However, using the detrended estimates reveals the underlying, year-to-year asynchrony that we simulated and that was masked by the overarching trends.
+Both CVs are reduced when using detrended variance estimates, an expected result since trends increase the variance of the time series. For stability, standard indices were located above the midpoint of their ranges, indicating a small degree of synchronous fluctuations between species. This is expected given that all species are increasing their abundances at the same time. However, using the detrended estimates reveals the underlying, year to year asynchrony that we simulated and that was masked by the overarching trends.
 
 ## Partitioning of community stability
 
-The
+The processes that stabilize a community (*i.e.* the difference between the CV of the community as a whole vs the CVs of individual species) can be partitioned into three main effects: dominance, asynchrony and averaging effect. The `comm_partitioning()` implements this framework, with the ability of using standard and detrended methods. Let's apply it our simulated community and plot the results:
 
 ```{r partitioning, fig.height=5, fig.width=10}
 comstab_var <- comm_partitioning(sim_comm$sim_data)
 comstab_two <- comm_partitioning(sim_comm$sim_data, term = "two")
 comstab <- list(comstab_var, comstab_two)
-class(comstab) <-  c("comstab", "comstab_list")
+class(comstab) <-  c("comstab", "comstab_list") # add class to object so that plot method works properly
 plot(comstab)
 
 ```
 
+The left panel shows the absolute effects of those stabiliziing processes. $CV_{e}$ is the coefficient of variation of an average species, and represents the expected stability of the community under no stabilization. $CV_{com}$ is the CV of the sum of annual abundances, which incorporates all the stabilizing effect. $CVtilde$ is equivalent to the weighted $CV_{pop}$ that we calculated before. Since the weighting gives more importance to the most dominant species, the difference between $CV_{e}$ and $CVtilde$ represents the stabilizing effect of those species. $CV_{a}$ corresponds to the stability of the community after removing the effect of asynchronous dynamics between species. The difference between $CV_{a}$ and $CV_{com}$ corresponds to the stabilizing effect caused by the remaining component, the averaging effect. This represents the statistical phenomenon in which more diverse communitites tend to be more stable because there is a higher chance of species compensating one another (Doak et al. 1998). Together with asynchrony, their combined effect represents the compensatory dynamics of the community. The right panel shows the relative importance of the dominance, asynchrony and averaging effects.
+
+At first glance we see that all CVs estimated using detrended methods (red dots and lines) are lower than the standard methods (in black). This is consistent with our previous results and the fact that trends lead to overstimation of variance if they are not accounted for. In absolute terms, the dominance effect is similar with standard and detrended methods. However, the overall stabilization effect is higher using detrended variance estimates and thus the relative effect of dominance is around a 10% lower. Thus, compensatory dynamics gain importance after removing those trends, with asynchrony being the most prominent stabilizing mechanism. Again, this is consistent with our simulations and previous results, in which the overall positive trend in the community masks the short-term asynchrony between species.
+
 ## Multivariate stability
+
+Trends lead to changes in abundance and thus in the composition of the community as a whole. We saw this when checking for community-level trends using the `rda` method. As such, it is interesting to check if not only the abundance of the community is stable overtime but also its composition To this end, `comtrendr` incorporates a multivariate version of CV available in the `cv_mv()` and `comm_stability()` (setting the argument `composition = TRUE`) functions. The multivariate variance of community composition is defined as the average squared euclidean or chord distance between annual observations and the average community composition. Its detrended version follows a similar approach but distances are calculated between consecutive years instead.
+
+```{r composition, fig.height=5, fig.width=7}
+cv_mv(sim_comm$sim_data)
+cv_mv(sim_comm$sim_data, term = "two")
+```
+
+## References
+
+- Blüthgen, N., Simons, N. K., Jung, K., Prati, D., Renner, S. C., Boch, S., ... & Gossner, M. M. (2016). Land use imperils plant and animal community stability through changes in asynchrony rather than diversity. Nature Communications, 7(1), 10697.
+- Dennis, B., Munholland, P. L., & Scott, J. M. (1991). Estimation of Growth and Extinction Parameters for Endangered Species. Ecological Monographs, 61(2), 115–143.
+- Doak, D. F., Bigger, D., Harding, E. K., Marvier, M. A., O’Malley, R. E., & Thomson, D. (1998). The Statistical Inevitability of Stability‐Diversity Relationships in Community Ecology. The American Naturalist, 151(3), 264-276.
+- Gross, K., Cardinale, B. J., Fox, J. W., Gonzalez, A., Loreau, M., Wayne Polley, H., ... & van Ruijven, J. (2014). Species richness and the temporal stability of biomass production: a new analysis of recent biodiversity experiments. The American Naturalist, 183(1), 1-12.
+- Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
+- Lepš, J., Götzenberger, L., Valencia, E. & de Bello, F. (2019). Accounting for long-term directional trends on year to year synchrony in species fluctuations. Ecography, 42, 1728-1741.
+- Loreau, M., & de Mazancourt, C. (2008). Species synchrony and its drivers: neutral and nonneutral community dynamics in fluctuating environments. The American Naturalist, 172(2), E48-E66.
+- Segrestin, J., Götzenberger, L., Valencia, E., de Bello, F., & Lepš, J. (2024). A unified framework for partitioning the drivers of stability of ecological communities. Global Ecology and Biogeography, 33(5), e13828.
+
