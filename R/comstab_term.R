@@ -305,7 +305,7 @@ plot.comstab <- function(x, y = NULL, absolute = TRUE, relative = TRUE, ...) {
                    labels = c(expression(CV[e]), expression(widetilde(CV)),
                               expression(CV[a]), expression(CV[com])))
     graphics::mtext(text = c("Dominance", "Asynchrony", "Averaging"),
-                    side = 1, at = 1.5:3.5, line = -1.1, cex = 1)
+                    side = 1, at = 1.5:3.5, line = -1.1, cex = 0.8)
   }
   # relative effects
   plot_ternary <- function(dat) {
@@ -353,11 +353,15 @@ plot.comstab <- function(x, y = NULL, absolute = TRUE, relative = TRUE, ...) {
     # two columns
     graphics::layout(matrix(c(1, 2), nrow = 1, ncol = 2))
     
+    graphics::par(mar = c(5, 4, 4, 1))   # trim right margin of plot 1
     plot_cv(dat)
+    
+    graphics::par(mar = c(5, 1, 4, 2))   # trim left margin of plot 2
     plot_ternary(dat)
   } else {
     # one column
     graphics::layout(matrix(1, nrow = 1, ncol = 1))
+    graphics::par(mar = c(5, 4, 4, 2) + 0.1)
     
     if ( isTRUE(absolute) ) {
       plot_cv(dat) 
@@ -366,5 +370,5 @@ plot.comstab <- function(x, y = NULL, absolute = TRUE, relative = TRUE, ...) {
     }
   }
   # reset graphics
-  graphics::par(mfrow = c(1, 1), xpd = FALSE, mar = c(5.1, 4.1, 4.1, 2.1))
+  graphics::par(mfrow = c(1, 1), xpd = FALSE, mar = c(5, 4, 4, 2) + 0.1)
 }

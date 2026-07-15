@@ -146,16 +146,12 @@ Both CVs are reduced when using detrended variance estimates, an expected result
 
 The processes that stabilize a community (*i.e.* the difference between the CV of the community as a whole vs the CVs of individual species) can be partitioned into three main effects: dominance, asynchrony and averaging effect. The `comm_partitioning()` implements this framework, with the ability of using standard and detrended methods. Let's apply it our simulated community and plot the results:
 
-```{r partitioning, fig.height=5, fig.width=10}
+```{r partitioning, fig.height=5, fig.width=9}
 comstab_var <- comm_partitioning(sim_comm$sim_data)
 comstab_two <- comm_partitioning(sim_comm$sim_data, term = "two")
 comstab <- list(comstab_var, comstab_two)
 class(comstab) <-  c("comstab", "comstab_list") # add class to object so that plot method works properly
-par(mfrow = c(2,1))
-plot(comstab, relative = FALSE)
-plot(comstab, absolute = FALSE)
-par(mfrow = c(1,1))
-
+plot(comstab)
 ```
 
 The left panel shows the absolute effects of those stabiliziing processes. $CV_{e}$ is the coefficient of variation of an average species, and represents the expected stability of the community under no stabilization. $CV_{com}$ is the CV of the sum of annual abundances, which incorporates all the stabilizing effect. $CVtilde$ is equivalent to the weighted $CV_{pop}$ that we calculated before. Since the weighting gives more importance to the most dominant species, the difference between $CV_{e}$ and $CVtilde$ represents the stabilizing effect of those species. $CV_{a}$ corresponds to the stability of the community after removing the effect of asynchronous dynamics between species. The difference between $CV_{a}$ and $CV_{com}$ corresponds to the stabilizing effect caused by the remaining component, the averaging effect. This represents the statistical phenomenon in which more diverse communitites tend to be more stable because there is a higher chance of species compensating one another (Doak et al. 1998). Together with asynchrony, their combined effect represents the compensatory dynamics of the community. The right panel shows the relative importance of the dominance, asynchrony and averaging effects.
