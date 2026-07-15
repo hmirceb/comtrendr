@@ -151,7 +151,10 @@ comstab_var <- comm_partitioning(sim_comm$sim_data)
 comstab_two <- comm_partitioning(sim_comm$sim_data, term = "two")
 comstab <- list(comstab_var, comstab_two)
 class(comstab) <-  c("comstab", "comstab_list") # add class to object so that plot method works properly
-plot(comstab)
+par(mfrow = c(2,1))
+plot(comstab, relative = FALSE)
+plot(comstab, absolute = FALSE)
+par(mfrow = c(1,1))
 
 ```
 

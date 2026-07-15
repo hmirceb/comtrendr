@@ -325,3 +325,35 @@ get_transient <- function(x, threshold = 0.3) {
   rownames(missing_n) <- NULL
   return(missing_n)
 }
+
+
+#' A modified version of isopleuros::ternary_title that allows more flexibility for title placement
+#'
+#' @noRd
+ternary_title <- function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+                           zlab = NULL, line = NA, outer = FALSE, ...) 
+{
+  cex.lab <- list(...)$cex.lab %||% graphics::par("cex.lab")
+  col.lab <- list(...)$col.lab %||% graphics::par("col.lab")
+  font.lab <- list(...)$font.lab %||% graphics::par("font.lab")
+  offset.dist <- list(...)$offset
+  
+  xlab <- grDevices::as.graphicsAnnot(xlab)
+  ylab <- grDevices::as.graphicsAnnot(ylab)
+  zlab <- grDevices::as.graphicsAnnot(zlab)
+  if (!is.null(xlab)) {
+    graphics::text(x = 0, y = 0, label = xlab, pos = 1, col = col.lab, 
+                   cex = cex.lab, font = font.lab, offset = offset.dist)
+  }
+  if (!is.null(ylab)) {
+    graphics::text(x = 1, y = 0, label = ylab, pos = 1, col = col.lab, 
+                   cex = cex.lab, font = font.lab, offset = offset.dist)
+  }
+  if (!is.null(zlab)) {
+    graphics::text(x = 0.5, y = .top, label = zlab, pos = 3, 
+                   col = col.lab, cex = cex.lab, font = font.lab, offset = offset.dist)
+  }
+  graphics::title(main = main, sub = sub, xlab = NULL, ylab = NULL, 
+                  line = line, outer = outer)
+  invisible(NULL)
+}

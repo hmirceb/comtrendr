@@ -287,7 +287,7 @@ as.data.frame.comstab <- function(x, ...){
 }
 
 #' @export
-plot.comstab <- function(x, y = NULL, change = TRUE, relative = TRUE, ...) {
+plot.comstab <- function(x, y = NULL, absolute = TRUE, relative = TRUE, ...) {
   
   # as data frame based on class
   dat <- as.data.frame(x)
@@ -320,12 +320,13 @@ plot.comstab <- function(x, y = NULL, change = TRUE, relative = TRUE, ...) {
                              
     )
     # change axis names and matching colors
-    isopleuros::ternary_axis(side = 1, col = "#BB5566", at = seq(0.1, 0.9, 0.1))
-    isopleuros::ternary_title(xlab = "Dominance",  col.lab = "#BB5566")
-    isopleuros::ternary_axis(side = 2, col = "#004488", at = seq(0.1, 0.9, 0.1))
-    isopleuros::ternary_title(ylab = "Asynchrony", col.lab = "#004488")
-    isopleuros::ternary_axis(side = 3, col = "#DDAA33", at = seq(0.1, 0.9, 0.1))
-    isopleuros::ternary_title(zlab = "Averaging",  col.lab = "#DDAA33")
+    isopleuros::ternary_axis(side = 1, col = "#BB5566")
+    graphics::text(x = 0.5, y = -0.12, label = "\u2190 Dominance", col = "#BB5566", font = 2)
+    isopleuros::ternary_axis(side = 2, col = "#004488")
+    graphics::text(x = 0.86, y = 0.5, label = "Asynchrony \u2192", srt = 300, col = "#004488", font = 2)
+    isopleuros::ternary_axis(side = 3, col = "#DDAA33")
+    graphics::text(x = 0.14, y = 0.5, label = "Averaging \u2192", srt = 60, col = "#DDAA33", font = 2)
+    
     # draw points
     isopleuros::ternary_points(
       x = dat$delta_rel,
@@ -348,7 +349,7 @@ plot.comstab <- function(x, y = NULL, change = TRUE, relative = TRUE, ...) {
   
   # set layout and plot
   graphics::par(xpd = NA) # allow plotting outside area for axis names
-  if ( isTRUE(change) && isTRUE(relative) ) {
+  if ( isTRUE(absolute) && isTRUE(relative) ) {
     # two columns
     graphics::layout(matrix(c(1, 2), nrow = 1, ncol = 2))
     
@@ -358,7 +359,7 @@ plot.comstab <- function(x, y = NULL, change = TRUE, relative = TRUE, ...) {
     # one column
     graphics::layout(matrix(1, nrow = 1, ncol = 1))
     
-    if ( isTRUE(change) ) {
+    if ( isTRUE(absolute) ) {
       plot_cv(dat) 
     } else {
       plot_ternary(dat)
