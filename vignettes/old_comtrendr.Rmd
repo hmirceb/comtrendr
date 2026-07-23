@@ -1,8 +1,8 @@
 ---
-title: "comtrendr"
+title: "comtrendr_old"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{comtrendr}
+  %\VignetteIndexEntry{comtrendr_old}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

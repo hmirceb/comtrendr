@@ -175,16 +175,18 @@ trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE,
 #' @param method Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".
 #' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
 #' @param title Character. Title for the plot. Default NULL.
+#' @param ... Additional parameters passed down to the `trend_mv()` function when using method "rda".
 #' 
 #' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
 #' 
 #' @noRd
 comm_trends_internal <- function(x,
-                                      time_col = "time", 
-                                      community_col = "comm", 
-                                      method = "loglinear", 
-                                      plot = FALSE,
-                                      title = NULL){
+                                 time_col = "time", 
+                                 community_col = "comm", 
+                                 method = "loglinear", 
+                                 plot = FALSE,
+                                 title = NULL,
+                                 ...){
   # Match trend estimation function
   method_matched <- match.arg(method, choices = c("dennis", "loglinear", "rda"))
   
@@ -209,7 +211,7 @@ comm_trends_internal <- function(x,
   
   # Estimate trends using apropriate function (this is like this because rda has different output format)
   if (method_matched == "rda") {
-    trends <- trend_func(x = x, time_col = time_col, community_col = community_col)
+    trends <- trend_func(x = x, time_col = time_col, community_col = community_col, ...)
     linear_trends <- as.data.frame(
       cbind(
         taxon = colnames(x), 
@@ -244,8 +246,6 @@ comm_trends_internal <- function(x,
     if (method_matched == "rda") {
       # panel layout
       graphics::layout(matrix(c(1,1,2,2), nrow = 1, ncol = 4, byrow = TRUE))
-      # plot community
-      # plot_com(x, title = title)
       # plot rda and trends
       plot(trends)
       
@@ -323,6 +323,7 @@ comm_trends_internal <- function(x,
 #' @param method Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".
 #' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
 #' @param title Character. Title for the plot. Default NULL.
+#' @param ... Additional parameters passed down to the `trend_mv()` function when using method "rda".
 #' 
 #' @returns A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95% confidence interval.
 #' 
@@ -336,11 +337,12 @@ comm_trends_internal <- function(x,
 #' comm_trends(comm_df$sim_data, method = "loglinear", plot = TRUE)
 #' @export
 comm_trends <- function(x, 
-                             time_col = "time",
-                             community_col = "comm", 
-                             method = "loglinear",
-                             plot = FALSE, 
-                             title = NULL){
+                        time_col = "time",
+                        community_col = "comm", 
+                        method = "loglinear",
+                        plot = FALSE, 
+                        title = NULL,
+                        ...){
   # force df
   x <- as.data.frame(x)
   
@@ -363,11 +365,12 @@ comm_trends <- function(x,
     y <- y[,!colnames(y) %in% community_col]
     # trends
     comm_trends_ <- comm_trends_internal(x = y,
-                                                   time_col = time_col,
-                                                   community_col = community_col, 
-                                                   method = method,
-                                                   plot = plot, 
-                                                   title = comm_id)
+                                         time_col = time_col,
+                                         community_col = community_col, 
+                                         method = method,
+                                         plot = plot, 
+                                         title = comm_id,
+                                         ...)
     # return comm id
     comm_trends_ <- cbind(comm = comm_id, comm_trends_)
     return(comm_trends_)

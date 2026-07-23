@@ -10,7 +10,8 @@ comm_trends(
   community_col = "comm",
   method = "loglinear",
   plot = FALSE,
-  title = NULL
+  title = NULL,
+  ...
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ comm_trends(
 \item{plot}{Boolean. Plot species abundances and their estimated trends. Default FALSE.}
 
 \item{title}{Character. Title for the plot. Default NULL.}
+
+\item{...}{Additional parameters passed down to the \code{trend_mv()} function when using method "rda".}
 }
 \value{
 A data.frame with the trend (in the natural logarithm scale) for each species in the community along with its variance and 95\% confidence interval.
