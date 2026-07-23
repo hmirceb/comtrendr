@@ -140,7 +140,7 @@ trend_loglinear  <- function(x, time = NULL){
 #' trend_mv(comm_df$sim_data, time_col = "time")
 #' 
 #' @export
-trend_mv <- function(x, time_col = "time", community_col = "comm", scale = TRUE, perm = 999){
+trend_mv <- function(x, time_col = "time", community_col = "comm", scale = FALSE, perm = 999){
   # Check if a time column was specified for comtrendr methods and order rows
   x <- check_time(x, time_col = time_col, term = "var", rm = FALSE)
   

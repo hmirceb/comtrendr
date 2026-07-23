@@ -8,7 +8,7 @@ trend_mv(
   x,
   time_col = "time",
   community_col = "comm",
-  scale = TRUE,
+  scale = FALSE,
   perm = 999
 )
 }
