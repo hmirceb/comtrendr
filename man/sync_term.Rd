@@ -47,13 +47,13 @@ There are five synchrony indices available:
 \item Lepš \emph{et al.} (2018) \emph{logvar} ratio:
 \deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
 \item Lepš \emph{et al.} (2019) variance ratio of residuals from linear regression:
-\deqn{Stotal = Strend + Sdetrended = Sfitted + Sresiduals}
-\deqn{Stotal = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }}
-\deqn{Stotal = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
+\deqn{SS_{total} = SS_{trend} + SS_{detrended} = SS_{fitted} + SS_{residuals}}
+\deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }}
+\deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
 }
 
 And:
-\deqn{ logvar = \ln (1+Stotal) }
+\deqn{ logvar = \ln (1+SS_{total}) }
 
 Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step and \eqn{p_{i}} the average relative abundance of species \eqn{i}. For \code{Stotal}, \eqn{fitted_{i}} and \eqn{residual_{i}} correspond, respectively, to the fitted and residual values of a linear regression between abundances and time.
 }

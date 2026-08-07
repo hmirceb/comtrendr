@@ -15,7 +15,12 @@ sumsq_ratio(x, time_col = "time")
 A named vector of numeric values with the synchrony of the community whole community, the fitted values and their residuals.
 }
 \description{
-This function fits linear regression models to each species in the community. Then it estimaes the synchrony of the community using the variance ratio of the observed values, the fitted values from the regression and their residuals.
+This function fits linear regression models to each species in the community. Then it estimates the synchrony of the community using the variance ratio of the observed values, the fitted values from the regression and their residuals.
+}
+\details{
+\deqn{SS_{total} = SS_{trend} + SS_{detrended} = SS_{fitted} + SS_{residuals}}
+\deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }}
+\deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
 }
 \examples{
 require(comtrendr)
