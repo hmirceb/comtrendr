@@ -21,7 +21,7 @@ This function fits linear regression models to each species in the community. Th
 \deqn{SS_{total} = SS_{fitted} + SS_{residuals}}
 \deqn{\dfrac{ SS_{total} }{n-1} = var_{total} = var_{fitted} + var_{residuals} }
 \deqn{Sync_{total} = Sync_{trend} + Sync_{detrended}}
-\deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }}
+\deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} } = \dfrac{ 2 \sum_{i,j>i}^{S}{ covar(x_{ij}) } }{ \sum_{i=1}^{S}{ var(x_{i}) } } }
 \deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
 
 And:
