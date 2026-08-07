@@ -26,13 +26,13 @@ Useful links:
 Authors:
 \itemize{
   \item Héctor Miranda-Cebrián \email{hectorm94@gmail.com} (\href{https://orcid.org/0000-0002-0340-8373}{ORCID}) [copyright holder]
-  \item Jules Segrestin
   \item Jan Lepš
-  \item Francesco de Bello
-  \item Aleš Lisner
   \item Lars Götzenberger
-  \item Enrique Valencia
   \item Clara Gracia
+  \item Aleš Lisner
+  \item Jules Segrestin
+  \item Enrique Valencia
+  \item Francesco de Bello
 }
 
 }
