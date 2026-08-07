@@ -248,10 +248,14 @@ logvar_ratio <- function(x, term = "var", time_col = "time", log = TRUE) {
 #' @returns A named vector of numeric values with the synchrony of the community whole community, the fitted values and their residuals.
 #' 
 #' @details
-#' \deqn{SS_{total} = SS_{trend} + SS_{detrended} = SS_{fitted} + SS_{residuals}}
-#' \deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }} 
-#' \deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
+#' \deqn{SS_{total} = SS_{fitted} + SS_{residuals}}
+#' \deqn{\dfrac{ SS_{total} }{n-1} = var_{total} = var_{fitted} + var_{residuals} }
+#' \deqn{Sync_{total} = Sync_{trend} + Sync_{detrended}}
+#' \deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }} 
+#' \deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
 #' 
+#' And:
+#' \deqn{ logvar = \ln (1+sync_{total}) }
 #' 
 #' @references
 #' - Lepš, J., Götzenberger, L., Valencia, E. & de Bello, F. (2019). Accounting for long-term directional trends on year-to-year synchrony in species fluctuations. Ecography, 42, 1728-1741.
@@ -319,14 +323,16 @@ sumsq_ratio <- function(x, time_col = "time") {
 #' \deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
 #' 
 #' - Lepš *et al.* (2019) variance ratio of residuals from linear regression:
-#' \deqn{SS_{total} = SS_{trend} + SS_{detrended} = SS_{fitted} + SS_{residuals}}
-#' \deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }} 
-#' \deqn{SS_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
+#' \deqn{SS_{total} = SS_{fitted} + SS_{residuals}}
+#' \deqn{\dfrac{ SS_{total} }{n-1} = var_{total} = var_{fitted} + var_{residuals} }
+#' \deqn{Sync_{total} = Sync_{trend} + Sync_{detrended}}
+#' \deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{x_{i}} \right) - \sum_{i=1}^{S}{var(x_{i})}}{ \sum_{i=1}^{S}{var(x_{i})} }} 
+#' \deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
 #' 
 #' And:
-#' \deqn{ logvar = \ln (1+SS_{total}) }
+#' \deqn{ logvar = \ln (1+sync_{total}) }
 #' 
-#' Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step and \eqn{p_{i}} the average relative abundance of species \eqn{i}. For `Stotal`, \eqn{fitted_{i}} and \eqn{residual_{i}} correspond, respectively, to the fitted and residual values of a linear regression between abundances and time. 
+#' Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step and \eqn{p_{i}} the average relative abundance of species \eqn{i}. For \eqn{Sync_{total}}, \eqn{fitted_{i}} and \eqn{residual_{i}} correspond, respectively, to the fitted and residual values of a linear regression between species abundances and time. 
 #' 
 #' @returns A named vector of length equal to the number of indices calculated.
 #'
