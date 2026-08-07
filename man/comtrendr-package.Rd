@@ -4,7 +4,7 @@
 \name{comtrendr-package}
 \alias{comtrendr}
 \alias{comtrendr-package}
-\title{the comtrendr R Package}
+\title{The comtrendr R package}
 \description{
 A suite of tools for estimating community stability and its components.
 }

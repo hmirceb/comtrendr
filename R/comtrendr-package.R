@@ -1,4 +1,4 @@
-#' the comtrendr R Package
+#' The comtrendr R package
 #' 
 #' @details
 #' This package contains a collection of functions to estimate community stability metrics using standard and detrended estimates of variance, as well as manipulate and simulate community data.
