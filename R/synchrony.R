@@ -330,7 +330,7 @@ sumsq_ratio <- function(x, time_col = "time") {
 #' \deqn{Sync_{total} = \dfrac{ var\left( \sum_{i=1}^{S}{fitted_{i}} \right) - \sum_{i=1}^{S}{var(fitted_{i})}}{ \sum_{i=1}^{S}{var(fitted_{i})} } + \dfrac{ var\left( \sum_{i=1}^{S}{residual_{i}} \right) - \sum_{i=1}^{S}{var(residual_{i})}}{ \sum_{i=1}^{S}{var(residual_{i})} }}
 #' 
 #' And:
-#' \deqn{ logvar = \ln (1+sync_{total}) }
+#' \deqn{ logvar = \log (1+sync_{total}) }
 #' 
 #' Where \eqn{\sigma_{x}} is the standard deviation of a vector of abundances \eqn{x}, \eqn{S} is the number of species in the community, \eqn{x_{i}} is the abundance of species \eqn{i} across time steps, \eqn{x_{T}} is the sum of species abundances for each time step and \eqn{p_{i}} the average relative abundance of species \eqn{i}. For \eqn{Sync_{total}}, \eqn{fitted_{i}} and \eqn{residual_{i}} correspond, respectively, to the fitted and residual values of a linear regression between species abundances and time. 
 #' 
