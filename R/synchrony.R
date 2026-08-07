@@ -191,6 +191,9 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 #' @param log Boolean. Apply the natural logarithm to the variance ratio. Default TRUE.
 #' @returns A numeric value.
 #' 
+#' @details
+#' \deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
+#' 
 #' @references
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
 #' 

@@ -21,6 +21,9 @@ A numeric value.
 \description{
 This function lets you estimate the synchrony index using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
 }
+\details{
+\deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
+}
 \examples{
 require(comtrendr)
 
