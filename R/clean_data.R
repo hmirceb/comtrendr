@@ -61,7 +61,7 @@ clean_community_wide <- function(x,
   
   # filter data if necessary
   filtered_comms_list <- lapply(comm_list, FUN = function(y) {
-    # filter transient species if necessary
+    # remove transient species
     if( isTRUE(filter_transient) ){
       # get indices of species columns
       sps_index <- !colnames(y) %in% c(community_col, time_col)
@@ -74,9 +74,10 @@ clean_community_wide <- function(x,
         y[,transient_sps] <- 0
         filtered_comm <- y
       } else {
+        # if no transient species detected return same data
         filtered_comm <- y
       }
-    } else{
+    } else{ # return same data if filter_transient == FALSE
       filtered_comm <- y
     }
     
