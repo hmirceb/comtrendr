@@ -19,7 +19,7 @@ check_time <- function(x, time_col = "time", term = NULL, rm = TRUE) {
   # Check if a time column was specified for comtrendr methods
   if ( !time_col %in% colnames(x) & 
        term %in% c("two", "three") ) {
-    warning("Missing time column. Rows are assumed to be in order for comtrendr.",
+    warning("Missing time column. Rows are assumed to be in chronological order.",
             call. = FALSE)
   } 
   

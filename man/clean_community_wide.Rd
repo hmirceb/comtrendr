@@ -10,7 +10,7 @@ clean_community_wide(
   time_col = "time",
   na_zero = FALSE,
   filter_transient = FALSE,
-  empty_years = FALSE,
+  remove_empty_years = TRUE,
   min_samples = 0.7
 )
 }
@@ -25,7 +25,7 @@ clean_community_wide(
 
 \item{filter_transient}{Boolean. Filter transient species Default FALSE}
 
-\item{empty_years}{Boolean. Remove empty years. Default FALSE.}
+\item{remove_empty_years}{Boolean. Remove years without data. Default TRUE.}
 
 \item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.7.}
 }

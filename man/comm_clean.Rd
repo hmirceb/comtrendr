@@ -12,7 +12,7 @@ comm_clean(
   taxa_col = "species",
   abundance_col = "abundance",
   na_zero = TRUE,
-  empty_years = FALSE,
+  remove_empty_years = TRUE,
   filter_transient = FALSE,
   min_samples = 0.3
 )
@@ -32,7 +32,7 @@ comm_clean(
 
 \item{na_zero}{Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.}
 
-\item{empty_years}{Boolean. Remove empty years. Default FALSE.}
+\item{remove_empty_years}{Boolean. Remove years without data. Default TRUE.}
 
 \item{filter_transient}{Boolean. Filter out transient species. Default FALSE.}
 

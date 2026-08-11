@@ -5,7 +5,7 @@
 #' @param time_col Character. Name of column with time variable. Default "time".
 #' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default FALSE
 #' @param filter_transient Boolean. Filter transient species Default FALSE
-#' @param empty_years Boolean. Remove empty years. Default FALSE.
+#' @param remove_empty_years Boolean. Remove years without data. Default TRUE.
 #' @param min_samples Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.7.
 #'
 #' @returns A data.frame with the community data in wide format.
@@ -25,9 +25,9 @@ clean_community_wide <- function(x,
          time_col = "time",
          na_zero = FALSE,
          filter_transient = FALSE,
-         empty_years = FALSE,
+         remove_empty_years = TRUE,
          min_samples = 0.7) {
-  # Set data as DF just in case its a tibble
+  # Set data as df just in case its a tibble
   x <- as.data.frame(x)
   
   # Check community column, if not present create one and assume a single community
@@ -116,7 +116,7 @@ clean_community_wide <- function(x,
   d_wide <- d_wide[, !colnames(d_wide) %in% sps_to_remove]
   
   # Remove empty years if necessary
-  if( isFALSE(empty_years) ) {
+  if( isTRUE(remove_empty_years) ) {
     # Get years with total abundance = 0
     year_with_data <- rowSums(d_wide[which(!colnames(d_wide) %in% c(community_col, time_col, "id_comm"))], na.rm = TRUE) > 0
     # Remove them
@@ -238,7 +238,7 @@ clean_community_long <- function(x,
 #' @param taxa_col Character. Name of column with taxa names. Default "species".
 #' @param abundance_col Character. Name of column with abundance values. Default "abundance".
 #' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.
-#' @param empty_years Boolean. Remove empty years. Default FALSE.
+#' @param remove_empty_years Boolean. Remove years without data. Default TRUE.
 #' @param filter_transient Boolean. Filter out transient species. Default FALSE.
 #' @param min_samples Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.7.
 #'
@@ -272,7 +272,7 @@ comm_clean <- function(x,
                             taxa_col = "species",
                             abundance_col = "abundance",
                             na_zero = TRUE,
-                            empty_years = FALSE,
+                            remove_empty_years = TRUE,
                             filter_transient = FALSE,
                             min_samples = 0.3) {
   # Check input format
@@ -287,7 +287,7 @@ comm_clean <- function(x,
                          time_col = time_col,
                          na_zero = na_zero,
                          filter_transient = filter_transient,
-                         empty_years = empty_years,
+                         remove_empty_years = remove_empty_years,
                          min_samples = min_samples)
   }
   # Method for "long" format
@@ -305,7 +305,7 @@ comm_clean <- function(x,
                                        time_col = time_col,
                                        na_zero = na_zero,
                                        filter_transient = filter_transient,
-                                       empty_years = empty_years,
+                                       remove_empty_years = remove_empty_years,
                                        min_samples = min_samples)
   }
   

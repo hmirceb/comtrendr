@@ -34,7 +34,7 @@ clean_example <- comm_clean(x = example_data_long,
                 input_format = "long",
                 community_col = "comm", # Column with community id
                 time_col = "time", # Column with time information
-                empty_years = FALSE, # Remove years with no data
+                remove_empty_years = TRUE, # Remove years with no data
                 filter_transient = TRUE, # Filter out 
                 min_samples = 0.3) # Minimum proportion of years with data to keep a species
 
