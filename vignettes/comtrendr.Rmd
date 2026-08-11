@@ -31,12 +31,12 @@ head(example_data_long)
 
 # We remove species appearing in less than 30% of time steps, but keep time steps with no data.
 clean_example <- comm_clean(x = example_data_long,
-                input_format = "long",
-                community_col = "comm", # Column with community id
-                time_col = "time", # Column with time information
-                remove_empty_years = TRUE, # Remove years with no data
-                filter_transient = TRUE, # Filter out 
-                min_samples = 0.3) # Minimum proportion of years with data to keep a species
+                            input_format = "long",
+                            community_col = "comm", # Column with community id
+                            time_col = "time", # Column with time information
+                            remove_empty_years = TRUE, # Remove years with no data
+                            filter_transient = TRUE, # Rmove transient species
+                            min_samples = 0.3) # Proportion of years with data to keep a species
 
 # Data are returned in a wide format and ready to use
 head(clean_example)
