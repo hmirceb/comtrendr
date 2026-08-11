@@ -346,13 +346,17 @@ get_transient <- function(x, threshold = 0.3) {
   return(missing_n)
 }
 
-#' Swap columns by name
+#' Swap the position of two columns by name
 #'
 #' @noRd
 swap_cols <- function(x, col1, col2) {
+  # df names
   idx <- names(x)
+  # index of col1
   i1 <- which(idx == col1)
+  # index of col2
   i2 <- which(idx == col2)
+  # swap indices and return
   idx[c(i1, i2)] <- idx[c(i2, i1)]
   return(x[, idx])
 }
