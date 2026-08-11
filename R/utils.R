@@ -1,5 +1,25 @@
 # Auxiliary functions
 
+#' Check community column
+#'
+#' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
+#' @param community_col  Character. Name of column with the community identifier. Default "comm".
+#'
+#' @returns A data.frame of community data.
+#'
+#' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
+#' 
+#' @noRd
+check_comm_col <- function(x, community_col = "time"){
+  if( !community_col %in% colnames(x) ) {
+    warning("Missing 'community' column. Data are assumed to belong to a single community.",
+            call. = FALSE)
+    community_col <- "comm"
+    x <- cbind(comm = as.character(rep(1, times = nrow(x))), x)
+  }
+  return(x)
+}
+
 #' Check order of observations
 #' 
 #' This is an auxiliary function that checks if the observations (rows) in a community matrix are in chronological order.
@@ -19,7 +39,7 @@ check_time <- function(x, time_col = "time", term = NULL, rm = TRUE) {
   # Check if a time column was specified for comtrendr methods
   if ( !time_col %in% colnames(x) & 
        term %in% c("two", "three") ) {
-    warning("Missing time column. Rows are assumed to be in chronological order.",
+    warning("Missing 'time' column. Rows are assumed to be in chronological order.",
             call. = FALSE)
   } 
   
@@ -324,4 +344,15 @@ get_transient <- function(x, threshold = 0.3) {
   
   rownames(missing_n) <- NULL
   return(missing_n)
+}
+
+#' Swap columns by name
+#'
+#' @noRd
+swap_cols <- function(x, col1, col2) {
+  idx <- names(x)
+  i1 <- which(idx == col1)
+  i2 <- which(idx == col2)
+  idx[c(i1, i2)] <- idx[c(i2, i1)]
+  return(x[, idx])
 }

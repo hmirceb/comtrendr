@@ -178,9 +178,10 @@ comm_partitioning <- function(x,
                           term = "var",
                           community_col = "comm",
                           time_col = "time"){
+  # set data as df just in case its a tibble
   x <- as.data.frame(x)
   
-  # Check community column, if not present create one and assume a single community
+  # check community column, if not present create one and assume a single community
   if( !community_col %in% colnames(x) ) {
     warning("Missing community column. Data are assumed to belong to a single community.",
             call. = FALSE)

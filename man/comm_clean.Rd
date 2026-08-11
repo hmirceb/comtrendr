@@ -36,7 +36,7 @@ comm_clean(
 
 \item{filter_transient}{Boolean. Filter out transient species. Default FALSE.}
 
-\item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.7.}
+\item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.3.}
 }
 \value{
 A data.frame with community data ready to use in other functions.

@@ -5,8 +5,8 @@
 #' @param time_col Character. Name of column with time variable. Default "time".
 #' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default FALSE
 #' @param filter_transient Boolean. Filter transient species Default FALSE
-#' @param remove_empty_years Boolean. Remove years without data. Default TRUE.
-#' @param min_samples Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.7.
+#' @param remove_empty_years Boolean. Remove years without data. Default FALSE.
+#' @param min_samples Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.3.
 #'
 #' @returns A data.frame with the community data in wide format.
 #' 
@@ -21,111 +21,111 @@
 #'                      time_col = "time")
 #' @export
 clean_community_wide <- function(x, 
-         community_col = "comm",
-         time_col = "time",
-         na_zero = FALSE,
-         filter_transient = FALSE,
-         remove_empty_years = TRUE,
-         min_samples = 0.7) {
-  # Set data as df just in case its a tibble
+                                 community_col = "comm",
+                                 time_col = "time",
+                                 na_zero = FALSE,
+                                 filter_transient = FALSE,
+                                 remove_empty_years = FALSE,
+                                 min_samples = 0.3) {
+  # set data as df just in case its a tibble
   x <- as.data.frame(x)
   
-  # Check community column, if not present create one and assume a single community
-  if( !community_col %in% colnames(x) ) {
-    warning("Missing 'community' column. Data are assumed to belong to a single community.",
-            call. = FALSE)
-    community_col <- "comm"
-    x <- cbind(comm = as.character(rep(1, times = nrow(x))), x)
-  }
-  # Check time column
-  if( !time_col %in% colnames(x) ) {
-    stop("Missing 'time' column.", 
-         call. = FALSE)
-  }
-  # Check if any time point has repeated data
-  if( sum(duplicated(paste(sep = "_", x[,community_col], x[,time_col]))) != 0 ) {
-    stop("Multiple rows for a single community and time point are not allowed.")
-  }
-
-  # Set NAs to 0
+  # check community column, if not present create one and assume a single community
+  x <- check_comm_col(x, community_col = community_col)
+  
+  # set NAs to 0
   if( isTRUE(na_zero) ){
     x[is.na(x)] <- 0
   }
   
-  # Split data into communities
+  # split data into communities
   splitting_factor <- as.character(x[, community_col])
   comm_list <- split(x = x, f = splitting_factor)
   
-  # Filter data if necessary
-  if( isTRUE(filter_transient) ) {
-    
-    filtered_comms_list <- lapply(comm_list, FUN = function(y) {
-      # Get indices of species columns
-      sps_index <- !colnames(y) %in% c(community_col, time_col)
-      # Get number of zeros (0) and missing years by species
-      missing <- get_transient(x = y[, sps_index], threshold = min_samples)
-      
-      # Get transient species (missing propoportion higher than threshold)
-      transient_sps <- missing[missing$transient == "x",]$taxon
-      
-      # If no transient species are detected keep everything
-      if( length(transient_sps) == 0 ){ 
-        filtered_comm <- y
-      } else {
-        # Else set their abundance to 0
-        y[,transient_sps] <- 0
-        filtered_comm <- y
+  # check if a time column was specified and order rows
+  comm_list <- warn_once(# suppress multiple warnings
+    lapply(comm_list, function(t){
+      # check time
+      tx <- check_time(x = t, time_col = time_col, term = "two", rm = FALSE)
+      # check if any time point has repeated data
+      if( sum(duplicated(paste(sep = "_", tx[,community_col], tx[,time_col]))) != 0 ) {
+        stop("Multiple rows for a single community and time point are not allowed.")
       }
-      
-      # Reshape to long format to facilitate joining later
-      filtered_comm_long <- stats::reshape(data = filtered_comm,
-                     direction = "long",
-                     varying = which(!names(filtered_comm) %in% c(community_col, time_col)),
-                     v.names = "abundance",
-                     times = colnames(filtered_comm)[!colnames(filtered_comm) %in% c(community_col, time_col)],
-                     timevar = "species")
-      return(filtered_comm_long)
+      # swap columns to have community_col as first column
+      tx <- swap_cols(x = tx, col1 = community_col, col2 = time_col)
+      # return df
+      return(tx)
     }
     )
-    
-    # Join community data into single matrix 
-    data <- do.call("rbind", filtered_comms_list)
-    # Add ID (comm by year) col
-    data$id_comm <- paste(sep = "_",
-                    unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[1])),
-                    unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[2])))
-    # Add species col
-    data$species <- unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[length(x)]))
-    
-    # Pivot data to years by species matrix
-    d_wide <- stats::reshape(data,
-                      direction = "wide",
-                      timevar = "species",
-                      idvar = "id_comm",
-                      v.names = "abundance")
-    colnames(d_wide) <- gsub("abundance.", "", colnames(d_wide))
-    rownames(d_wide) <- NULL
-  } else {
-    d_wide <- x
-  }
+  )
   
-  # Remove species with 0 abundance after filtering by threshold
+  # filter data if necessary
+  filtered_comms_list <- lapply(comm_list, FUN = function(y) {
+    # filter transient species if necessary
+    if( isTRUE(filter_transient) ){
+      # get indices of species columns
+      sps_index <- !colnames(y) %in% c(community_col, time_col)
+      # get number of zeros (0) and missing years by species
+      missing <- get_transient(x = y[, sps_index], threshold = min_samples)
+      # get transient species (missing propoportion higher than threshold)
+      transient_sps <- missing[missing$transient == "x",]$taxon
+      # set transient species to 0 if detected, else keep everything
+      if( length(transient_sps) != 0 ){ 
+        y[,transient_sps] <- 0
+        filtered_comm <- y
+      } else {
+        filtered_comm <- y
+      }
+    } else{
+      filtered_comm <- y
+    }
+    
+    # reshape to long format to facilitate joining later
+    filtered_comm_long <- stats::reshape(data = filtered_comm,
+                                         direction = "long",
+                                         varying = which(!names(filtered_comm) %in% c(community_col, time_col)),
+                                         v.names = "abundance",
+                                         times = colnames(filtered_comm)[!colnames(filtered_comm) %in% c(community_col, time_col)],
+                                         timevar = "species")
+    return(filtered_comm_long)
+  }
+  )
+  
+  # join community data into single matrix 
+  data <- do.call("rbind", filtered_comms_list)
+  # add ID (comm by year) col
+  data$id_comm <- paste(sep = "_",
+                        unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[1])),
+                        unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[2])))
+  # add species col
+  data$species <- unlist(lapply(strsplit(rownames(data), "\\."), function(x) x[length(x)]))
+  
+  # pivot data to years by species matrix
+  d_wide <- stats::reshape(data,
+                           direction = "wide",
+                           timevar = "species",
+                           idvar = "id_comm",
+                           v.names = "abundance")
+  colnames(d_wide) <- gsub("abundance.", "", colnames(d_wide))
+  rownames(d_wide) <- NULL
+  
+  # remove species with 0 abundance after filtering by threshold
   id_cols <- colnames(d_wide) %in% c(community_col, time_col, "id", "id_comm")
   sps_to_remove <- colSums(d_wide[, !id_cols]) == 0
   sps_to_remove <- names(sps_to_remove)[sps_to_remove]
   d_wide <- d_wide[, !colnames(d_wide) %in% sps_to_remove]
   
-  # Remove empty years if necessary
+  # remove empty years if necessary
   if( isTRUE(remove_empty_years) ) {
-    # Get years with total abundance = 0
-    year_with_data <- rowSums(d_wide[which(!colnames(d_wide) %in% c(community_col, time_col, "id_comm"))], na.rm = TRUE) > 0
-    # Remove them
+    # get years with total abundance = 0
+    year_with_data <- rowSums(d_wide[which(!colnames(d_wide) %in% c(community_col, time_col, "id", "id_comm"))], na.rm = TRUE) > 0
+    # remove them
     d_wide <- d_wide[year_with_data,]
   }
   
-  # Sort by community and time
+  # sort by community and time
   d_wide <- d_wide[with(d_wide, order(d_wide[, community_col], d_wide[, time_col])),]
-  # Remove id columns generated in the process
+  # remove id columns generated in the process
   d_wide <- d_wide[, !colnames(d_wide) %in% c("id", "id_comm")]
   
   return(d_wide)
@@ -160,39 +160,36 @@ clean_community_long <- function(x,
                                  time_col = "time",
                                  taxa_col = "species",
                                  abundance_col = "abundance") {
-  # Set data as DF just in case its a tibble
+  # set data as DF just in case its a tibble
   x <- as.data.frame(x)
   
-  # Check community column, if not create one and assume a single community
-  if( !community_col %in% colnames(x) ) {
-    warning("Missing 'community' column. Data are assumed to belong to a single community.")
-    community_col <- "comm"
-    x <- cbind(comm = as.character(rep(1, times = nrow(x))), x)
-  }
-  # Check time column
+  # check community column, if not create one and assume a single community
+  x <- check_comm_col(x, community_col = community_col)
+  
+  # check time column
   if( !time_col %in% colnames(x) ) {
     stop("Missing 'time' column.")
   }
-  # Check species column
+  # check species column
   if( !taxa_col %in% colnames(x) ) {
     stop("Missing 'species' column.")
   }
-  # Check abundance column
+  # check abundance column
   if( !abundance_col %in% colnames(x) ) {
     stop("Missing 'abundance' column.")
   }
-  # Check if any time point has repeated data
+  # check if any time point has repeated data
   if( any(duplicated(paste(sep = "_", x[,community_col], x[,time_col], x[,taxa_col]))) ) {
     stop("Multiple rows for a single time point are not allowed.")
   }
   
-  # Select only columns of interest
+  # select only columns of interest
   x <- x[, colnames(x) %in% c(community_col, time_col, taxa_col, abundance_col)]
   
-  # Set NAs to 0 to avoid pivoting problems
+  # set NAs to 0 to avoid pivoting problems
   x[, abundance_col][is.na(x[, abundance_col])] <- 0
   
-  # Make ID col for pivoting
+  # make ID col for pivoting
   x <- cbind(
     id_comm = paste(sep = "_", 
                     x[, community_col], 
@@ -200,7 +197,7 @@ clean_community_long <- function(x,
     x)
   x$id_comm <- as.factor(x$id_comm)
   
-  # Remove rows with NAs in taxa_col or time_col 
+  # remove rows with NAs in taxa_col or time_col 
   if( any( is.na(x[, taxa_col])) ){
     mis_tax <- is.na(x[, taxa_col])
     message(paste0(sum(mis_tax), " row(s) with missing values in column '", taxa_col, "' removed."))
@@ -212,7 +209,7 @@ clean_community_long <- function(x,
     x <- x[!mis_time,]
   }
   
-  # Pivot data to years by species matrix
+  # pivot data to years by species matrix
   data_wide <- stats::reshape(x,
                        direction = "wide",
                        idvar = "id_comm",
@@ -221,9 +218,9 @@ clean_community_long <- function(x,
   colnames(data_wide) <- gsub(paste0(abundance_col, "."), "", colnames(data_wide))
   rownames(data_wide) <- NULL
   
-  # Sort by community and time
+  # sort by community and time
   data_wide <- data_wide[with(data_wide, order(data_wide[, community_col], data_wide[, time_col])),]
-  # Remove id_comm column
+  # remove id_comm column
   data_wide <- data_wide[, !colnames(data_wide) == "id_comm"]
 
   return(data_wide)
@@ -240,7 +237,7 @@ clean_community_long <- function(x,
 #' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.
 #' @param remove_empty_years Boolean. Remove years without data. Default TRUE.
 #' @param filter_transient Boolean. Filter out transient species. Default FALSE.
-#' @param min_samples Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.7.
+#' @param min_samples Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.3.
 #'
 #' @returns A data.frame with community data ready to use in other functions.
 #' 
@@ -275,12 +272,12 @@ comm_clean <- function(x,
                             remove_empty_years = TRUE,
                             filter_transient = FALSE,
                             min_samples = 0.3) {
-  # Check input format
+  # check input format
   if( !input_format %in% c("long", "wide") ){
     stop("Please provide a valid input format.")
   }
   
-  # Choose method for "wide" format
+  # choose method for "wide" format
   if( input_format == "wide" ) {
     clean_data <- clean_community_wide(x = x,
                          community_col = community_col,
@@ -290,16 +287,16 @@ comm_clean <- function(x,
                          remove_empty_years = remove_empty_years,
                          min_samples = min_samples)
   }
-  # Method for "long" format
+  # method for "long" format
   if ( input_format == "long" ) {
-    # Process "long" data
+    # process "long" data
     ccl <- clean_community_long(x = x,
                          community_col = community_col,
                          time_col = time_col,
                          taxa_col = taxa_col,
                          abundance_col = abundance_col)
     
-    # Transform to "wide" format
+    # transform to "wide" format
     clean_data <- clean_community_wide(x = ccl,
                                        community_col = community_col,
                                        time_col = time_col,
@@ -329,10 +326,10 @@ metacoms_data <- function(x,
                          time_col = "time",
                          taxa_col = "species"
 ) {
-  # Get community and time columns
+  # get community and time columns
   ids <- colnames(x) %in% c(community_col, time_col)
   
-  # Pivot to long format
+  # pivot to long format
   data_long <- stats::reshape(
     data = x,
     direction = "long",
@@ -343,7 +340,7 @@ metacoms_data <- function(x,
     idvar = c(community_col, time_col)
   )
   
-  # Pivot to wide format
+  # pivot to wide format
   data_wide <- stats::reshape(
     data = data_long,
     direction = "wide",
@@ -351,11 +348,11 @@ metacoms_data <- function(x,
     timevar = time_col
   )
   
-  # Clean column and row names
+  # clean column and row names
   colnames(data_wide) = gsub("value.", "t", colnames(data_wide))
   rownames(data_wide) = NULL
   
-  # Set NAs to 0
+  # set NAs to 0
   data_wide[is.na(data_wide)] <- 0
   
   return(data_wide)

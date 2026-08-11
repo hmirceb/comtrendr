@@ -10,8 +10,8 @@ clean_community_wide(
   time_col = "time",
   na_zero = FALSE,
   filter_transient = FALSE,
-  remove_empty_years = TRUE,
-  min_samples = 0.7
+  remove_empty_years = FALSE,
+  min_samples = 0.3
 )
 }
 \arguments{
@@ -25,9 +25,9 @@ clean_community_wide(
 
 \item{filter_transient}{Boolean. Filter transient species Default FALSE}
 
-\item{remove_empty_years}{Boolean. Remove years without data. Default TRUE.}
+\item{remove_empty_years}{Boolean. Remove years without data. Default FALSE.}
 
-\item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.7.}
+\item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.3.}
 }
 \value{
 A data.frame with the community data in wide format.
