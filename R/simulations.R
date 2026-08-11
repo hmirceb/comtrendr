@@ -14,7 +14,7 @@
 #' 
 #' - `baseline`: A data.frame with the simulated data without any trends. Species in columns and time steps in rows.
 #' 
-#' - `true_trend`: A named vector with the true mean trends of each simulated species. 
+#' - `obs_trend`: A named vector with the observed mean trends of each simulated species. 
 #' 
 #' - `params`: A named vector with the parameters used to simulate the data.
 #' 
@@ -28,13 +28,13 @@
 #' sim_mvcomm(n_sp = 15, years = 30)
 #' @export
 sim_mvcomm <- function(n_sp = 10,
-                        years = 25,
-                        tot_abu = 200 * n_sp,
-                        power = 1.8,
-                        corr = 0,
-                        even = 0.5,
-                        trend_mean = 0,
-                        trend_sd = 0.01) {
+                       years = 25,
+                       tot_abu = 200 * n_sp,
+                       power = 1.8,
+                       corr = 0,
+                       even = 0.5,
+                       trend_mean = 0,
+                       trend_sd = 0.01) {
   
   # Vector of mean abundances.
   # check evenness values
@@ -101,7 +101,7 @@ sim_mvcomm <- function(n_sp = 10,
   off    <- colMeans(simcom) * 0.01
   simcom <- as.data.frame(sweep(x = simcom, MARGIN = 2, STATS = off, FUN = "+"))
   
-  # remove trend to retreive baseline
+  # remove trend to retrieve baseline
   p <- matrix(trend_resp, ncol = n_sp, nrow = years, byrow = T)
   p <- sweep(p, 1, seq_len(years), "*")
   baseline <- simcom / exp(p)
@@ -110,11 +110,23 @@ sim_mvcomm <- function(n_sp = 10,
   colnames(simcom) <- paste(sep = "_", "sp", seq_len(n_sp))
   colnames(baseline) <- paste(sep = "_", "sp", seq_len(n_sp))
   
+  # get observed trends
+  if (years < 2){
+    simcom <- baseline # there are no trends with a single year
+    obs_trend <- rep(NA, times = n_sp)
+  } 
+  if (years == 2){
+    obs_trend <- apply(log(simcom), 2, diff)
+  } 
+  if (years > 2){
+    obs_trend <- colMeans(apply(log(simcom), 2, diff))
+  }
+  
   # Results into list
   res <- list(
     sim_data = simcom,
     baseline = baseline,
-    true_trend = colMeans(apply(log(simcom), 2, diff)),
+    obs_trend = obs_trend,
     params = c(n_sp = n_sp,
                years = years,
                tot_abu = tot_abu,
@@ -433,7 +445,7 @@ response <- function(state = TRUE,
 #   
 #   # Results into list
 #   res <- list(sim_data = simcom,
-#               true_trend = colMeans(apply(log(simcom), 2, diff)),
+#               obs_trend = colMeans(apply(log(simcom), 2, diff)),
 #               params = c(n_sp = n_sp,
 #                          years = years,
 #                          tot_abu = tot_abu,

@@ -26,6 +26,12 @@
 var_t2 <- function(x){
   # Compute the 2 term local variance between consecutive observations
   n <- length(x) # sample size
+  
+  # check length of timeseries
+  if( n < 2) {
+    stop("2TLQV requires at least 2 values")
+  }
+  
   vtwo_t <- diff(x)^2 # Squared difference between 2 consecutive data points xi and xj 
   vtwo <- sum(vtwo_t)/(2*(n-1)) # Average of all mean squared differences
   return(vtwo)
@@ -58,6 +64,12 @@ var_t2 <- function(x){
 #' @export
 var_t3 <- function(x) {
   n <- length(x) # sample size
+  
+  # check length of timeseries
+  if( n < 3) {
+    stop("3TLQV requires at least 3 values")
+  }
+  
   multip  <- c(1, -2, 1) # signs for the sum in the numerator
   xsq <- c() # vector to populate
   for (i in 1:(n - 2)) {

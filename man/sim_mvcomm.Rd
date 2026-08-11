@@ -37,7 +37,7 @@ A named list with three elements:
 \itemize{
 \item \code{sim_data}: A data.frame with the simulated data including any possible trends. Species in columns and time steps in rows.
 \item \code{baseline}: A data.frame with the simulated data without any trends. Species in columns and time steps in rows.
-\item \code{true_trend}: A named vector with the true mean trends of each simulated species.
+\item \code{obs_trend}: A named vector with the observed mean trends of each simulated species.
 \item \code{params}: A named vector with the parameters used to simulate the data.
 }
 }
