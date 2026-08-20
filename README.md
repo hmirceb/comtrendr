@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/hmirceb/comtrendr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hmirceb/comtrendr/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 # comtrendr - standard and detrended community stability metrics
 
 **Although fully functional, this is a development version and some things may change before the final version is released**
