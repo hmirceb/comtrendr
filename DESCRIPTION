@@ -3,15 +3,15 @@ Title: A Suite of Tools for Estimating Community Stability and its Components in
 Version: 1.0.0
 Authors@R: c(
     person("Héctor", "Miranda-Cebrián", email = "hectorm94@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-0340-8373")),
-    person("Jan", "Lepš", email = "", role = "aut"),
-    person("Lars", "Götzenberger", email = "", role = "aut"),
-    person("Clara", "Gracia", email = "", role = "aut"),
-    person("Aleš", "Lisner", email = "", role = "aut"),
-    person("Jules", "Segrestin", email = "", role = "aut"),
-    person("Enrique", "Valencia", email = "", role = "aut"),
-    person("Francesco", "de Bello", email = "", role = "aut")
+    person("Jan", "Lepš", role = "aut", comment = c(ORCID = "0000-0002-4822-7429")),
+    person("Lars", "Götzenberger", role = "aut", comment = c(ORCID = "0000-0003-3040-2900")),
+    person("Clara", "Gracia", role = "aut", comment = c(ORCID = "0009-0001-3855-4012")),
+    person("Aleš", "Lisner", role = "aut", comment = c(ORCID = "0000-0003-4881-7362")),
+    person("Jules", "Segrestin", role = "aut", comment = c(ORCID = "0000-0001-7661-6061")),
+    person("Enrique", "Valencia", role = "aut", comment = c(ORCID = "0000-0003-3359-0759")),
+    person("Francesco", "de Bello", role = "aut", comment = c(ORCID = "0000-0001-9202-8198"))
     )
-Description: A suite of tools for estimating community stability and its components.
+Description: A suite of univariate and multivariate tools for estimating standard and detrended temporal community stability metrics and its components. Detrended versions are based on Hill's (1973) <doi:10.2307/2258930> 2 and 3 term local quadratic variance estimates. Other functions allow managing, cleaning and simulating community abundance data to be used along the rest of the package.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
