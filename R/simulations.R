@@ -63,6 +63,9 @@ sim_mvcomm <- function(n_sp = 10,
   if (length(trend_mean) == 1) {
     trend_resp <- stats::rnorm(n = n_sp, mean = trend_mean, sd = trend_sd)
   } else {
+    if (length(trend_mean) != n_sp) {
+      stop("The length of the vector of mean trends and the number of species differ.")
+    }
     if (length(trend_mean) != length(trend_sd)) {
       warning(paste0("Lengths of vectors of means and SD differ. Using SD = ", trend_sd[1], " for all species."))
       trend_sd <- rep(trend_sd[1], times = n_sp)
