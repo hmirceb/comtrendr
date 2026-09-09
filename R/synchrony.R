@@ -116,7 +116,7 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
-#' @param weighted Boolean. Weight index by average species relative abundances. Default FALSE.
+#' @param weighted Logical. Weight index by average species relative abundances. Default FALSE.
 #' 
 #' @details
 #' - Gross *et al.*'s (2014) \eqn{\eta}:
@@ -188,7 +188,7 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
-#' @param log Boolean. Apply the natural logarithm to the variance ratio. Default TRUE.
+#' @param log Logical. Apply the natural logarithm to the variance ratio. Default TRUE.
 #' @returns A numeric value.
 #' 
 #' @details
@@ -299,9 +299,9 @@ sumsq_ratio <- function(x, time_col = "time") {
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param index Character. Synchrony index to calculate. One of "psi", (Segrestin *et al.* 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross *et al.* 2014) or "logvar" (Leps *et al.* 2018). 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
-#' @param linear Boolean. Decompose synchrony into its trend and non-trend components using linear regression. Default FALSE. 
+#' @param linear Logical. Decompose synchrony into its trend and non-trend components using linear regression. Default FALSE. 
 #' @param time_col Character. Name of the column with time variable. Optional, if not provided the function assumes that rows are in order  by default.
-#' @param weighted Boolean. Weight the contribution of each species to Gross *et al.*'s \eqn{\eta} index by its average abundance in the community following Blüthgen *et al.* (2016). Default FALSE.
+#' @param weighted Logical. Weight the contribution of each species to Gross *et al.*'s \eqn{\eta} index by its average abundance in the community following Blüthgen *et al.* (2016). Default FALSE.
 #'
 #' @details
 #' There are five synchrony indices available:

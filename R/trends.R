@@ -112,7 +112,7 @@ trend_loglinear  <- function(x, time = NULL){
 #' @param x A data.frame. A community matrix of species abundances with time in rows and taxa in columns. Optionally it can include community and time columns. 
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #' @param community_col Character. Name of column with the community identifier.
-#' @param scale Boolean. Scale abundances to have mean 0 and standard deviation 1. Default TRUE.
+#' @param scale Logical. Scale abundances to have mean 0 and standard deviation 1. Default TRUE.
 #' @param perm Numeric. Number of permutations for significance testing. Default 999.
 #' @details This function estimates temporal trends in abundance at the community level by conducting Redundanncy Analysis (RDA) on species abundances with time as an explanaroty variable.
 #'
@@ -173,7 +173,7 @@ trend_mv <- function(x, time_col = "time", community_col = "comm", scale = FALSE
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #' @param community_col Character. Name of column with the community identifier.
 #' @param method Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".
-#' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
+#' @param plot Logical. Plot species abundances and their estimated trends. Default FALSE. 
 #' @param title Character. Title for the plot. Default NULL.
 #' @param ... Additional parameters passed down to the `trend_mv()` function when using method "rda".
 #' 
@@ -321,7 +321,7 @@ comm_trends_internal <- function(x,
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #' @param community_col Character. Name of column with the community identifier.
 #' @param method Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".
-#' @param plot Boolean. Plot species abundances and their estimated trends. Default FALSE. 
+#' @param plot Logical. Plot species abundances and their estimated trends. Default FALSE. 
 #' @param title Character. Title for the plot. Default NULL.
 #' @param ... Additional parameters passed down to the `trend_mv()` function when using method "rda".
 #' 

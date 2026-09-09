@@ -20,7 +20,7 @@ comm_info(
 \arguments{
 \item{x}{A data.frame. A community matrix of species abundance with years as rows and species as columns.}
 
-\item{by_timestep}{Boolean. Get community information at each time step. Default FALSE.}
+\item{by_timestep}{Logical. Get community information at each time step. Default FALSE.}
 
 \item{total}{Character. Whether to compute diversity indices from the average relative abundance of species across years (overall) or the average of annual diversity indices.}
 
@@ -28,13 +28,13 @@ comm_info(
 
 \item{time_col}{Character. Name of column with time variable.}
 
-\item{check_trends}{Boolean. Check for trends in species using linear regression on log-transformed abundances. Default FALSE.}
+\item{check_trends}{Logical. Check for trends in species using linear regression on log-transformed abundances. Default FALSE.}
 
-\item{check_dominants}{Boolean. Check if dominant species according to a certain threshold have missing data. Default FALSE.}
+\item{check_dominants}{Logical. Check if dominant species according to a certain threshold have missing data. Default FALSE.}
 
 \item{dominant_threshold}{Numeric. A number between 0 and 1 indicating the abundance threshold to consider a species as dominant.}
 
-\item{check_transient}{Boolean. Check the number and proportion of missing data for all species and classify them according to a threshold. Default FALSE.}
+\item{check_transient}{Logical. Check the number and proportion of missing data for all species and classify them according to a threshold. Default FALSE.}
 
 \item{min_samples}{Numeric. A number between 0 and 1 indicating the minimum proportion of valid datapoints per species in the time series. Species below that number will be tagged.}
 }

@@ -6,7 +6,7 @@
 \alias{comtrendr-package}
 \title{The comtrendr R package}
 \description{
-A suite of tools for estimating community stability and its components.
+A suite of univariate and multivariate tools for estimating standard and detrended temporal community stability metrics and its components. Detrended versions are based on Hill's (1973) \doi{10.2307/2258930} 2 and 3 term local quadratic variance estimates. Other functions allow managing, cleaning and simulating community abundance data to be used along the rest of the package.
 }
 \details{
 This package contains a collection of functions to estimate community stability metrics using standard and detrended estimates of variance, as well as manipulate and simulate community data.
@@ -26,13 +26,13 @@ Useful links:
 Authors:
 \itemize{
   \item Héctor Miranda-Cebrián \email{hectorm94@gmail.com} (\href{https://orcid.org/0000-0002-0340-8373}{ORCID}) [copyright holder]
-  \item Jan Lepš
-  \item Lars Götzenberger
-  \item Clara Gracia
-  \item Aleš Lisner
-  \item Jules Segrestin
-  \item Enrique Valencia
-  \item Francesco de Bello
+  \item Jan Lepš (\href{https://orcid.org/0000-0002-4822-7429}{ORCID})
+  \item Lars Götzenberger (\href{https://orcid.org/0000-0003-3040-2900}{ORCID})
+  \item Clara Gracia (\href{https://orcid.org/0009-0001-3855-4012}{ORCID})
+  \item Aleš Lisner (\href{https://orcid.org/0000-0003-4881-7362}{ORCID})
+  \item Jules Segrestin (\href{https://orcid.org/0000-0001-7661-6061}{ORCID})
+  \item Enrique Valencia (\href{https://orcid.org/0000-0003-3359-0759}{ORCID})
+  \item Francesco de Bello (\href{https://orcid.org/0000-0001-9202-8198}{ORCID})
 }
 
 }

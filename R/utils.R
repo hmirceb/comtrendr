@@ -27,7 +27,7 @@ check_comm_col <- function(x, community_col = "time"){
 #' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #' @param term Character. Term used to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
-#' @param rm Boolean. If TRUE, removes the time column from the returned data.frame.
+#' @param rm Logical. If TRUE, removes the time column from the returned data.frame.
 #' 
 #' @returns A data.frame of community data.
 #'
@@ -89,7 +89,7 @@ remove_empty_sps <- function(x, time_col = "time", community_col = "comm") {
 #' Calculate total plant cover using Jennings–Fischer formula
 #'
 #' @param x Numeric. A vector of cover values.
-#' @param perc Boolean. If the cover values are expressed as percentages (0-100) or proportions (0-1). Default FALSE.
+#' @param perc Logical. If the cover values are expressed as percentages (0-100) or proportions (0-1). Default FALSE.
 #'
 #' @returns Numeric. 
 #'
@@ -115,7 +115,7 @@ jenfish <- function(x,
 #'
 #' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
 #' @param q Numeric. Threshold of relative abundance to consider a species dominant.
-#' @param plot Boolean. Plot the species-abundance curve of the community. Default FALSE.
+#' @param plot Logical. Plot the species-abundance curve of the community. Default FALSE.
 #'
 #' @returns A data.frame with each species in the community, its mean abundance and if it is dominant or not.
 #' 
@@ -195,7 +195,7 @@ check_dominants <-  function(x, q = 0.9) {
 #'
 #' @param x Numeric. A number
 #'
-#' @returns Boolean.
+#' @returns Logical.
 #' 
 #' @author Héctor Miranda-Cebrián, \email{hectorm94@@gmail.com}
 #' 
@@ -207,7 +207,7 @@ is_even <- function(x) {
 #' Plot a community time series
 #'
 #' @param x A data.frame. A community matrix of abundances with time in rows and taxa in columns.
-#' @param total Boolean. Also plot the total abundance of the community by timestep. Default FALSE.
+#' @param total Logical. Also plot the total abundance of the community by timestep. Default FALSE.
 #' @param title Character. Title for the plot. Default NULL.
 #' @returns A plot.
 #' 

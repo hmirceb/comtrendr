@@ -23,7 +23,7 @@ comm_trends(
 
 \item{method}{Character. Method to estimate the trends, one of "dennis", "loglinear" or "rda". Default "dennis".}
 
-\item{plot}{Boolean. Plot species abundances and their estimated trends. Default FALSE.}
+\item{plot}{Logical. Plot species abundances and their estimated trends. Default FALSE.}
 
 \item{title}{Character. Title for the plot. Default NULL.}
 

@@ -39,11 +39,11 @@ species responses to the environemtnal cue is drawn.}
 \item{sd_env_resp}{Numeric. The standard deviation around the mean of the normal distribution
 from which each of the species responses to the environemtnal cue is drawn.}
 
-\item{bimodal_env}{Boolean. Making the reponse to the environmental cue either
+\item{bimodal_env}{Logical. Making the reponse to the environmental cue either
 uniform among the species (if FALSE), or making the majority of half of the
 species respond positively, and the other half negatively. Default FALSE.}
 
-\item{comp}{Boolean. If TRUE, species exhibit compensatory dynamics, i.e. the gain
+\item{comp}{Logical. If TRUE, species exhibit compensatory dynamics, i.e. the gain
 of abundance in a species from one year to the next, is compensated by the
 loss of abundance in another species, where the latter has a similar mean
 abundance value. Default FALSE.}
@@ -55,13 +55,13 @@ species responses to the longterm trend is drawn. Default is 1.}
 distribution from which each of the species responses to the longterm trend is
 drawn. Default is 1.}
 
-\item{bimodal_trend}{Boolean. If TRUE, the majority of half of the species exhibit a
+\item{bimodal_trend}{Logical. If TRUE, the majority of half of the species exhibit a
 positive long term trend of abundances, and the other half expresses a
 negative long term trend. If FALSE, most of the species exhibit a uniform long
 term trend in abundances, depending on the value set for mean_trend and
 mean_sd. Default FALSE.}
 
-\item{bound_pos}{Boolean. If TRUE, abundance values that are simulated to be
+\item{bound_pos}{Logical. If TRUE, abundance values that are simulated to be
 negative, will be set to zero. Default TRUE.}
 }
 \value{

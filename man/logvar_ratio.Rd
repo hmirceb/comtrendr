@@ -13,7 +13,7 @@ logvar_ratio(x, term = "var", time_col = "time", log = TRUE)
 
 \item{time_col}{Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.}
 
-\item{log}{Boolean. Apply the natural logarithm to the variance ratio. Default TRUE.}
+\item{log}{Logical. Apply the natural logarithm to the variance ratio. Default TRUE.}
 }
 \value{
 A numeric value.

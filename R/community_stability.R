@@ -5,10 +5,10 @@
 #' @param community_col Character. Name of column with the community identifier.
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param cv Character. Coefficient of variation, one or both of "com" (for the CV of the sum of species' abundances) or "pop" (average of species' CVs).
-#' @param weighted Boolean. Weight population CV and stability metrics by species mean abundance. Default TRUE.
-#' @param synchrony Boolean. Estimate synchrony metrics. Default TRUE.
+#' @param weighted Logical. Weight population CV and stability metrics by species mean abundance. Default TRUE.
+#' @param synchrony Logical. Estimate synchrony metrics. Default TRUE.
 #' @param index Character. Synchrony index to calculate. One of "psi", (Segrestin *et al.* 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross *et al.* 2014) or "logvar" (Leps *et al.* 2018). 
-#' @param composition Boolean. Estimate stability of community composition. Default FALSE.
+#' @param composition Logical. Estimate stability of community composition. Default FALSE.
 #' @param method Character. Dissimilarity metric to use for estimating stability of community composition. One of "euclidean" or "chord". Default "euclidean".
 #' 
 #' @returns A data frame with the selected metrics for each community, their value, the variance term used to estimate them and whether weighting was used.

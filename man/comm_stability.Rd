@@ -28,13 +28,13 @@ comm_stability(
 
 \item{cv}{Character. Coefficient of variation, one or both of "com" (for the CV of the sum of species' abundances) or "pop" (average of species' CVs).}
 
-\item{weighted}{Boolean. Weight population CV and stability metrics by species mean abundance. Default TRUE.}
+\item{weighted}{Logical. Weight population CV and stability metrics by species mean abundance. Default TRUE.}
 
-\item{synchrony}{Boolean. Estimate synchrony metrics. Default TRUE.}
+\item{synchrony}{Logical. Estimate synchrony metrics. Default TRUE.}
 
 \item{index}{Character. Synchrony index to calculate. One of "psi", (Segrestin \emph{et al.} 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross \emph{et al.} 2014) or "logvar" (Leps \emph{et al.} 2018).}
 
-\item{composition}{Boolean. Estimate stability of community composition. Default FALSE.}
+\item{composition}{Logical. Estimate stability of community composition. Default FALSE.}
 
 \item{method}{Character. Dissimilarity metric to use for estimating stability of community composition. One of "euclidean" or "chord". Default "euclidean".}
 }

@@ -154,10 +154,10 @@ sim_mvcomm <- function(n_sp = 10,
 #' species responses to the environemtnal cue is drawn.
 #' @param sd_env_resp Numeric. The standard deviation around the mean of the normal distribution
 #' from which each of the species responses to the environemtnal cue is drawn.
-#' @param bimodal_env Boolean. Making the reponse to the environmental cue either
+#' @param bimodal_env Logical. Making the reponse to the environmental cue either
 #' uniform among the species (if FALSE), or making the majority of half of the
 #' species respond positively, and the other half negatively. Default FALSE.
-#' @param comp Boolean. If TRUE, species exhibit compensatory dynamics, i.e. the gain
+#' @param comp Logical. If TRUE, species exhibit compensatory dynamics, i.e. the gain
 #' of abundance in a species from one year to the next, is compensated by the
 #' loss of abundance in another species, where the latter has a similar mean
 #' abundance value. Default FALSE.
@@ -166,12 +166,12 @@ sim_mvcomm <- function(n_sp = 10,
 #' @param sd_trend_resp Numeric. The standard deviation around the mean of the normal
 #' distribution from which each of the species responses to the longterm trend is
 #' drawn. Default is 1.
-#' @param bimodal_trend Boolean. If TRUE, the majority of half of the species exhibit a
+#' @param bimodal_trend Logical. If TRUE, the majority of half of the species exhibit a
 #' positive long term trend of abundances, and the other half expresses a
 #' negative long term trend. If FALSE, most of the species exhibit a uniform long
 #' term trend in abundances, depending on the value set for mean_trend and
 #' mean_sd. Default FALSE.
-#' @param bound_pos Boolean. If TRUE, abundance values that are simulated to be
+#' @param bound_pos Logical. If TRUE, abundance values that are simulated to be
 #' negative, will be set to zero. Default TRUE.
 #'
 #' @return A named list with four elements:
@@ -316,8 +316,8 @@ geom_seq <- function(max_rel_abu, n_sp) {
 #' a general directional trend in abundance. This is only a helper function that
 #' is used internally in `sim_mvcomm()` and `syngenr()`.
 #'
-#' @param state Boolean. Defines if the species have some kind of trend. Default TRUE.
-#' @param bimodal Boolean. If TRUE, half of the species respond opposite to the other
+#' @param state Logical. Defines if the species have some kind of trend. Default TRUE.
+#' @param bimodal Logical. If TRUE, half of the species respond opposite to the other
 #' half, if FALSE, all species respond in the same direction. How many species
 #' respond in a given direction also depends on the settings of mean and sd. Default FALSE.
 #' @param mean Numeric. The mean of the normal distribution from which each of the species
@@ -325,7 +325,7 @@ geom_seq <- function(max_rel_abu, n_sp) {
 #' @param sd Numeric. The standard deviation around the mean of the normal distribution from
 #' which each of the species responses is drawn.
 #' @param n_sp Numeric. Number of species in the community.
-#' @param comp Boolean. If TRUE, species will exhibit compensatory dynamics. This is
+#' @param comp Logical. If TRUE, species will exhibit compensatory dynamics. This is
 #' simulated by having species of similar abundance to respond in opposite
 #' directions. This argument is therefore only meaning full when having set
 #' bimodal = TRUE. Default FALSE.

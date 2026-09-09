@@ -19,7 +19,7 @@ trend_mv(
 
 \item{community_col}{Character. Name of column with the community identifier.}
 
-\item{scale}{Boolean. Scale abundances to have mean 0 and standard deviation 1. Default TRUE.}
+\item{scale}{Logical. Scale abundances to have mean 0 and standard deviation 1. Default TRUE.}
 
 \item{perm}{Numeric. Number of permutations for significance testing. Default 999.}
 }

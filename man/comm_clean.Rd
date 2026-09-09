@@ -30,11 +30,11 @@ comm_clean(
 
 \item{abundance_col}{Character. Name of column with abundance values. Default "abundance".}
 
-\item{na_zero}{Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.}
+\item{na_zero}{Logical. Replace missing values (NAs) with zeros (0). Default TRUE.}
 
-\item{remove_empty_years}{Boolean. Remove years without data. Default TRUE.}
+\item{remove_empty_years}{Logical. Remove years without data. Default TRUE.}
 
-\item{filter_transient}{Boolean. Filter out transient species. Default FALSE.}
+\item{filter_transient}{Logical. Filter out transient species. Default FALSE.}
 
 \item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.3.}
 }

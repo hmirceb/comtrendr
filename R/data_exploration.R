@@ -12,7 +12,7 @@ richness <- function(x){
 #' Shannon-Wiener index
 #'
 #' @param x Numeric. A vector of abundances.
-#' @param relative Boolean. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
+#' @param relative Logical. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
 #' 
 #' @returns A numeric value.
 #' 
@@ -31,7 +31,7 @@ shannon <- function(x, relative = FALSE) {
 #' Shannon-Wiener index
 #'
 #' @param x Numeric. A vector of abundances.
-#' @param relative Boolean. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
+#' @param relative Logical. If abundance is expressed relative to a total instead of counts or biomass. Default FALSE.
 #' 
 #' @returns A numeric value.
 #' 
@@ -62,14 +62,14 @@ pielou <- function(x) {
 #' Explore community data
 #'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns.
-#' @param by_timestep Boolean. Get community information at each time step. Default FALSE.
+#' @param by_timestep Logical. Get community information at each time step. Default FALSE.
 #' @param total Character. Whether to compute diversity indices from the average relative abundance of species across years (overall) or the average of annual diversity indices.  
 #' @param community_col Character. Name of column with the community identifier.
 #' @param time_col Character. Name of column with time variable.
-#' @param check_trends Boolean. Check for trends in species using linear regression on log-transformed abundances. Default FALSE.
-#' @param check_dominants Boolean. Check if dominant species according to a certain threshold have missing data. Default FALSE.
+#' @param check_trends Logical. Check for trends in species using linear regression on log-transformed abundances. Default FALSE.
+#' @param check_dominants Logical. Check if dominant species according to a certain threshold have missing data. Default FALSE.
 #' @param dominant_threshold Numeric. A number between 0 and 1 indicating the abundance threshold to consider a species as dominant.
-#' @param check_transient Boolean. Check the number and proportion of missing data for all species and classify them according to a threshold. Default FALSE.
+#' @param check_transient Logical. Check the number and proportion of missing data for all species and classify them according to a threshold. Default FALSE.
 #' @param min_samples Numeric. A number between 0 and 1 indicating the minimum proportion of valid datapoints per species in the time series. Species below that number will be tagged.
 #'  
 #' @returns A named list:

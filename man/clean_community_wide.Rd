@@ -21,11 +21,11 @@ clean_community_wide(
 
 \item{time_col}{Character. Name of column with time variable. Default "time".}
 
-\item{na_zero}{Boolean. Replace missing values (NAs) with zeros (0). Default FALSE}
+\item{na_zero}{Logical. Replace missing values (NAs) with zeros (0). Default FALSE}
 
-\item{filter_transient}{Boolean. Filter transient species Default FALSE}
+\item{filter_transient}{Logical. Filter transient species Default FALSE}
 
-\item{remove_empty_years}{Boolean. Remove years without data. Default FALSE.}
+\item{remove_empty_years}{Logical. Remove years without data. Default FALSE.}
 
 \item{min_samples}{Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.3.}
 }

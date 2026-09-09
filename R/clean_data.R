@@ -3,9 +3,9 @@
 #' @param x A data.frame. Community matrix with time in rows and taxa in columns.
 #' @param community_col Character. Name of column with the community identifier. Default "comm".
 #' @param time_col Character. Name of column with time variable. Default "time".
-#' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default FALSE
-#' @param filter_transient Boolean. Filter transient species Default FALSE
-#' @param remove_empty_years Boolean. Remove years without data. Default FALSE.
+#' @param na_zero Logical. Replace missing values (NAs) with zeros (0). Default FALSE
+#' @param filter_transient Logical. Filter transient species Default FALSE
+#' @param remove_empty_years Logical. Remove years without data. Default FALSE.
 #' @param min_samples Numeric. Minimum proportion (between 0 and 1) of valid data points to keep a species in the data. Default 0.3.
 #'
 #' @returns A data.frame with the community data in wide format.
@@ -235,9 +235,9 @@ clean_community_long <- function(x,
 #' @param time_col Character. Name of column with time variable. Default "time".
 #' @param taxa_col Character. Name of column with taxa names. Default "species".
 #' @param abundance_col Character. Name of column with abundance values. Default "abundance".
-#' @param na_zero Boolean. Replace missing values (NAs) with zeros (0). Default TRUE.
-#' @param remove_empty_years Boolean. Remove years without data. Default TRUE.
-#' @param filter_transient Boolean. Filter out transient species. Default FALSE.
+#' @param na_zero Logical. Replace missing values (NAs) with zeros (0). Default TRUE.
+#' @param remove_empty_years Logical. Remove years without data. Default TRUE.
+#' @param filter_transient Logical. Filter out transient species. Default FALSE.
 #' @param min_samples Numeric. Minimum proportion (between 0 and 1) of time points with valid data to include a species. Default 0.3.
 #'
 #' @returns A data.frame with community data ready to use in other functions.

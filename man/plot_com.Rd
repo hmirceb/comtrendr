@@ -9,7 +9,7 @@ plot_com(x, total = FALSE, title = NULL)
 \arguments{
 \item{x}{A data.frame. A community matrix of abundances with time in rows and taxa in columns.}
 
-\item{total}{Boolean. Also plot the total abundance of the community by timestep. Default FALSE.}
+\item{total}{Logical. Also plot the total abundance of the community by timestep. Default FALSE.}
 
 \item{title}{Character. Title for the plot. Default NULL.}
 }

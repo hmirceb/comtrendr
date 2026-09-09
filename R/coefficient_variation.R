@@ -33,8 +33,8 @@ cv_term <- function(x, term = "var") {
 #' CV of a community
 #'
 #' @param x A data.frame. Community matrix with time in rows and taxa in columns.
-#' @param total Boolean. If TRUE, compute CV of the sum of annual abundances. If FALSE computes the average of the CV of each species. Default TRUE. 
-#' @param weighted Boolean. Weight the CV of each population by its average relative abundance per species across years. Default FALSE.
+#' @param total Logical. If TRUE, compute CV of the sum of annual abundances. If FALSE computes the average of the CV of each species. Default TRUE. 
+#' @param weighted Logical. Weight the CV of each population by its average relative abundance per species across years. Default FALSE.
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional with default "time".
 #'

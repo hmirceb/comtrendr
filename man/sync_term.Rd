@@ -20,11 +20,11 @@ sync_term(
 
 \item{term}{Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".}
 
-\item{linear}{Boolean. Decompose synchrony into its trend and non-trend components using linear regression. Default FALSE.}
+\item{linear}{Logical. Decompose synchrony into its trend and non-trend components using linear regression. Default FALSE.}
 
 \item{time_col}{Character. Name of the column with time variable. Optional, if not provided the function assumes that rows are in order  by default.}
 
-\item{weighted}{Boolean. Weight the contribution of each species to Gross \emph{et al.}'s \eqn{\eta} index by its average abundance in the community following Blüthgen \emph{et al.} (2016). Default FALSE.}
+\item{weighted}{Logical. Weight the contribution of each species to Gross \emph{et al.}'s \eqn{\eta} index by its average abundance in the community following Blüthgen \emph{et al.} (2016). Default FALSE.}
 }
 \value{
 A named vector of length equal to the number of indices calculated.

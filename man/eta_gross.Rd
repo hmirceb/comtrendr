@@ -13,7 +13,7 @@ eta_gross(x, term = "var", time_col = "time", weighted = FALSE)
 
 \item{time_col}{Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.}
 
-\item{weighted}{Boolean. Weight index by average species relative abundances. Default FALSE.}
+\item{weighted}{Logical. Weight index by average species relative abundances. Default FALSE.}
 }
 \value{
 A numeric value.
