@@ -78,6 +78,15 @@ pielou <- function(x) {
 #'  - `dominant_taxa`: A data.frame with the species considered dominant in each species and the number of missing data points in the time series.
 #'  - `transient_taxa`: A data.frame with the number and proportion of missing data for each species and if this proportion is below a certain threshold. 
 #'  
+#' @examples
+#' require(comtrendr)
+#' 
+#' # Simulate data
+#' comm_df <- sim_mvcomm(trend_mean = 0.3)
+#' 
+#' # Get community info
+#' comm_info(comm_df$sim_data)
+#'  
 #' @export
 comm_info <- function(x,
                        by_timestep = FALSE,

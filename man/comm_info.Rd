@@ -50,3 +50,13 @@ A named list:
 \description{
 Explore community data
 }
+\examples{
+require(comtrendr)
+
+# Simulate data
+comm_df <- sim_mvcomm(trend_mean = 0.3)
+
+# Get community info
+comm_info(comm_df$sim_data)
+ 
+}

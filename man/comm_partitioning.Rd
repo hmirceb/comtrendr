@@ -41,7 +41,7 @@ where \eqn{CV_{com}} is the community coefficient of variation (reciprocal of co
 \examples{
 require(comtrendr)
 
-# Load and clean data
+# Simulate data
 comm_df <- sim_mvcomm(n_sp = 15, years = 30)
 
 # Decompose CV into stability components
