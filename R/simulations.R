@@ -139,6 +139,7 @@ sim_mvcomm <- function(n_sp = 10,
                trend_mean = unique(trend_mean),
                trend_sd = unique(trend_sd))
   )
+  return(res)
 }
 
 #' Simulate community with fluctuations in species abundances across time
