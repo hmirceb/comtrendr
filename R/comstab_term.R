@@ -183,6 +183,9 @@ comm_partitioning <- function(x,
                           term = "var",
                           community_col = "comm",
                           time_col = "time"){
+  old <- options(warn = 1)
+  on.exit(options(old), add = TRUE)
+  
   # set data as df just in case its a tibble
   x <- as.data.frame(x)
   
