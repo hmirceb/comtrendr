@@ -71,7 +71,8 @@ comstab_internal <- function(x,
   CVi <- sqrt(vari) / meani  # CV of each species
     
   if (any(CVi == 0)) { # Warn if constant species present
-    warning("Non-fluctuating species found in the data.")
+    warning("Non-fluctuating species found in the data.",
+            call. = FALSE)
     }
     
   CV0 <- which(CVi > 0) # Use only species with CV != 0
@@ -84,10 +85,12 @@ comstab_internal <- function(x,
   if (sum(CV0) > 5) {
     testcor <- stats::cor.test(log10(CVi[CV0]), log10(meani[CV0]))$p.value > 0.05
     if (testcor) {
-      warning("No significant power law between species CVs and abundances.")
+      warning("No significant power law between species CVs and abundances.",
+              call. = FALSE)
       }
   } else {
-    warning("Low number of species. The power law between species CVs and abundances cannot be tested.")
+    warning("Low number of species. The power law between species CVs and abundances cannot be tested.",
+            call. = FALSE)
   }
     
   ## Dominance effect #
@@ -95,7 +98,8 @@ comstab_internal <- function(x,
   CVtilde <- sumsd / meansum # CV tilde. Weighted mean of individual CVs. sum(pi * sdi/mui) = sum(mui/meansum * sdi/mui) = sum(sdi/meansum) = sum(sdi)/meansum
   Delta <- CVtilde / CVe # Ratio CVtilde / CVe "average species"
   if (Delta > 1) {
-    warning("Destabilizing effect of dominants. Relative effects cannot be computed.")
+    warning("Destabilizing effect of dominants. Relative effects cannot be computed.",
+            call. = FALSE)
     }
   
   ## Compensatory dynamics ##
@@ -106,7 +110,8 @@ comstab_internal <- function(x,
   Psi <- rootPhi^alpha # Asynchrony effect
   omega <- rootPhi / Psi # Diversity effect
   if (omega > 1) {
-    warning("Community diversity is lower than the null diversity. Relative effects cannot be computed.")
+    warning("Community diversity is lower than the null diversity. Relative effects cannot be computed.",
+            call. = FALSE)
   }
   
   ## Partitioning ##
@@ -234,6 +239,7 @@ print.comstab <- function(x, ...){
     cat(paste0("\n% Dominance = ", round(y$Relative["Delta_cont"], 2)),
         paste0("\n% Asynchrony = ", round(y$Relative["Psi_cont"], 2)),
         paste0("\n% Averaging = ", round(y$Relative["omega_cont"], 2)))
+    cat("\n")
   }
   
   if (inherits(x, "comstab_list")) {
