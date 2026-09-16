@@ -96,8 +96,8 @@ comstab_internal <- function(x,
   ## Dominance effect #
   sumsd <- sum(sqrt(vari)) # sum of individual SDs
   CVtilde <- sumsd / meansum # CV tilde. Weighted mean of individual CVs. sum(pi * sdi/mui) = sum(mui/meansum * sdi/mui) = sum(sdi/meansum) = sum(sdi)/meansum
-  Delta <- CVtilde / CVe # Ratio CVtilde / CVe "average species"
-  if (Delta > 1) {
+  delta <- CVtilde / CVe # Ratio CVtilde / CVe "average species"
+  if (delta > 1) {
     warning("Destabilizing effect of dominants. Relative effects cannot be computed.",
             call. = FALSE)
     }
@@ -107,27 +107,27 @@ comstab_internal <- function(x,
   rootPhi <- sdsum / sumsd # Ratio between SD of whole community vs sum of individual SDs
   sumvar <- sum(vari) # Sum of individual variances
   alpha <- log10(1/2) / (log10(sumvar/(sumsd^2))) # Scaling coefficient (eq. 7)
-  Psi <- rootPhi^alpha # Asynchrony effect
-  omega <- rootPhi / Psi # Diversity effect
+  psi <- rootPhi^alpha # Asynchrony effect
+  omega <- rootPhi / psi # Diversity effect
   if (omega > 1) {
     warning("Community diversity is lower than the null diversity. Relative effects cannot be computed.",
             call. = FALSE)
   }
   
   ## Partitioning ##
-  tau <- Delta * Psi * omega
+  tau <- delta * psi * omega
   CVs <- stats::setNames(object = c(CVe, CVtilde, CVtilde * 
-                                      Psi, CV), nm = c("CVe", "CVtilde", "CVa", "CVc"))
-  Stabilization <- stats::setNames(object = c(tau, Delta, 
-                                              Psi, omega), nm = c("tau", "Delta", "Psi", "omega"))
+                                      psi, CV), nm = c("CVe", "CVtilde", "CVa", "CVc"))
+  Stabilization <- stats::setNames(object = c(tau, delta, 
+                                              psi, omega), nm = c("tau", "delta", "psi", "omega"))
   if (any(Stabilization > 1)) {
     Relative <- stats::setNames(object = rep(NA, 3), 
-                                nm = c("Delta_cont", "Psi_cont", "omega_cont"))
+                                nm = c("delta_cont", "psi_cont", "omega_cont"))
   } else { # Return relative importance of each component
-    Relative <- stats::setNames(object = c(log10(Delta) / log10(tau), # dominance
-                                           log10(Psi) / log10(tau), # asynchrony
+    Relative <- stats::setNames(object = c(log10(delta) / log10(tau), # dominance
+                                           log10(psi) / log10(tau), # asynchrony
                                            log10(omega) / log10(tau)), # averaging 
-                                nm = c("Delta_cont", "Psi_cont", "omega_cont"))
+                                nm = c("delta_cont", "psi_cont", "omega_cont"))
   }
   # Results into a list
   res <- list(CVs = CVs, Stabilization = Stabilization, 
@@ -156,11 +156,11 @@ comstab_internal <- function(x,
 #'  `CVtilde` is the mean of species CVs weighted by their relative abundances, `CVa` is the expected community CV if 
 #'   the community was stabilized by species asynchrony only, and `CVc` is the observed community CV.
 #'   
-#'  - `Stabilization`: a named vector of the stabilizing effects. `tau` is the total stabilization, `Delta` is
-#'  the dominance effect, `Psi` is the asynchrony effect, and `omega` is the averaging effect.
+#'  - `Stabilization`: a named vector of the stabilizing effects. `tau` is the total stabilization, `delta` is
+#'  the dominance effect, `psi` is the asynchrony effect, and `omega` is the averaging effect.
 #'  
 #'  - `Relative`: a named vector of the relative contributions of each stabilizing effect to the total stabilization.
-#'  `Delta_cont`, `Psi_cont`, and `omega_cont` are the relative contribution of respectively, the dominance, asynchrony, and averaging effects to the total stabilization.
+#'  `delta_cont`, `psi_cont`, and `omega_cont` are the relative contribution of respectively, the dominance, asynchrony, and averaging effects to the total stabilization.
 #'  Returns a vector of NAs if any Stabilizing effect is higher than 1.
 #'  
 #' @references
@@ -234,13 +234,13 @@ print.comstab <- function(x, ...){
     cat("\n")
     cat(paste0("Community CV = ", round(y$CVs["CVc"], 2),
                "\nTotal stabilization = ", round(y$Stabilization["tau"], 2),
-               "\nDominance effect = ", round(y$Stabilization["Delta"], 2),
-               "\nAsynchrony effect = ", round(y$Stabilization["Psi"], 2),
+               "\nDominance effect = ", round(y$Stabilization["delta"], 2),
+               "\nAsynchrony effect = ", round(y$Stabilization["psi"], 2),
                "\nAveraging effect = ", round(y$Stabilization["omega"], 2)))
     cat("\n")
     cat("\nRelatives contributions:")
-    cat(paste0("\n% Dominance = ", round(y$Relative["Delta_cont"], 2)),
-        paste0("\n% Asynchrony = ", round(y$Relative["Psi_cont"], 2)),
+    cat(paste0("\n% Dominance = ", round(y$Relative["delta_cont"], 2)),
+        paste0("\n% Asynchrony = ", round(y$Relative["psi_cont"], 2)),
         paste0("\n% Averaging = ", round(y$Relative["omega_cont"], 2)))
     cat("\n")
   }
@@ -270,11 +270,11 @@ as.data.frame.comstab <- function(x, ...){
                     CVtilde = x$CVs[2],
                     CVa = x$CVs[3],
                     tau = x$Stabilization["tau"],
-                    delta = x$Stabilization["Delta"],
-                    psi = x$Stabilization["Psi"],
+                    delta = x$Stabilization["delta"],
+                    psi = x$Stabilization["psi"],
                     omega = x$Stabilization["omega"],
-                    delta_rel = x$Relative["Delta_cont"],
-                    psi_rel = x$Relative["Psi_cont"],
+                    delta_rel = x$Relative["delta_cont"],
+                    psi_rel = x$Relative["psi_cont"],
                     omega_rel = x$Relative["omega_cont"])
     rownames(d) <- NULL
     return(d)

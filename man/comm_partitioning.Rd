@@ -21,10 +21,10 @@ A single object of class \code{comstab} or multiple of them if data correspond t
 \item \code{CVs}: a named vector of calculated coefficient of variations. \code{CVe} is the CV of an average species,
 \code{CVtilde} is the mean of species CVs weighted by their relative abundances, \code{CVa} is the expected community CV if
 the community was stabilized by species asynchrony only, and \code{CVc} is the observed community CV.
-\item \code{Stabilization}: a named vector of the stabilizing effects. \code{tau} is the total stabilization, \code{Delta} is
-the dominance effect, \code{Psi} is the asynchrony effect, and \code{omega} is the averaging effect.
+\item \code{Stabilization}: a named vector of the stabilizing effects. \code{tau} is the total stabilization, \code{delta} is
+the dominance effect, \code{psi} is the asynchrony effect, and \code{omega} is the averaging effect.
 \item \code{Relative}: a named vector of the relative contributions of each stabilizing effect to the total stabilization.
-\code{Delta_cont}, \code{Psi_cont}, and \code{omega_cont} are the relative contribution of respectively, the dominance, asynchrony, and averaging effects to the total stabilization.
+\code{delta_cont}, \code{psi_cont}, and \code{omega_cont} are the relative contribution of respectively, the dominance, asynchrony, and averaging effects to the total stabilization.
 Returns a vector of NAs if any Stabilizing effect is higher than 1.
 }
 }
