@@ -30,7 +30,7 @@ sync_term(
 A named vector of length equal to the number of indices calculated.
 }
 \description{
-\code{sync_term()} estimates one or several community synchrony indices (see Details) using standard estimates of variance as well as its detrended versions using Hill's two and three term local quadratic variance estimates.
+\code{sync_term()} estimates one or several community synchrony indices (see Details) using standard estimates of variance as well as its detrended versions using Hill's two and three term local quadrat variance estimates.
 }
 \details{
 There are five synchrony indices available:

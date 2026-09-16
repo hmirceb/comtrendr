@@ -2,7 +2,7 @@
 
 #' Psi synchrony index
 #' 
-#' Estimate \eqn{\psi}, 
+#' Estimate \eqn{\psi} from Segrestin et al. (2024), a synchrony index independent of species richness, using standard and Hill's 2 and 3 term local quadrat variances.
 #' 
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
@@ -67,7 +67,7 @@ psi_segrestin <- function(x, term = "var", time_col = "time"){
 
 #' Phi synchrony index
 #' 
-#' This function estimates Loreau & Mazancourts 2008 Phi synchrony index using standard and detrended versions of variances based on Hill's 2 and 3 terms local quadratic variance. 
+#' This function estimates Loreau & Mazancourt's (2008) Phi synchrony index using standard and detrended versions of variances based on Hill's 2 and 3 terms local quadrat variance. 
 #' 
 #' @param x A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
@@ -111,7 +111,7 @@ phi_loreau <- function(x, term = "var", time_col = "time") {
 
 #' Eta synchrony index
 #'
-#' This function estimates Gross et al. (2014) synchrony index Eta and its weighted version by Blüthgen et al. (2016) using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
+#' This function estimates Gross et al. (2014) synchrony index Eta and its weighted version by Blüthgen et al. (2016) using a detrended version of variances based on Hill's 2 and 3 terms local quadrat variance.
 #'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
@@ -183,16 +183,17 @@ eta_gross <- function(x, term = "var", time_col = "time", weighted = FALSE) {
 
 #' Log variance ratio synchrony index
 #' 
-#' This function lets you estimate the synchrony index using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance. 
+#' Calculate the log-variance ratio synchrony index using the classic variance definition as well as Hill's 2 and 3 term local quadrat variances. 
 #' 
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param term Character. Term to estimate the variance. One of "var" (for standard variance and covariance), "two" or "three" for Hills' two or three term local quadrat variance and covariance. Default "var".
 #' @param time_col Character. Name of the column with time variable. Optional, by default assumes that rows are in chronological order.
 #' @param log Logical. Apply the natural logarithm to the variance ratio. Default TRUE.
-#' @returns A numeric value.
 #' 
 #' @details
-#' \deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
+#' \deqn{logvar = \ln \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
+#' 
+#' @returns A numeric value.
 #' 
 #' @references
 #' - Lepš, J., Májeková, M., Vítová, A., Doležal, J., & de Bello, F. (2018). Stabilizing effects in temporal fluctuations: Management, traits, and species richness in high‐diversity communities. Ecology, 99(2), 360-371.
@@ -294,7 +295,7 @@ sumsq_ratio <- function(x, time_col = "time") {
 
 #' Compute community synchrony
 #' 
-#' `sync_term()` estimates one or several community synchrony indices (see Details) using standard estimates of variance as well as its detrended versions using Hill's two and three term local quadratic variance estimates.
+#' `sync_term()` estimates one or several community synchrony indices (see Details) using standard estimates of variance as well as its detrended versions using Hill's two and three term local quadrat variance estimates.
 #'
 #' @param x A data.frame. A community matrix of species abundance with years as rows and species as columns. 
 #' @param index Character. Synchrony index to calculate. One of "psi", (Segrestin *et al.* 2024), "phi" (Loreau & Mazancourt 2008), "eta" (Gross *et al.* 2014) or "logvar" (Leps *et al.* 2018). 

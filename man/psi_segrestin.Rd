@@ -17,7 +17,7 @@ psi_segrestin(x, term = "var", time_col = "time")
 A numeric value.
 }
 \description{
-Estimate \eqn{\psi},
+Estimate \eqn{\psi} from Segrestin et al. (2024), a synchrony index independent of species richness, using standard and Hill's 2 and 3 term local quadrat variances.
 }
 \details{
 \eqn{\psi} is estimated as:

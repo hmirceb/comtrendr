@@ -19,10 +19,10 @@ logvar_ratio(x, term = "var", time_col = "time", log = TRUE)
 A numeric value.
 }
 \description{
-This function lets you estimate the synchrony index using a detrended version of variances based on Hill's 2 and 3 terms local quadratic variance.
+Calculate the log-variance ratio synchrony index using the classic variance definition as well as Hill's 2 and 3 term local quadrat variances.
 }
 \details{
-\deqn{logvar = \log_{10} \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
+\deqn{logvar = \ln \left( \dfrac{ var(\sum_{i=1}^{S}{x_{i}}) }{ \sum_{i=1}^{S}{var(x_{i})} } \right)}
 }
 \examples{
 require(comtrendr)
